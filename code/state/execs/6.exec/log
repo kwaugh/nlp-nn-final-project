@@ -1,0 +1,513 @@
+main() {
+  Execution directory: /Users/keivaunwaugh/Documents/nlp/nlp-project-2/state/execs/6.exec
+  DataManager.loadExamples {
+    Reading general {
+      Path: evaluator/domains/dbquery/geoquery/1/geoquery.dlog {
+        Parsing evaluator/domains/dbquery/geoquery/1/geoquery.dlog
+        89 statements
+        Parsing evaluator/domains/dbquery/geoquery/1/../../general/predicates.dlog
+        49 statements
+        Parsing evaluator/domains/dbquery/geoquery/1/geobase.dlog
+        698 statements
+      } [2.2s, cum. 2.2s]
+      Path: evaluator/domains/dbquery/geoquery/1/lexicon.dlog {
+        Parsing evaluator/domains/dbquery/geoquery/1/lexicon.dlog
+        5 statements
+        Parsing evaluator/domains/dbquery/geoquery/1/../../general/lexicon.dlog
+        31 statements
+        Parsing evaluator/domains/dbquery/geoquery/1/lexicon0.dlog
+        5 statements
+      }
+      Path: /var/folders/nw/czvm96ks5rv0l7s8bl9yy3v00000gn/T/tmp_n06b7h6.dlog {
+        Parsing /var/folders/nw/czvm96ks5rv0l7s8bl9yy3v00000gn/T/tmp_n06b7h6.dlog {
+          DatalogParser.loadSafe(): start
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),state(B),river(C),loc(C,D),const(D,stateid(virginia)),traverse(C,B)))).
+          _parse([query], answer(A,(capital(A),loc(A,B),state(B),next_to(B,C),state(C),next_to(C,D),const(D,stateid(texas))))).
+          _parse([query], answer(A,(river(A),traverse(A,B),largest(C,(state(B),loc(C,B),city(C),loc(C,D),const(D,countryid(usa))))))).
+          _parse([query], answer(A,largest(A,(state(A),const(B,riverid("rio grande")),traverse(B,A))))).
+          _parse([query], answer(A,(state(A),place(B),loc(B,A),higher(B,C),highest(C,(place(C),loc(C,D),const(D,stateid(texas))))))).
+          _parse([query], answer(A,lowest(B,(state(A),traverse(C,A),const(C,riverid(mississippi)),loc(B,A),place(B))))).
+          _parse([query], answer(A,(state(A),next_to(B,A),largest(C,(state(B),population(B,C)))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),state(B),next_to(B,C),largest(D,(state(C),population(C,D)))))).
+          _parse([query], answer(A,(state(A),loc(B,A),highest(B,(place(B),loc(B,C),const(C,countryid(usa))))))).
+          _parse([query], answer(A,(population(B,A),largest(C,(state(B),area(B,C)))))).
+          _parse([query], answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,countryid(usa))))))).
+          _parse([query], answer(A,count(B,(river(B),loc(B,C),state(C),loc(D,C),highest(D,place(D))),A))).
+          _parse([query], answer(A,(population(B,A),capital(B),loc(B,C),smallest(C,state(C))))).
+          _parse([query], answer(A,smallest(A,(state(A),longest(B,river(B)),traverse(B,A))))).
+          _parse([query], answer(A,(state(A),loc(B,A),place(B),higher(B,C),highest(C,(place(C),loc(C,D),const(D,stateid(colorado))))))).
+          _parse([query], answer(A,(population(B,A),smallest(B,(state(B),next_to(B,C),const(C,stateid(wyoming))))))).
+          _parse([query], answer(A,longest(A,(river(A),traverse(A,B),const(B,countryid(usa)))))).
+          _parse([query], answer(A,(density(B,A),const(B,stateid(pennsylvania))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),state(B),next_to(B,C),state(C),next_to(C,D),const(D,stateid(florida))))).
+          _parse([query], answer(A,(capital(A),loc(A,B),state(B),next_to(B,C),const(C,stateid(texas))))).
+          _parse([query], answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),state(C)))))).
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),const(B,stateid(illinois))))).
+          _parse([query], answer(A,highest(B,(state(A),loc(B,A),mountain(B))))).
+          _parse([query], answer(A,sum(B,state(B),population(B),A))).
+          _parse([query], answer(A,(river(A),loc(A,B),state(B),const(B,stateid(indiana))))).
+          _parse([query], answer(A,(state(A),most(A,B,(state(A),loc(B,A),river(B)))))).
+          _parse([query], answer(A,largest(B,(city(A),loc(A,C),const(C,stateid(minnesota)),population(A,B))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),most(B,C,(state(B),loc(C,B),city(C)))))).
+          _parse([query], answer(A,(state(A),const(B,riverid(potomac)),traverse(B,A)))).
+          _parse([query], answer(A,longest(A,(river(A),traverse(A,B),const(B,stateid("new york")))))).
+          _parse([query], answer(A,count(B,(major(B),city(B),loc(B,C),state(C),next_to(C,D),const(D,stateid(nebraska))),A))).
+          _parse([query], answer(A,largest(B,(state(A),density(A,B))))).
+          _parse([query], answer(A,(state(A),loc(B,A),largest(C,(city(B),population(B,C)))))).
+          _parse([query], answer(A,count(B,(state(B),const(C,riverid(colorado)),river(C),traverse(C,B)),A))).
+          _parse([query], answer(A,smallest(A,(city(A),loc(A,B),largest(B,state(B)))))).
+          _parse([query], answer(A,smallest(B,(state(A),area(A,B),next_to(A,C),const(C,stateid(texas)))))).
+          _parse([query], answer(A,(high_point(B,A),loc(A,B),state(B),next_to(B,C),const(C,stateid(mississippi))))).
+          _parse([query], answer(A,longest(A,(river(A),loc(A,B),const(B,countryid(usa)))))).
+          _parse([query], answer(A,highest(A,(place(A),loc(A,B),smallest(B,state(B)))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),smallest(C,(state(B),population(B,C)))))).
+          _parse([query], answer(A,count(B,(state(B),next_to(B,C),major(C),river(C)),A))).
+          _parse([query], answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,stateid(montana))))))).
+          _parse([query], answer(A,lowest(A,(place(A),loc(A,B),const(B,countryid(usa)))))).
+          _parse([query], answer(A,largest(B,(population(A,B),city(A),loc(A,C),const(C,stateid(wyoming)))))).
+          _parse([query], answer(A,(population(B,A),const(B,cityid(springfield,sd))))).
+          _parse([query], answer(A,(state(A),const(B,riverid(mississippi)),river(B),traverse(B,A)))).
+          _parse([query], answer(A,(population(B,A),largest(B,state(B))))).
+          _parse([query], answer(A,count(B,(state(B),loc(C,B),const(C,cityid(rochester,_))),A))).
+          _parse([query], answer(A,(area(B,A),const(B,countryid(usa))))).
+          _parse([query], answer(A,smallest(B,(city(A),population(A,B))))).
+          _parse([query], answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,stateid(louisiana))))))).
+          _parse([query], answer(A,(lake(A),loc(A,B),state(B),next_to(B,C),const(C,stateid(texas))))).
+          _parse([query], answer(A,highest(A,(place(A),loc(A,B),const(B,countryid(usa)))))).
+          _parse([query], answer(A,longest(A,(river(A),loc(A,B),const(B,countryid(usa)))))).
+          _parse([query], answer(A,count(B,(river(B),loc(B,C),const(C,countryid(usa))),A))).
+          _parse([query], answer(A,largest(B,(state(A),density(A,B))))).
+          _parse([query], answer(A,(population(B,A),const(B,cityid(atlanta,_))))).
+          _parse([query], answer(A,highest(A,(mountain(A),loc(A,B),const(B,stateid(alaska)))))).
+          _parse([query], answer(A,largest(B,(state(A),density(A,B))))).
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),const(B,stateid(oklahoma))))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid(iowa))))).
+          _parse([query], answer(A,count(B,(city(B),loc(B,C),const(C,countryid(usa))),A))).
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),const(B,stateid(missouri))))).
+          _parse([query], answer(A,(area(B,A),const(B,stateid("south carolina"))))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid("rhode island"))))).
+          _parse([query], answer(A,count(B,(river(B),loc(B,C),const(C,stateid("new york"))),A))).
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),const(B,stateid(ohio))))).
+          _parse([query], answer(A,(state(A),loc(B,A),river(B),traverse(B,A)))).
+          _parse([query], answer(A,shortest(A,(river(A),loc(A,B),const(B,stateid(texas)))))).
+          _parse([query], answer(A,highest(A,(place(A),loc(A,B),const(B,stateid(montana)))))).
+          _parse([query], answer(A,highest(A,(place(A),loc(A,B),const(B,stateid(texas)))))).
+          _parse([query], answer(A,smallest(B,(state(A),density(A,B))))).
+          _parse([query], answer(A,count(B,(city(B),loc(B,C),const(C,countryid(usa))),A))).
+          _parse([query], answer(A,largest(A,(state(A),next_to(A,B),const(B,stateid(texas)))))).
+          _parse([query], answer(A,(next_to(A,B),state(A),const(B,stateid(michigan))))).
+          _parse([query], answer(A,lowest(A,(place(A),loc(A,B),const(B,stateid(california)))))).
+          _parse([query], answer(A,(state(A),const(B,riverid(mississippi)),traverse(B,A)))).
+          _parse([query], answer(A,most(A,B,(river(A),traverse(A,B),state(B))))).
+          _parse([query], answer(A,(state(A),const(B,cityid("des moines",_)),loc(B,A)))).
+          _parse([query], answer(A,(major(A),city(A),loc(A,B),const(B,stateid(texas))))).
+          _parse([query], answer(A,(population(B,A),const(B,cityid(sacramento,_))))).
+          _parse([query], answer(A,smallest(B,(state(A),population(A,B))))).
+          _parse([query], answer(A,count(B,(river(B),loc(B,C),const(C,stateid(missouri))),A))).
+          _parse([query], answer(A,(loc(B,A),state(A),const(B,placeid("mount mckinley"))))).
+          _parse([query], answer(A,largest(B,(state(A),loc(B,A),city(B))))).
+          _parse([query], answer(A,count(B,(river(B),loc(B,C),const(C,stateid(colorado))),A))).
+          _parse([query], answer(A,(major(A),river(A),loc(A,B),const(B,stateid(texas))))).
+          _parse([query], answer(A,(city(A),loc(A,B),const(B,stateid(virginia))))).
+          _parse([query], answer(A,count(B,(major(B),city(B)),A))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid(montana))))).
+          _parse([query], answer(A,(state(A),loc(B,A),const(B,riverid(red)),river(B)))).
+          _parse([query], answer(A,(river(A),loc(A,B),const(B,stateid("new mexico"))))).
+          _parse([query], answer(A,(city(A),loc(A,B),const(B,stateid(california))))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid(hawaii))))).
+          _parse([query], answer(A,(capital(A),loc(A,B),const(B,stateid(hawaii))))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid(california))))).
+          _parse([query], answer(A,(capital(A),loc(A,B),const(B,stateid(utah))))).
+          _parse([query], answer(A,(capital(A),loc(A,B),const(B,stateid(texas))))).
+          _parse([query], answer(A,(capital(A),loc(A,B),const(B,stateid(georgia))))).
+          _parse([query], answer(A,(state(A),\+(next_to(A,B),const(B,stateid(texas)))))).
+          _parse([query], answer(A,(population(B,A),const(B,stateid(utah))))).
+          _parse([query], answer(A,(area(B,A),const(B,cityid(seattle,_))))).
+          _parse([query], answer(A,fewest(A,B,(state(A),next_to(A,B),state(B))))).
+          _parse([query], answer(A,(len(B,A),const(B,riverid("rio grande"))))).
+          _parse([query], answer(A,(state(A),capital(A,B),const(B,cityid(dover,_))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid("new york"))))).
+          _parse([query], answer(A,longest(A,river(A)))).
+          _parse([query], answer(A,largest(A,state(A)))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(hawaii))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(florida))))).
+          _parse([query], answer(A,largest(A,city(A)))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(texas))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(delaware))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(kentucky))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(iowa))))).
+          _parse([query], answer(A,(loc(B,A),const(B,cityid("new orleans",_))))).
+          _parse([query], answer(A,(loc(B,A),const(B,stateid(massachusetts))))).
+          _parse([query], answer(A,(state(A),next_to(A,B),const(B,stateid(iowa))))).
+          _parse([query], answer(A,(loc(B,A),const(B,cityid(indianapolis,_))))).
+          _parse([query], answer(A,(loc(B,A),const(B,cityid(austin,_))))).
+          _parse([query], masanhigh_pointhigh_pointhigh_pointhigh_pointmoinesflintrhodeflintrhode(tennesseeriver?massachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsanboulderindianaindianatennesseesansanhigh_pointhigh_pointtxmountain?usaarkansassantxboulderlakeohionew)).
+          _parse([query], ma?mostfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortesttxnext_topopulation?densityfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestsanriverdeathmontgomeryfranciscomohigh_pointhigh_pointmoines\+alaskaalaskaalabamafranciscocarolinahigh_pointhigh_pointhigh_pointspringfieldhigh_pointhigh_pointcountmoinesflinthampshiregeorgiasanshortestfranciscomohigh_pointhigh_pointhigh_pointmoinesflintrhodehampshiremassachusettsohiohigh_pointhigh_point).
+          _parse([query], sanhigh_pointhigh_pointcountkansas?alaskaalaskamoinesalaskakalamazooarkansasalabamadensityfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortesttxdensitynext_tolakeriverdelawarefewesthigh_pointhigh_pointmoinesflintrhodehigh_pointhigh_pointhigh_pointspringfieldhigh_pointhigh_pointcountgeorgiamoinessanrochesterfranciscocarolinahigh_pointhigh_pointcountmoinesarkansasarkansasarkansasshortestsansanhigh_pointhigh_pointcarolinahigh_pointarkansasarkansasshortest).
+          _parse([query], maohiosmallestlocalaskadenverarkansasalabamaalabamaaustinareageorgiaalbanyohioareamontanamontanacarolinahigh_pointhigh_pointarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountusascottsnewtraverse?most(smallestdallasfranciscopittsburghrochesterfranciscocarolinalakeidahoriverarkansasarkansasshortestriverrivermontgomeryriverdelawaremckinleymoinesalaskamoinesalaskaalabamadensityaustin)).
+          _parse([query], masansan__massachusettslakeohiodiegoalaskamoinesalaskamissourimoineskalamazooalaskaalaskamississippidensitytxdensitynext_tofranciscocarolinahigh_pointarkansasarkansasarkansasshortest?sanfranciscocarolinahigh_pointarkansasarkansassanshortestboulderfranciscocarolinahigh_pointhigh_pointhigh_pointcountgeorgiatennessee?most(high_pointarkansasarkansasshortest?densityaustincarolinahampshirecoloradodeathmontgomerypittsburghrochesterlake)).
+          _parse([query], ma?mostfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountcarolinaarkansasarkansasarkansasshortest?portlandalaskaalaskatennesseekalamazooriverillinoisfloridamoinesdelaware(lakeohioyorkcarolinamoineshigh_pointhigh_pointmoinesarkansasarkansasstatemckinleymoinesmckinleymoinesdelawaredelawarevirginiabatoncarolinadelawarecarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointcountgeorgialendcdiegomassachusettsohiodiegoalaskafranciscokalamazoo)).
+          _parse([query], ohiobatonalaskamississippiloctxnext_totxgrandecarolinahigh_pointhigh_pointmountainarkansasshortest?mostcarolinahigh_pointhigh_pointcountgeorgiaalbanyvirginiautahalabamagrandecarolinahigh_pointhigh_pointhigh_pointcountmoinesarkansasarkansasshortest?mckinleymoinesdelawaremckinleymoinesdelawaredelawarecarolinasalemalaskaboulderalabamanext_tofrancisconewbatonaustinaustinhigh_pointhigh_pointtxmajorkalamazoomoineslochigh_pointhigh_pointarkansas).
+          _parse([query], dallaslakelakeohioyorkcarolinahigh_pointhigh_pointhigh_pointhigh_pointcountgeorgiaflintrhodeflintfewestrhode(hampshiremassachusettsohioohiodiegoarkansasshortestsanrivermckinleyalaskadiegopennsylvania\+alaskaalaskatennesseekalamazoogeorgiatennessee?massachusettsfranciscodcsan_lakeriverdelawareriverdelawarefewestmckinleymoinesdelawaredelawarefewestmckinleymoinesdelawaredelawaremckinleymoinesalaskamississippidensityloc)).
+          _parse([query], maohiodiegovirginiascottsnewtraversebatoncarolinaaustinhigh_pointhigh_pointhigh_pointcountmoinesstateidlakelakeohionewnorthnewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsantxboulderindianaindianaalaskaalaskamississippidensitylochigh_pointhigh_pointhigh_pointcounttxarkansasarkansasshortestsanrivermassachusettsfranciscomoalaskamoinesalaskatennesseedenverillinoisvalley?usamckinley).
+          _parse([query], ohionewbatonaustinbatonaustinaustinrochestercarolinaarkansasarkansasarkansasarkansasshortesttxnext_totxnext_totxgrandecarolinahigh_pointhigh_pointarkansasarkansasshortestsan_kansascoloradolakedensitypeakalabamagrandecarolinahigh_pointhigh_pointarkansasarkansasshortesttx?mckinleydiegoalaskamoinesalaskamoinesalaskamississippidensitytxgrandecarolinahigh_pointhigh_pointarkansasarkansasshortest?delawarevirginiascottsalbany).
+          _parse([query], lakeohioyorkcarolinayorkcarolinahigh_pointhigh_pointmoinesarkansasarkansasarkansasshortestsanboulderfranciscomopittsburghrochesterfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountgeorgiaalbanyvirginiascottsindianaindianafranciscoillinoisohiomoinescarolinahigh_pointarkansasarkansasshortest?delawaremckinleydelawaremckinleymoinesmoinesstateidlakeloctxalaskaalaskamississippidensityalabamaaustinrochesternext_tofranciscopittsburghrochestercarolinaarkansas).
+          _parse([query], maalaskamoinesalaskafloridadensityalabamagrandecarolinahigh_pointhigh_pointarkansastxdensitycoloradolakenewnewhampshiremassachusettsfranciscocarolinahigh_pointhigh_pointcount?carolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointhigh_pointmoinesflinthampshiregeorgiaflintkansasrivermontgomerylakelakeriverpeakmassachusettslakenebraska\+alaskaalaskaalabamanewnewhampshiremomassachusettsohio).
+          _parse([query], mafloridabatonaustinbatonaustinaustinportlandbatonbatondelawarecarolinadelawaredelaware(iowaalaskaalaskamississippidensityrochesterfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointarkansasarkansastxdensity\+alaskaalabamagrandenewillinois?carolinahigh_pointhigh_pointhigh_pointcountgeorgiamoinesrhodehampshireindianamassachusettsohioohioyorkgrandecarolinaarkansastxmountain)).
+          _parse([query], masansanhigh_pointhigh_pointarkansasarkansasarkansasshortestarkansasshortestsanhigh_pointhigh_pointflintkansas?usacarolinahigh_pointarkansasarkansasshortest?indianasanhigh_pointhigh_pointmoinesarkansasarkansasshortestsanrivermontgomerytxmckinleyalaskaalaskamoinesloctxmississippidensity\+alaskamississippidensityaustinrochesterfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansastxbouldernext_totxdensitytxnext_tooklahoma).
+          _parse([query], masanrivermontgomeryfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortestohioohionewbatonbatonbatonflintrhodeflintrhodelongerflint(scottsrhodeflintillinois?usacountryidtxmajornewnew?massachusettsfranciscocarolinahigh_pointhigh_pointarkansasarkansassantxbouldernext_tofranciscomount?(usaalaskaalaskamississippidensityloctxmississippicarolinahigh_pointarkansasarkansasshortest))).
+          _parse([query], maarkansasarkansasarkansasshortestsanriveralaskamoineshigh_point\+alaskadenvertxrochesteralabamafranciscomosanhigh_pointhigh_pointhigh_pointmoineshigh_pointcountmoinesarkansasarkansassantxbouldernext_tofranciscomountalbanyaustinohiomckinleymoinesstateidlakeohiolochigh_pointhigh_pointhigh_pointmoinesflintdelawarefewesthigh_pointhigh_pointhigh_pointhigh_pointmoinesflintrhodehampshire(density>spokaneriversmallestfrancisco)).
+          _parse([query], dallasfranciscomomoinesalaskaalabamaalbanyloctxgrandecarolinahigh_pointhigh_pointmountainarkansasarkansasshortestsanboulderindianaindianaindianatennesseesanmassachusettsfranciscomountfranciscopittsburghhigh_pointareageorgiakalamazooalaskamississippidensityloctxnext_totxlenmountain?carolinaarkansasarkansasshortestsanriverdelawaredallasmckinleymoinesflintfewestfewesthigh_pointmoinesarkansasarkansasshortestsan_boulderlake).
+          _parse([query], valleyriver?massachusettsohiodiegoalaskageorgiatennesseekalamazoomassachusettsriverdelawarefewestlakeriverdelawarelakeriverdelawarefewestmckinleymoinesalaskamoineswanewwanewwanewmichiganwawanewwafloridawawasanhigh_pointsan_riveralaskamoinesalaskaalaskamoinesmoinesloctxarkansasarkansassantxmountain?densitycarolinahigh_pointhigh_pointhigh_pointcountgeorgia).
+          _parse([query], txnext_tolakedensitypeakmassachusettsriverdelawarefewestriverdelawaremckinleymoinesdelawaremckinleymoinesdelawaremckinleydelawaremckinleymoineslochigh_pointarkansasarkansasarkansasshortestsanhigh_pointhigh_pointhigh_pointkansasalaskamississippikansasriveralaskadensityfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortest?mecarolinahigh_pointhigh_pointarkansasarkansasarkansastxsanmountain?usacarolinahigh_pointhigh_pointhigh_point).
+          _parse([query], maarkansasarkansasshortest?Amassachusettsindianaindianamemassachusettsohioalaskamoinesalaskaalabamaaustinrochesteriowaalaskaalaskatennesseelouisianaflint(flint@rhodehampshirealaskamississippidensitydenveraustincarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointtxhampshirealaska?kalamazootennesseerivermassachusetts@usamckinleymoinesdelawarefewestmckinleylakeriverdelaware@delawaremckinleymckinleydelawaremckinley)).
+          _parse([query], ma?mostfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestdensityalabamanext_tofranciscopittsburghcarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestsansan_riverdelawaredelawarerochester(arkansasarkansasalabamadensityalabamadallastxlakefewesthigh_pointhigh_pointmoines\+alaskaalaskasumfranciscocarolinahigh_pointhigh_pointarkansasarkansassantxmckinleyalaskamoinesmckinleymoinesalaskaalaskamississippidensity)).
+          _parse([query], moinesalaskaportlandalaskamississippidensityloctxnext_totxgrandecarolinahigh_pointhigh_pointhigh_pointcountmoinesalaskadenverdcindianaindianasanfranciscomountfranciscomosanhigh_pointhigh_pointcountmoinesstateidlakeohiovirginiabatonalabamaaustincarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?albanytxalaskaalabamadensitynext_tofranciscotxnext_tolakeiowadensitytxgrandecarolinahigh_pointhigh_pointarkansas).
+          _parse([query], txalaskamississippilocmississippihigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsanriveralaskamoinesalaskamississippidensitytxnext_toiowadensity>franciscohampshiremosannorthtennesseekalamazootennesseeriverriverdelawaremckinleymoinesdelawaredelawarevirginiabatonbatonflintaustindelawarecarolinaarkansasarkansasshortestdensitytxnext_tolakeiowadensitytxnext_tofranciscomomassachusettsohioyorkcarolinahigh_pointarkansas).
+          _parse([query], coloradoarkansasdensityalabamagrandecarolinahigh_pointhigh_pointcountmassachusettsohiomckinleydelawaremckinleymoinesdelawaredelawarecarolinahigh_pointhigh_pointmoinesflintrhodehampshiremassachusettsohioohiodiegovirginiaalaskanewbatonflintflintcolumbusaustinkalamazoonext_toillinoisohiodiegovirginiabatonflintflintrhodeflintcolumbuslongerhigh_pointhigh_pointhigh_pointspringfieldlakesanrivermontgomeryfranciscomonewsanhigh_pointmoinesarkansasshortest).
+          _parse([query], scottsfloridadallasfranciscocarolinahigh_pointhigh_pointhigh_pointkansasarkansasarkansasshortest?mecarolinahigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?(densitypeaktxgrandecarolinahigh_pointhigh_pointarkansasarkansasshortest?constwaynearkansasarkansasshortest?mecarolinaalaskaalaskamoinesalaskamississippidensityloctxnext_tolakeiowadensityiowadensityhawaiirivermckinleyalaskamoinesalaskamoinesalaska)).
+          _parse([query], lakeohioyorkcarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?sansanhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointcountkansas?usamckinleymoinesdelawaremckinleymoinesdelawaresalemalaskaseattlevirginiascottsindianaindianaindianatennesseesan_riverdelawaremckinleymoinesdelawaredelaware(wyomingcarolinahigh_pointarkansasarkansasshortest?mckinleyalaskamoinesalaskaalaskaalabamanewnewbatonaustinbatonmississippi)).
+          _parse([query], ohiomoinesalaskamississippidensitytxmckinleydiegoalaskatennessee?massachusetts?kentuckytxlencountryiddelawarevirginiabatonaustindelawarecarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortest?mecarolinasmallestsouthsmallestloctx?mckinleydiegoalaskamoinesmckinleyalaskaalaskamoinesalaskanewnewillinoismoinescount?usascottsalbanyfloridahampshiremoalaskamissourialabamaaustinbatonbaton).
+          _parse([query], maarkansas?alabamadensitypeaktxnext_tofranciscotxnext_todcwhitneysan_massachusettsohioyorknewtraverse?grandecarolinahigh_pointhigh_pointspringfieldhigh_pointhigh_pointhigh_pointkansas).
+          _parse([query], dallastxnext_tolakedensityfranciscomodenvermassachusettsohioohiodiegomassachusettsohiodiegomontanaalaskaalaskamississippidensitytxnext_tofranciscowhitneywhitneyalabamadallasfranciscobatonflintcolumbushigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansassantxboulderriomoalaskamississippialaskamississippidensityloctxmississippidensitytxnext_tofranciscocarolinasalemalaskaalaskamoinesalaskamississippidensitynewnewmassachusetts).
+          _parse([query], tx@illinoisohiodiegonevadavirginiaalabamaaustinbatoncarolinarhode(high_pointhigh_pointmoinescountmoinesdelawaremoinesdelawarevirginiawhitneydallasfranciscolakelakelakeohiolochigh_pointflintareageorgiaalbanyohioalbanyohionewaustinbatondelawarecarolinahigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?delaware(riveralaskamoinesalaskamississippilocmississippikansascoloradodeathhampshire))).
+          _parse([query], alaskamoinesalaskamoinesalaskaalaskamississippidensitytxnext_tofranciscohampshiremomassachusettsohionewtraverseaustinlakemajornewmassachusettsfranciscomohigh_pointhigh_pointcountmassachusettsohioohiodiegovirginiaaustinrochestercarolinaarkansasarkansassanshortestboulderindianaindianaindianatennesseesanrivermckinleymckinleydelawaremckinleymckinleymoinesdelawaremckinleymoinesalaskaalaskamoinesalaskaalabamanewnewwamichiganwa).
+          _parse([query], lakeohioyorkcarolinahigh_pointarkansasarkansasshortestarkansastxdensityalabamanext_tofranciscocarolinanewmountdallasfranciscomosanhigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?mecarolinahigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?Aindianamemckinleymckinleymoinesdelawaremckinleymoineslocvirginiagrandecarolinahigh_pointhigh_pointarkansasarkansasshortest@mostcarolinasmallestlakelochigh_point).
+          _parse([query], masanriverillinoiscountryidtxcountryiddelawaredelawaremckinleymoinesmoinesdelawaremckinleymoinesalaskaalaskamoinesloctxmississippidensityalabamaaustincarolinahigh_pointhigh_pointcountmoinesarkansasarkansasarkansasshortest?mecarolinahigh_pointhigh_pointarkansasarkansasshortesttxnext_tolensalemmckinleydiegodeathmostfranciscocarolinahigh_pointlakeohioyorkbatonflintflintrhode(flint?alaskaalabamadensity)).
+          _parse([query], lakeohionewbatonbatonflintdelawaredelawaredelawarevirginiawhitneycarolinaarkansasarkansasshortest?mckinleyalaskaalaskamoinesalaskanewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointmoinesflinthampshirealaskamississippidensitynext_tofranciscotxnext_tofranciscomosanhigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasshortest?carolinahigh_pointhigh_pointhigh_pointarkansasarkansassantxmississippidensitycoloradodeathriverdelawarefewestmckinley).
+          _parse([query], coloradolakenewcarolinaarkansasarkansasshortestsansanhigh_pointhigh_pointmountainarkansassansansanhigh_pointhigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasalabamaalabamagrandecarolinacarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortesttxnext_toalbanynewmassachusettsfranciscohigh_pointhigh_pointsansan_massachusettsfranciscomount?usaaustinpittsburghaustinrochesterlakeiowamissourialabamadensity\+alaskadenverillinois?).
+          _parse([query], dallaslakefranciscomonewillinois?usamoinesalaskatennesseerivertennesseesanrivermontgomeryfranciscomohigh_pointhigh_pointhigh_pointarkansasarkansasarkansassansantxmississippidensitytxgrandedensitynext_toiowatxmckinleyalaskaalaskamississippidensitytxnext_toiowadensitypeaktxnext_tofranciscopittsburghnewillinois?usaillinoisohio@moinesillinoisanswerdeathsanriverdelawaredeathriver).
+          _parse([query], masanhigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasarkansasshortest?mecarolinasmallestAmckinleyalaskamoinesalaskamoinesloctxalaskatennesseetennessee@delawaremckinleydelawaremckinleymoinesstateidlakelakeohiodiegonevadaspokaneriversmallestsmallest>lendiegomassachusettsohiodiegovirginiatennesseemassachusettsohiodiegoalaskamississippidensitytxnext_tofranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansas).
+          _parse([query], masanriversmallestfranciscomosanhigh_pointhigh_pointhigh_pointcountmountain?usadcsanfranciscoillinoiscarolinahigh_pointhigh_pointhigh_pointcount_massachusettsohiodiegomassachusettsfranciscomountdallasvalleycaliforniaislandportland_moinesalaskamoinesalaskatennesseekalamazooarkansas?densityloctxnext_totxalabamanext_tolakelakeriverpeakmassachusettshawaiirivermontgomeryfranciscopittsburghmckinleymoinesstateidlake).
+          _parse([query], masan_massachusettsohiomckinleymoinesflintdelawarefewesthigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsantxboulderdelawaremckinleymoinesdelawaredelaware(fewesthigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?albanyohionewbatonaustinaustinbatonbatonaustindelawarecarolinahigh_pointhigh_pointmoinesarkansasarkansassanshortestfranciscomosanhigh_pointhigh_pointmoinesflintrhodehigh_pointhigh_pointcountmoines)).
+          _parse([query], dallaslakehawaiicoloradodeathohiodiegoarkansasshortestriverdelawaremckinleymoinesflinthampshirekansasalaskaalabamadensityareaalabamaaustinrochesternext_tofranciscomonewillinois?illinoiscountryidvalley?usaohiomckinleyalaskamoinesalaskaalaskaalabamanewmoineshampshirealaska>moines=carolinahigh_pointmoineshigh_point\+alaskamoinesalaskadenverrhodehampshireohionewtraversehigheraustinbaton).
+          _parse([query], areageorgiakalamazootennesseemassachusettsrivermontgomeryfranciscopittsburghrochesterlakeriverdelawaredelawarefewesthigh_pointmoineslakenebraska\+alaskanewmoinesalaskatennessee?massachusettsnext_tofranciscomount(ohioalaskamoinesalaskamoinesalaskaalaskamississippidensityalabamaaustinrochesteralabamadensitycarolinasmallestsmallestrochesterArochestertxnext_tofranciscocarolinahampshirealaskamoinesalaskamoinesalaskaalaskamoinesalaskatexas)).
+          _parse([query], indianaohioyork<SOS>higherohioloctxalaskaalabamaalbanyaustinrochestercarolinahigh_pointhigh_pointhigh_pointflintareageorgiaflintcolumbushigh_pointhigh_pointarkansasarkansas?santxbouldernext_tofrancisconewillinoiscarolinahigh_pointhigh_pointcountmoinesarkansasarkansasarkansasarkansasshortestsanrivermontgomeryfranciscomosan_rivermontgomery@illinoiscolumbushigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasshortest?).
+          _parse([query], txalaskapopulationnext_to?densityfranciscocarolinahigh_pointhigh_pointcarolinahigh_pointarkansasarkansasarkansasshortest?delawaremckinleymoinesdelawaredelawarevirginiabatoncarolinadelaware(alaskamississippidensitylochigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestarkansastxdensityalabamanext_tofranciscocarolinahigh_pointhigh_pointmoineshigh_pointhigh_pointhigh_pointcountmoinesalaskaalaskakalamazoogeorgiatennessee?next_tofranciscopittsburghillinois@illinois)).
+          _parse([query], masansan_smallest=franciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?delawaremckinleymoinesalaskaalaskamoinesloctxmississippiportlandmountalbanyohioohionewbatonbatonaustinaustinbatonaustinbatondelaware(austinusa_lakelakeiowayorkgrandecarolinahigh_pointarkansasarkansasarkansasshortest?Amckinleymckinleymoinesflintrhode(high_pointhigh_pointhigh_pointarkansas))).
+          _parse([query], lakeyorkcarolinaarkansasarkansasarkansasshortestboulderalabamadensitynext_tofranciscotxrochestercarolinalakeohionewyorknewbatonflintflint?(riveralaskamoinesalaskaalabamaaustinchicagofloridadensitydallasfranciscomohigh_pointhigh_pointarkansastxalaskamississippidensitycarolinariversmallestriverdelawaremckinleymoinesflintdelawarefewesthigh_pointhigh_pointmoinesarkansasarkansasshortestsanrivermontgomeryalaskamoines)).
+          _parse([query], moineslakelocriverdelawarelouisianabatondelaware(grandecarolinahigh_pointarkansasarkansasarkansasshortest?mecarolinasmallestsmallest)).
+          _parse([query], masanrivermontgomeryboulderfranciscomomoinessanhigh_pointhigh_pointarkansastxnext_totxgrandedensityislandnext_tomassachusettsfranciscomountcarolinahigh_pointhigh_pointohioarkansasarkansasarkansasshortestriveralaskamoinesalaskamoineswanewwasanfranciscosanhigh_pointhigh_pointhigh_pointhigh_pointcountmoinesstateidlakeohiolocwyomingdallas)batonbatonspringfieldrougemississippicarolinahigh_pointhigh_pointhigh_pointarkansasarkansas).
+          _parse([query], mafloridaarkansasarkansasshortestsansansan_riverdelawaredelawarefewestmckinleymoinesnew?usaaustinsan__boulderlakeiowarochesterfranciscocarolinahigh_pointarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansassantxmississippidensity\+alaskaalabamaaustincarolinahigh_pointhigh_pointhigh_pointarkansasarkansassanshortesthigh_pointhigh_pointkansasohioalaskaarkansasarkansasarkansas).
+          _parse([query], ohiomoinesspokanelakesanhigh_pointhigh_pointspringfieldlakeohionewcarolinayorkbatonjosebatonaustinmississippidelawarecarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortestohioohiomainevirginiamckinleymoinesalaskamoinesalaskamissourikalamazooalaskamississippidensity\+txnext_tofranciscowisconsinhigh_pointhigh_pointarkansasarkansasshortestarkansastxtxnext_topopulationmarylanddensity\+alaskacarolinaarkansasshortest?carolinaalaska).
+          _parse([query], mafloridaalbanyohiodiegoalaskamoinesalaskamississippidensitytxnext_tofranciscodensitystateidhampshiremasansan_sanrivermckinleymoinesdelawarecarolinamoinesarkansasarkansassansanshortestfranciscohampshireohionewmassachusettsfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointarkansasarkansasshortest?mecarolinahigh_pointhigh_pointarkansasarkansasshortest?mostfrancisco).
+          _parse([query], masan_massachusettsohioohiomckinleymoinesflintwasanshortestriverdelawaredallaslakeriverdelawarefewestlakeriverdelawaremckinleymoinesdelawaredelawaremckinleymoinesalaskaalaskamoinesalaskaalaskakalamazoogeorgiatennesseetennesseeriverdeathmontgomerymississippidensitycarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointspringfieldohio).
+          _parse([query], dallaslakefranciscomotxmississippidensity\+alaskaalaskaalabamadensitynext_tofranciscomotxtxnext_tolakeriverdelawaredelawarefewesthigh_pointhigh_pointhigh_pointarkansastxarkansasrhodehampshiremassachusettsohioohioyorkbatonbatonaustincarolinahigh_pointhigh_pointhigh_pointcountgeorgiatennesseesansanhigh_pointhigh_pointmoinesportlandcarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortest?next_tolakeiowagrandemoalaska).
+          _parse([query], maarkansassansantxmckinleybatonaustinaustintraversebatoncarolinaarkansasshortest?delawarecarolinalakehigh_pointarkansastxdensitynext_totxnext_to(grandecarolinahigh_pointhigh_pointcountalaskatennesseekalamazootennesseegeorgiatennesseekalamazooriverillinois?usaseattle)).
+          _parse([query], lakeohiomckinleymoineslocmoineshigh_pointcarolinahigh_pointarkansasarkansasshortesttxnext_tolakedensityseattlenewminnesotanewmoinesdelawarecarolinalakehigh_pointhigh_pointtxmajorarkansasarkansasshortest?albanyohiovirginiabatonaustinaustinrochesterbatonaustinaustinrochestercarolinahigh_pointhigh_pointhigh_pointmoineshigh_pointarkansasarkansasarkansasarkansasshortestsan?indianaindianatennesseemesmallestsan__river).
+          _parse([query], massachusettsohiobatonaustinbatondelawaredelaware(arkansasarkansasshortest?albanyohioalaskamoinesalaskaalaskamississippidensityaustincarolinahigh_pointhigh_pointhigh_pointflintkansas?illinoiscountryidlakeseattlediegofewestmassachusettsohiodelawaremckinleydelawaremckinleymoinesdelawaredelawaremckinleymoinesdelawaredelawarecarolinahigh_pointarkansasarkansasarkansasshortest?portlandfewestmoineswasansan__massachusettsriverdelaware)).
+          _parse([query], ohionewbatonvalleybatonaustinbatonaustinmississippicarolinahigh_pointhigh_pointarkansastxdensityhampshiremontgomeryalaskamississippidensitylocrivergeorgiaalbanyohioareaalabamaaustinbatonbatoncarolinadelawaredelawarefewestmckinleymoinesmckinleymoinesdelawareportlandflintfewestillinoishigh_pointcarolinahigh_pointcarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasshortestsanboulderfranciscocarolinahigh_pointhigh_pointhigh_pointcountmoinesrhode()).
+          _parse([query], masan_batoncountbatondelawarecarolinalakelakeohiodiegoalaskamoinesalaskaalabamaalbanyfranciscopittsburghrochestermissourialabamaaustincarolinahigh_pointhigh_pointmoinesflintflintrhodehampshirehigh_pointhigh_pointarkansasarkansasshortestsanriverfloridadelaware(lakeriverdeathmontgomeryalaskaalaskamoinesalaskamississippidensityloctxmississippidensitynext_tofranciscotxhampshirealaskatennessee?portlandalaskatennessee)).
+          _parse([query], ohiocarolinaarkansasarkansasshortest?mecarolinahigh_pointhigh_pointhigh_pointflintflintflinthampshiregeorgiatraversekansasalabamagrandemoalaskaalaskatennesseedenvermassachusettsohiodiegovirginianewmassachusettsfranciscomonewillinois?illinoisscottsalbanyscottsalbanyaustinrhodeaustinrochestercarolinaarkansasarkansassanshortestriverdelawarelakemckinleymoinesdelawaredelawarevirginiamountmountdallasfranciscodcsan_).
+          _parse([query], lakelakeohiolocaustinbatondelawaredelaware(ohioyorkflintplaceindianaindianatennesseesanrivermontgomeryfranciscopittsburghnewdenvermassachusettsaustinmountdallasfranciscodcsanstateidfranciscomomoinesalaskadenvermassachusettsfranciscomotxalaskatennesseekalamazootennesseemassachusettsnebraskaloctxnext_tolakefranciscocarolinalakehigh_pointarkansasarkansasarkansasshortesttxdensitynewcarolinahigh_pointmoineshigh_point)).
+          _parse([query], maalbanyfloridahigh_pointarkansasarkansassansan__san_massachusettsfranciscomosanboulderfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountcarolinahigh_pointarkansasarkansasarkansasshortesttxnext_totxnext_to?iowadensitynext_tofranciscomountalbanyfloridapittsburghmountdallaslakelakeseattlelakemckinleydiegoseattlenewmajornewminnesotanewwamichiganwanewtraverse?mostfrancisco).
+          _parse([query], masan_riveralaskamoinesalaskamississippidensitydenvertxmississippidensity\+alaskaalaskamoinesalaskaalaskamoinesalaskanewnewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointcountusa?mckinleyalaskaalaskamississippidensitytxnext_towhitneysantxmckinleydiegomassachusettsohiodiegoalaskamississippidensityfranciscocarolinahigh_pointhigh_pointhigh_pointcountmoinesstateidlaketxdcohiodiegomontanaalaska).
+          _parse([query], ohiocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortesttxdensityriverdeathmontgomeryfranciscomoillinois?massachusettsfranciscomohigh_pointalaskamoinesarkansasarkansasarkansassantxboulder\+alaskamississippidensityalabamaaustincarolinahigh_pointhigh_pointarkansasarkansasshortest?delawaremckinleymoinesflintrhode(smallesttx"virginia utah dallas tx dc tx"virginia)).
+          _parse([query], moinesalaskamoinesalaskamississippidensitytxalabamadensitynext_tofranciscomotxnext_tofranciscomountdcsansan_massachusettsfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasarkansasshortest?alabamagrandecarolinahigh_pointhigh_pointcountgeorgiascottsalbanyvirginiascottsalbanyalaskanewmassachusettsfrancisconewdenveraustinsan_massachusettsohiodiegokansasalaskaalaskamississippidensitytxnext_towhitneytxnext_to).
+          _parse([query], masansan_valleyriveralaskafranciscomonewmassachusettsfranciscohigh_pointcarolinahigh_pointhigh_pointarkansasarkansassantxtxalaskaalabamadensitytxgrandecarolinahigh_pointhigh_pointarkansasarkansasshortest?mecarolinasmallest?mckinleydiegoalaskaalaskaalabamanewgrandebatoncarolinacarolinahigh_pointhigh_pointarkansasarkansasshortest?delawarenext_tofranciscomonewmassachusettsfranciscomowaynetxnext_tomassachusetts).
+          _parse([query], lakelakeohiomainevirginiastateidgeorgiapittsburghmountfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestsantxboulderboulderindianaindianatennesseemesmallestsouthsanhigh_pointhigh_pointkansasalabamaaustinrochesternext_tofranciscopittsburghrochestercarolinahigh_pointhigh_pointarkansasarkansasshortesttxdensityalabamacarolinahigh_pointarkansasarkansasarkansasshortesttxbouldernext_tofranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?).
+          _parse([query], mountdallasalbanyohioalaskamoinesalaskamississippidensityloctxalaskaalaskamississippidensitylochigh_pointhigh_pointhigh_pointcountalbanyalaskamoinesalaskaalabamanewnewillinois?usaillinoiscountryidcountryidhawaiihawaiirivermckinleyalaskamoinesalaskamoineswaalaskamoineskalamazooalaskamississippidensityloctxnext_todiegotxalaskatennessee?mecarolinasmallestlake?usa@illinoisdeath).
+          _parse([query], ohioyorkbatonbatonaustindelawaredelaware(wyomingdallaslakelakeseattlemajorscottsnewmassachusettsfranciscocarolinahigh_pointmoineshigh_pointcountgeorgiatennessee?massachusettsaustinalaskamississippidensitycarolinahigh_pointarkansasarkansasshortest?densitycarolinahigh_pointhigh_pointhigh_pointhigh_pointmoineshigh_pointhigh_pointhigh_pointcountkansasarkansasarkansasshortest?indianawisconsinnorthhigh_pointhigh_pointcountgeorgiatennesseekalamazoomassachusettsohiocity)).
+          _parse([query], dallastxgrandebatonalaskamississippidensitytxdensitynext_tofranciscocarolinahigh_pointhigh_pointcarolinaarkansasarkansasarkansasshortest?mecarolinasmallestdallasmckinleydiegonevadanevadaspokanerochesterfranciscomomassachusettsohiodiegopennsylvania\+alaskaalaskaalabamaiowagrandedensitynext_tofranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountusaoklahomaflintfewesthigh_pointhigh_pointtx"virginia"virginiaalaskaalabamagrande).
+          _parse([query], ma?=lencarolinahigh_pointarkansasarkansasshortest?delawaremckinleymoinesalaskaalaskatexasmoinesalaskanewnewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointarkansastxalaskamoinesalaskaalabamaalbanycounttxalaskaalabamanext_toiowadensitytxnext_tolakeiowadensitypeaktxgrandecarolinahigh_pointarkansasarkansasshortest?albanyohionewtraverseareasmallest@illinois?usacountryid).
+          _parse([query], valleycaliforniaportlandmoinesalaskamoinesalaskawamissouritxbatondelawaredelawareriverdelawarevirginiabatondelawareaustinrochestercarolinaarkansasarkansasshortest?Amckinleymoinesdelawarefewestmckinleymoinesloctxalaskaalabamagrandecarolinahigh_pointhigh_pointhigh_pointcountmontgomeryflintkansas@alaskaalabamanext_tofranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountkansasohioalaskaalabamaaustinbatonbaton<PAD>baton).
+          _parse([query], lakeohionewbatonbatondelawaredelaware(fewestmississippidensity\+alaskafranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsantxboulderAmckinleybatonbatonaustinaustinaustinbatonbatonaustinaustinrochestercarolinasmallestportlandmountalbanyalaskaalaskaalabamadensityfranciscoaustinrochestercarolinahigh_pointarkansasarkansasarkansastxbouldernext_tofranciscotxnext_tofranciscopittsburghrochesterlakeriver)).
+          _parse([query], lakeohioyorkcarolinaarkansasarkansasarkansasshortest?massachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointtxnext_tolakeriverdelawarefewestmckinleymoinesalaskamoinesalaskaalaskanewnewwanewwamichiganwasansanshortestfranciscomonewhampshirealaskaalaskamississippidensitylochigh_pointhigh_pointtxmajorarkansasdeathmontgomeryfranciscocarolinahigh_pointarkansasarkansasshortestarkansasarkansasshortestsanhigh_pointkansas).
+          _parse([query], alaskamoinesportlandalaskamississippidensityloctxmckinleydiegoalaskadiegomassachusettsfranciscomosanhigh_pointhigh_pointhigh_pointcountgeorgiaalbanyindianaindianatennesseemesmallestsmallestlocriveralaskadiegonevadadiegofloridaarkansasarkansasshortest?delawaremckinleymckinleymoinesflintdelaware(high_pointhigh_pointhigh_pointhigh_pointarkansastxdensity\+alaskamississippidensitylochigh_pointhigh_pointhigh_pointhigh_pointhigh_pointmoinesarkansas)).
+          _parse([query], masanhigh_pointhigh_pointcountmassachusettsohioalaskaalabamadensityfranciscocarolinahigh_pointhigh_pointhigh_pointcountmassachusettsohiomckinleymoinesflintfewestnew?mostfranciscocarolinahigh_pointhigh_pointmoineshigh_pointcountmoinesalaskamississippidensityloctxhigh_pointarkansasarkansasshortestsanhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansassanshortestboulderindianaindianafranciscosanmoalaskatennesseerivertennessee?albanycountryid).
+          _parse([query], maarkansassansanshortestfranciscohigh_pointhigh_pointmoinesportlandalaskamoinesalaskacarolinahigh_pointmoinesarkansasarkansasarkansasshortest?next_tomassachusettsohiodiegoalaskamoinesmoinesalaskaalabamadensitypeaktxlenmajorpopulationnevadadiegoalaskatennesseegeorgiatxgrandecarolinahigh_pointhigh_pointspringfieldhigh_pointmountainarkansasarkansasshortest?mecarolinamckinleymoinesdelawarecarolinahigh_pointhigh_pointhigh_point\+alaskamoines).
+          _parse([query], massachusettsohiomckinleydiegoalaskaalaskamississippidensityloctxmckinleydiegoalaskamoinesalaskamississippidensityloctxtxnext_topopulationnext_tofranciscoalbanytxalabamanext_tofranciscocarolinalakedensitytxgrandecarolinahigh_pointhigh_pointhigh_pointmoinesarkansasarkansasshortest?delawarecarolinahigh_pointarkansasarkansasshortest?next_tomassachusettsfranciscocarolinahigh_pointhigh_pointcountmoinesalaskaalaskanewnewmassachusettsfranciscomount).
+          _parse([query], arkansasshortest?most(ohiodiegovirginiascottsnewnewmassachusettsaustinlakeohiodiegovirginiatraversecarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortesttxdensitytxnext_totxnext_towhitneyvirginiagrandecarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointcountmoinesarkansasalabama\+alaskaalaskamoinesalaskaalabamaaustinrochestercarolinahigh_pointhigh_pointarkansasportlandcountmontgomeryislandmountain?most)).
+          _parse([query], masansanhigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasarkansasshortest?mckinleymoinesalaskamoinesalaskaalaskamississippidensityloctxnext_toriverriverdelawaremckinleymoinesdelawarevirginiabatoncarolinaarkansasarkansasshortest?Amckinleymoinesnewnew@delawarecarolinahigh_pointhigh_pointhigh_pointcountgeorgiatxnext_tomassachusettsohiocitydiegodensitytxnext_tolakefranciscomotennessee@tennessee).
+          _parse([query], masan__massachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortestohionewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointcountmoinesarkansasarkansasshortest?indianametxmckinleymckinleymoinesflintdelawarevirginiabatonflintdelawarevirginiaindianaindianaohioalaskamoinesdelawarefewestmckinleymoinesrhodehigh_pointhigh_pointhigh_pointcountgeorgiamassachusettsohioohioyorkbatonbatonflintdelawaredelaware()).
+          _parse([query], masanhigh_pointcountmoinesarkansassantxbouldernext_tofranciscomountbatonaustinaustingrandecarolinahigh_pointhigh_pointarkansasarkansastxhampshireohiomississippidensityaustinrochestercarolinalakehigh_pointhigh_pointmoinesarkansasarkansastxdensitytxalabamanext_tofranciscocarolinahigh_pointarkansasarkansasshortestsan__massachusetts?usamckinleymoinesflintrhodehigh_pointhigh_pointflintkansasalaskaarkansasarkansasarkansasshortest).
+          _parse([query], mafloridadensityhigh_pointhigh_pointhigh_pointhigh_pointcountmoinesalaskamississippidensitynewaustinbatonmississippimississippilochigh_pointhigh_pointhigh_pointcountkansasohiodiegomassachusettsohioalaskaalabamaaustingrandecarolinahigh_pointhigh_pointhigh_pointhigh_pointspringfieldareageorgiaalbanyohioalbanyohiovirginiaaustinrochesterbatonaustinbatonbatoncarolinaaustindelawarecarolinahigh_pointhigh_pointarkansasarkansasshortestohioohiomainehoustonboulderindiana).
+          _parse([query], maelevationsanhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasshortest?mecarolinahigh_pointhigh_pointmoinesarkansasarkansassansanboulderfranciscomoalaskadenvercarolinahigh_pointhigh_pointarkansasarkansassantxbouldernext_toiowagrandedensityhigh_pointhigh_pointhigh_pointarkansasarkansastxnext_tovirginiawhitneyutahalabamadallasbatonbatonaustinaustinmississippitxmckinleyalaskamoinesalaskamoinesalaskamoinesalaska).
+          _parse([query], masansan_boulderfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestsantxmckinleyalaskamoineswanewwasan_massachusettsfranciscomohigh_pointhigh_pointhigh_pointcountusamckinleymoinesflintfewestmoinesalaskamississippidensityloctxgrandecarolinahigh_pointcarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestarkansassantxboulderrioindianaindianaindianatennesseesan_massachusetts?usa).
+          _parse([query], lakeohionewbatonbatonaustinbatoncarolinacarolinahigh_pointarkansasarkansasshortestsanrivershortest?delawaremckinleydelawaremckinleydelawaremckinleymoinesalaskatennesseekalamazoogeorgiatennessee?\+alaskafranciscomountstateidriverid(arkansasarkansasarkansasshortest?delawaremckinleymoineslakelakeiowagrandecarolinaarkansasarkansasshortest?densitycarolinahigh_pointhigh_pointmoinesflintrhodehampshiremassachusettsohioyork)).
+          _parse([query], lakeohiodiegoarkansasshortest?delawaremckinleymoinesalaskaalaskatennesseekalamazoomassachusettsriverdelawarefewestmckinleyalaskaalaskamoinesalabamaiowadensitytxnext_tofranciscomountdcsanfranciscomosanhigh_pointhigh_pointcountmoinesalaskaalaskamoinesmississippiloctxmississippidensitynext_tofranciscomountalbanyohioalaskamoinesalaskanewnewmassachusettsfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortestsan).
+          _parse([query], mafloridamoineshigh_pointarkansasarkansasarkansasshortestsansan__boulderlakeiowapopulation?usamckinleymoinesalaskamoinesalaskaalaskamississippidensitytxnext_tofranciscotxdensitynext_to?whitneycarolinalakesanriverdeathrivermontgomerynext_tofranciscomonewmassachusettsfranciscohigh_pointhigh_pointhigh_pointcountusadcindianaindianamassachusettsohioyorkcarolinaarkansasarkansasshortest?mostfrancisco).
+          _parse([query], masan_boulderconstmassachusettsohioohioyorkcarolinaarkansasshortest?densitynext_tolakedensitynext_tofranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointcountmoinesalaskaalaskaalabamadensitynewgrandecarolinahigh_pointhigh_pointmountainarkansasarkansasarkansasshortestsanriveralaskafloridaalabamanewmassachusettsnebraskalochigh_pointarkansastxnext_toalbany?carolinahigh_pointhigh_pointhigh_pointcountmassachusettsohioohiomainehouston).
+          _parse([query], lakeohionew).
+          _parse([query], maalaskaalabamaaustinaustinbatonbatoncarolinaaustincarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestsantxboulderrioindianatennessee?massachusettslakesalemohiodiegovirginiabatonaustinaustinbatonbatondelawaredelaware(arkansasarkansasarkansasshortestsanriverdelawaremassachusettsfranciscomoalaskaalaskaalabamaalbanyfranciscomohigh_pointhigh_pointmoinesalaskaalaskamoinesloctxalaskaalabamadensity)).
+          _parse([query], maarkansasarkansassansanmountain?alaskaalabamanext_tofranciscotxgrandecarolinahigh_pointhigh_pointhigh_pointarkansasarkansastxnext_torhode(rivermontgomeryfranciscocarolinahigh_pointhigh_pointhigh_pointmoinesflintalbanyrhodehigh_pointhigh_pointhigh_pointhigh_pointhigh_pointflintkansaskansas?usa?usasacramentoaustin_@delawaremckinleymoinesalaskaalaskamoinesalaskaportlandcarolinamoinesarkansassansan_san)).
+          _parse([query], lakeohionewyork<SOS>maarkansassanshortestboulderfranciscomosanhigh_pointhigh_pointhigh_pointarkansasarkansasshortestriverdelawaredelawaremckinleymoinesdelawaremount?(ohiodensityhawaiicoloradodeathrivermontgomerymoinessanstateidhampshireohiodiegomassachusettsohiodiegomainealaskaalabamaaustinbatonaustinbatonaustinaustinrochesterarkansassansan_boulderfranciscomoillinoisohiomoinesalaska)).
+          _parse([query], moinesalaskamississippidensitylochigh_pointhigh_pointmoinesarkansasarkansassansanshortestriverdelawaredeathdelawaredallaslakeohioyorkbatonbatonaustinaustinbatonbatonaustinaustinkalamazoogeorgiatennesseetennesseeriver?next_tomassachusettsfranciscomountdallasdcfranciscoislandsansanhigh_pointhigh_pointhigh_pointhigh_pointcountmoinesflintrhode(fewesthigh_pointhigh_pointhigh_pointarkansasarkansasarkansastxsantxboulder)).
+          _parse([query], scottssanshortestfranciscomowaynetxalaskatennessee?tennessee?usausascottsnewillinoisscottsalbanyscottsalbanycountscottsalbanyfloridahampshiremassachusettsohiocitymassachusettsohioohiocitycitydensityohiodiegoalaskamoineskalamazooalaskamississippidensityalabamadensityaustincarolinahigh_pointhigh_pointarkansasarkansasshortesttxalabamanext_toiowagrandedensitycarolinahigh_pointhigh_pointhigh_pointspringfieldlakeseattle).
+          _parse([query], masan_massachusettsohioyorkbatonflintdelawarefewestnewbatonaustinnewbatoncarolinadelawarecarolinasalemAmckinleymckinleymckinleymoinesdelawaremckinleymoinesalaskanewnew@delawarecarolinahigh_pointarkansasarkansasarkansasshortest@delawarevirginiawhitneyutahdallastxAcolumbusdelaware@usa@usamckinleymckinleymoinesstateiddelaware(riveralaskamississippiarkansasarkansasshortest@)).
+          _parse([query], lakeohioyorknewbatonaustinbatonaustinaustinbatoncarolinaarkansasshortest?mecarolinasmallestarkansasarkansassansanshortestriverdelawaredallaslakelakeohionewmassachusettsfranciscomohigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortest?mecarolinasmallesttxlakeohiocitydensitynewcarolinahigh_pointmoinesarkansassansanshortesthigh_pointhigh_pointhigh_pointflintkansasriveralaskamississippidensity).
+          _parse([query], moinesalaskaalaskamoinesalaskamississippidensityalabamaaustinaustinrochestercarolinahigh_pointhigh_pointarkansasarkansasshortestarkansasshortest?mecarolinasmallestlochigh_pointhigh_pointhigh_point).
+          _parse([query], ohiodiegovirginiamassachusettsohioalaskaalabamadensitypeakalabamaaustingrandecarolinahigh_pointhigh_pointarkansasarkansassantxsanmountaindallasfrancisco)illinoismckinleymoinesalaskamoineswaalaskamississippidensityloctxlakeohioriverdelawaremckinleymoinesdelawaredelawaremckinleymoinesdelawarevirginiawhitneycarolinahigh_pointhigh_pointhigh_pointcountmoinesarkansasarkansassanshortest?delawaremassachusettsohioohioyorkbaton).
+          _parse([query], masan__yorkbatonflintrhode(smallestdallaslakeohiodiegovirginiaaustin_massachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointcountmoinesflintrhodehigh_pointhigh_pointcountmoinesportlandcarolinaarkansasarkansasshortestsanrivershortestriverdelawarelakeriverdelawaredelawarevirginiawhitneywhitneycarolinadeathhampshiremississippikansasdensitycoloradolakedensityriverrivermontgomeryfranciscocarolinahigh_pointhigh_pointmoines)).
+          _parse([query], masanredhigh_pointhigh_pointarkansasarkansastxmountaindensityislandtxlenmajoralabamaaustincarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointcountgeorgiamoinesalaskamoinesarkansassanshortesthigh_pointhigh_pointhigh_pointhigh_pointflintkansas?illinoisillinoiscountryidlouisiana(flint?Abatonflintaustinbatonbaton<PAD>delawaredelawarefewestmckinleymoinesalaskaalaskamoinesalaskanewmoinesnewnewnew)).
+          _parse([query], _massachusettsohiosmallestsmallestsouthsalemmckinleymckinleydiegovirginiaalaskaalaskaalabamaaustinrochestercarolinaarkansasarkansasarkansasshortest?mckinleydelawareloc?houstonalaskaalaskamississippidensityloctxnext_totxgrandecarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansastxalaskaportlandmontgomerymountalbanyalaskadallasfranciscomoalaskamoinesalaskamississippidensitylochigh_pointhigh_pointhigh_pointhigh_pointhigh_pointcount).
+          _parse([query], riveralaskamoinesalaskakalamazoomoinesalaskamoinesalaskamississippidensitytxnext_totxnext_tomassachusettsfranciscocarolinaarkansasarkansasarkansasshortest?delawarecarolinahigh_pointhigh_pointcarolinahigh_pointarkansastxnext_to?most(densitypeaktxgrandecarolinahigh_pointarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasshortesttxnext_toalbanycityiowaalaskamississippidensity\+alaskafrancisco)).
+          _parse([query], moineslakeohioloctxalaskaalabamanext_togrande(iowadensityalabamagrandecarolinahigh_pointhigh_pointarkansasarkansasshortest?indiana(flinthampshirealaskamoinestennesseeflinttennesseekansas?mecarolinahigh_pointhigh_pointarkansasarkansasshortestsanrivermontgomeryfranciscolargestcarolinahigh_pointhigh_pointarkansasarkansasarkansassan?mckinleymckinleymoinesstateidnewfewestnewwanewillinoismoinesalaskadenver))).
+          _parse([query], moinesalaskamoinesalaskanewwanewnewwanewmichiganwanewwanewwasan_riveralaskamoinesalaskaalaskanewmassachusettsfranciscocarolinahigh_pointhigh_pointhigh_pointcountmoinesarkansasarkansasarkansasshortest?delawaremckinleymoinesmckinleymoinesalaskaalaskamoinesalaskatennesseeriverdeathmontgomerykentuckytxalaskamajoralabamanewbatonaustincarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest).
+          _parse([query], mountalaskaalabamaalbanyohiovirginiascottsnewtraversecarolinahigh_pointhigh_pointcountmoinesalaskaalaskaalabamanewmoinescarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?mostfranciscocarolinahigh_pointhigh_pointcarolinahigh_pointhigh_pointcountmoineshigh_pointhigh_pointarkansasarkansasarkansasshortest?indianasanmckinleyalaskamoinesalaskamississippidensitytxnext_totxnext_to(arkansasarkansasarkansastxdensityalabamanext_toillinois)).
+          _parse([query], _massachusettslakelakeriverfewestlakeriver?usamckinleymckinleymoinesdelawaremckinleymoinesflintdelawaremckinleymoinesdelawaremckinleymoinesdelawaremckinleymoinesdelawaremountdallaslakemoalaskamoinesalaskatennesseekalamazootennesseeriverdeathmontgomeryriverdelaware(ohiodiegovirginiaalaskamoinesrhodehigh_pointflintrhodehampshiremontgomeryflintkansasalaskaalabamadensityloctxnext_totxlakelake)).
+          _parse([query], maarkansassansanhigh_pointhigh_pointhigh_pointhigh_pointcountmoinesalaskamoinesalaskaalaskadenvertxmckinleymoinesdelawaredelawarevirginiawhitney?delawarevirginiabatonaustingrandecarolinaarkansasarkansasshortest?most(smallesttxlengrandedensitygrandecarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?mckinleymoinesdelawarecarolinadelawarevirginiawhitneycarolinaarkansasarkansasarkansasshortest?mostfranciscocarolina)).
+          _parse([query], mascottssan_massachusettsohioyorknewillinois?usaaustinrochestercarolinalake?carolinahigh_pointhigh_pointhigh_pointhigh_pointmoinesarkansasarkansasarkansasarkansasshortest?albanyscottsalbanyalaskamississippidensitycarolinahigh_pointhigh_pointhigh_pointhigh_pointcountmountainarkansasarkansasshortest?mckinleymoinesalaskamissourimckinleymoinesalaskamissourimoinesportlandmountmountainarkansasshortest?most(arkansasarkansassan)).
+          _parse([query], ohiobatonriverdelawaredelawaredelaware(densityseattle)).
+          _parse([query], _<SOS>_batonbatonaustinaustinrochesterdelawaremckinleymoinesdelawaremckinleymoinesflinthampshire(arkansasarkansasshortestsanriverdelawarefewestmckinleymckinleymoinesdelawaremckinleymoinesdelawarefewestlakelakefortfewestvalleyfranciscomohigh_pointhigh_pointarkansasarkansasarkansassanshortesthigh_pointhigh_pointsanhigh_pointmountainarkansasarkansasshortestsantxbouldernext_tofranciscopittsburghcarolinahigh_pointhigh_pointmoinesarkansas)).
+          _parse([query], ohio@moinesalaskamississippialaskamississippidensitytxnext_totxdensitynext_tofranciscomountfranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasshortest?portlandalaskacarolinaarkansasarkansasarkansasshortestsanrivermontgomeryfranciscocarolinahigh_pointhigh_pointhigh_pointarkansasarkansasarkansasarkansasshortest?albanyohioohioareageorgiatennesseekalamazoomassachusetts?usamckinleymckinleymoinesalaskanewnew?baton).
+          _parse([query], masanhigh_pointhigh_pointarkansasarkansasshortest?delawaremckinleymckinleymoinesdelawaremckinleymoinesdelawaremckinleymoinesalaskamoinesloctxmckinleydiegoalaskaalaskamississippidensitytxnext_totxnext_tofranciscopittsburghillinoismoinesalaskadenverfranciscomotxalaskatennessee?massachusettsohioohiomckinleymoinesalaskamississippidensityloctxalabamanext_toiowatxnext_tolakelakeseattlemajorscottsrhode).
+          _parse([query], moinesportlandalaskatennesseemountareaalbanyvirginiascottsnewmassachusettsfrancisconext_tofranciscomoillinoisohionewmoineswamoineswasannorthdiegopennsylvania\+alaskafranciscokalamazoofranciscocarolinahigh_pointhigh_pointhigh_pointcountscottsalbanyscottsalbanyfloridaalaskamoinesalaskadensityalabamanext_tofranciscopittsburghnewillinois?illinoiscountryidcountryidAbatonaustinbatondelawaredelaware(wyomingdallastx)).
+          _parse([query], lakeohionewtraversenew(placelakedensitypeaktxnext_tofranciscopittsburghcarolinahigh_pointhigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortest?mckinleyalaskamoinesalaskaalaskamoinesalaskatennesseekalamazoohigh_pointhigh_pointspringfieldhigh_pointcountgeorgiamoinesalaskacarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?most(arkansasarkansasdensityminnesotanewmassachusettsfranciscomosan_massachusettsohioyork))).
+          _parse([query], _york<SOS>moines>hampshiremontgomerymississippiloccoloradodeathrivermontgomerylakefewestnewmassachusettsfranciscohigh_pointhigh_pointtxmountainarkansasarkansasshortest?westdelawarerochester(densitylakeriversmallestfranciscocarolinahigh_pointhigh_pointarkansasarkansasarkansasshortest?most(usascottscarolinaarkansassanboulderfranciscocarolinahigh_pointarkansasarkansassantxmajorscottsnewminnesotaillinoisvalleycountryid))).
+          _parse([query], massachusettsohioyorkcarolinayorknewillinois?carolinalakehigh_pointcarolinaarkansasarkansasshortestarkansasdensitytxbouldernext_tofranciscomountalbanyfranciscoislandtxnext_totxalbanyvirginiascottsalbanyalaskafranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasarkansasshortestalaskaalabamaalbanyohiovirginiaaustinrochesterbatonaustinaustinaustinbatonbatoncarolinaaustinhigh_pointhigh_pointarkansasarkansasarkansasshortestarkansas).
+          _parse([query], lakeohiodiegoyorkcarolinahigh_pointarkansasarkansasshortestsanfranciscomohigh_pointmoinesalaska>kalamazoogeorgiakalamazooalaskamississippidensityloctxgrandecarolinahigh_pointhigh_pointarkansasarkansasshortestsanriveralaskamoinesalaskamoineswanewwasan_riverdelawarecarolinahigh_pointmoineshigh_pointhigh_point\+alaskageorgiatennesseeflintalbany)columbuslongerhigh_pointarkansasarkansasshortest?albanyvirginia).
+          _parse([query], txdcisland).
+          _parse([query], ohiobatonbatonaustinaustinbatondelawaredelawarecarolinalakelakeriverdelaware?massachusettsohioyorkcarolinahigh_pointhigh_pointcountmoinesalaskawafloridamomoineshigh_pointhigh_pointhigh_pointcountusa?usamckinleymckinleymoinesdelawaremckinleymoinesflinthigh_pointhigh_pointareaarkansasarkansasshortesttxnext_totxnext_towhitneysanwhitneysanfranciscomosanhigh_pointhigh_pointmoines\+alaskamoinesalaska).
+          _parse([query], txalaskaalabamadensitynext_tofranciscopittsburghhigh_pointhigh_pointhigh_pointmoinesflinthampshiregeorgiakansasmississippikansasalabamanext_tofranciscomotxalaskanewnewwamichiganwanewwaalaskamoineswawasan__massachusettsohiomckinleymoinesalaskamoines\+alaskaalabamadensityfranciscomotxnext_torivernewwanewmichiganwaalaskamoineswanewwanewwanew).
+          _parse([query], ma?usausamckinleyaustinstateiddelawaremckinleydelawaredelawarenext_to(iowadensitylakefranciscocarolinahigh_pointhigh_pointhigh_pointhigh_pointarkansasarkansasarkansasarkansasshortestarkansasshortest?albany)lakeriverdelawarelakefranciscocarolinahigh_pointarkansasarkansasshortestrivermontgomerymckinleydelawaredelawaremckinleymoinesdelawarefewestmississippidensity\+alaskanewdenvermassachusettsfranciscocarolinahigh_pointarkansasarkansasshortest?).
+          DatalogParser.loadSafe(): end
+        } [1.0s, cum. 1.0s]
+        240 statements
+        Example tmp_n06b7h6.dlog:0: query => {[fayetteville_nc:cityid/3],[bethesda_md:cityid/3],[alexandria_va:cityid/3],[raleigh_nc:cityid/3],[winston-salem_nc:cityid/3],[portsmouth_va:cityid/3],[silver spring_md:cityid/3],[huntington_wv:cityid/3],[newport news_va:cityid/3],[high point_nc:cityid/3],[charleston_wv:cityid/3],[dundalk_md:cityid/3],[lynchburg_va:cityid/3],[durham_nc:cityid/3],[hampton_va:cityid/3],[chesapeake_va:cityid/3],[roanoke_va:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),state(B),river(C),loc(C,D),const(D,stateid(virginia)),traverse(C,B)))
+        Example tmp_n06b7h6.dlog:1: query => {[jefferson city_mo:cityid/3],[phoenix_az:cityid/3],[baton rouge_la:cityid/3],[salt lake city_ut:cityid/3],[oklahoma city_ok:cityid/3],[jackson_ms:cityid/3],[nashville_tn:cityid/3],[little rock_ar:cityid/3],[austin_tx:cityid/3],[santa fe_nm:cityid/3],[topeka_ks:cityid/3],[denver_co:cityid/3]} | answer(A,(capital(A),loc(A,B),state(B),next_to(B,C),state(C),next_to(C,D),const(D,stateid(texas))))
+        Example tmp_n06b7h6.dlog:2: query => {[delaware:riverid/2],[hudson:riverid/2],[allegheny:riverid/2]} | answer(A,(river(A),traverse(A,B),largest(C,(state(B),loc(C,B),city(C),loc(C,D),const(D,countryid(usa))))))
+        Example tmp_n06b7h6.dlog:3: query => {[texas:stateid/2]} | answer(A,largest(A,(state(A),const(B,riverid('rio grande')),traverse(B,A))))
+        Example tmp_n06b7h6.dlog:4: query => {[nevada:stateid/2],[utah:stateid/2],[oregon:stateid/2],[idaho:stateid/2],[colorado:stateid/2],[wyoming:stateid/2],[new mexico:stateid/2],[alaska:stateid/2],[washington:stateid/2],[california:stateid/2],[hawaii:stateid/2],[montana:stateid/2],[arizona:stateid/2]} | answer(A,(state(A),place(B),loc(B,A),higher(B,C),highest(C,(place(C),loc(C,D),const(D,stateid(texas))))))
+        Example tmp_n06b7h6.dlog:5: query => {[louisiana:stateid/2]} | answer(A,lowest(B,(state(A),traverse(C,A),const(C,riverid(mississippi)),loc(B,A),place(B))))
+        Example tmp_n06b7h6.dlog:6: query => {[nevada:stateid/2],[arizona:stateid/2],[oregon:stateid/2]} | answer(A,(state(A),next_to(B,A),largest(C,(state(B),population(B,C)))))
+        Example tmp_n06b7h6.dlog:7: query => {[nevada:stateid/2],[utah:stateid/2],[oregon:stateid/2],[idaho:stateid/2],[colorado:stateid/2],[new mexico:stateid/2],[washington:stateid/2],[california:stateid/2],[arizona:stateid/2]} | answer(A,(state(A),next_to(A,B),state(B),next_to(B,C),largest(D,(state(C),population(C,D)))))
+        Example tmp_n06b7h6.dlog:8: query => {[alaska:stateid/2]} | answer(A,(state(A),loc(B,A),highest(B,(place(B),loc(B,C),const(C,countryid(usa))))))
+        Example tmp_n06b7h6.dlog:9: query => {[401800count]} | answer(A,(population(B,A),largest(C,(state(B),area(B,C)))))
+        Example tmp_n06b7h6.dlog:10: query => {[6194length]} | answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,countryid(usa))))))
+        Example tmp_n06b7h6.dlog:11: query => {[0count]} | answer(A,count(B,(river(B),loc(B,C),state(C),loc(D,C),highest(D,place(D))),A))
+        Example tmp_n06b7h6.dlog:12: query => {[638333count]} | answer(A,(population(B,A),capital(B),loc(B,C),smallest(C,state(C))))
+        Example tmp_n06b7h6.dlog:13: query => {[iowa:stateid/2]} | answer(A,smallest(A,(state(A),longest(B,river(B)),traverse(B,A))))
+        Example tmp_n06b7h6.dlog:14: query => {[alaska:stateid/2],[california:stateid/2]} | answer(A,(state(A),loc(B,A),place(B),higher(B,C),highest(C,(place(C),loc(C,D),const(D,stateid(colorado))))))
+        Example tmp_n06b7h6.dlog:15: query => {[690767count]} | answer(A,(population(B,A),smallest(B,(state(B),next_to(B,C),const(C,stateid(wyoming))))))
+        Example tmp_n06b7h6.dlog:16: query => {[missouri:riverid/2]} | answer(A,longest(A,(river(A),traverse(A,B),const(B,countryid(usa)))))
+        Example tmp_n06b7h6.dlog:17: query => {[1.01e-04count/length^2]} | answer(A,(density(B,A),const(B,stateid(pennsylvania))))
+        Example tmp_n06b7h6.dlog:18: query => {[kentucky:stateid/2],[virginia:stateid/2],[mississippi:stateid/2],[louisiana:stateid/2],[alabama:stateid/2],[georgia:stateid/2],[missouri:stateid/2],[tennessee:stateid/2],[south carolina:stateid/2],[arkansas:stateid/2],[north carolina:stateid/2],[florida:stateid/2]} | answer(A,(state(A),next_to(A,B),state(B),next_to(B,C),state(C),next_to(C,D),const(D,stateid(florida))))
+        Example tmp_n06b7h6.dlog:19: query => {[baton rouge_la:cityid/3],[santa fe_nm:cityid/3],[oklahoma city_ok:cityid/3],[little rock_ar:cityid/3]} | answer(A,(capital(A),loc(A,B),state(B),next_to(B,C),const(C,stateid(texas))))
+        Example tmp_n06b7h6.dlog:20: query => {[6194length]} | answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),state(C)))))
+        Example tmp_n06b7h6.dlog:21: query => {[waukegan_il:cityid/3],[evanston_il:cityid/3],[peoria_il:cityid/3],[oak lawn_il:cityid/3],[rockford_il:cityid/3],[cicero_il:cityid/3],[champaign_il:cityid/3],[arlington heights_il:cityid/3],[skokie_il:cityid/3],[joliet_il:cityid/3],[springfield_il:cityid/3],[aurora_il:cityid/3],[decatur_il:cityid/3],[elgin_il:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),const(B,stateid(illinois))))
+        Example tmp_n06b7h6.dlog:22: query => {[alaska:stateid/2]} | answer(A,highest(B,(state(A),loc(B,A),mountain(B))))
+        Example tmp_n06b7h6.dlog:23: query => {[225195124count]} | answer(A,sum(B,state(B),population(B),A))
+        Example tmp_n06b7h6.dlog:24: query => {[wabash:riverid/2],[ohio:riverid/2]} | answer(A,(river(A),loc(A,B),state(B),const(B,stateid(indiana))))
+        Example tmp_n06b7h6.dlog:25: query => {[colorado:stateid/2]} | answer(A,(state(A),most(A,B,(state(A),loc(B,A),river(B)))))
+        Example tmp_n06b7h6.dlog:26: query => {[minneapolis_mn:cityid/3]} | answer(A,largest(B,(city(A),loc(A,C),const(C,stateid(minnesota)),population(A,B))))
+        Example tmp_n06b7h6.dlog:27: query => {[arizona:stateid/2],[nevada:stateid/2],[oregon:stateid/2]} | answer(A,(state(A),next_to(A,B),most(B,C,(state(B),loc(C,B),city(C)))))
+        Example tmp_n06b7h6.dlog:28: query => {[west virginia:stateid/2],[virginia:stateid/2],[district of columbia:stateid/2],[maryland:stateid/2]} | answer(A,(state(A),const(B,riverid(potomac)),traverse(B,A)))
+        Example tmp_n06b7h6.dlog:29: query => {[allegheny:riverid/2]} | answer(A,longest(A,(river(A),traverse(A,B),const(B,stateid('new york')))))
+        Example tmp_n06b7h6.dlog:30: query => {[18count]} | answer(A,count(B,(major(B),city(B),loc(B,C),state(C),next_to(C,D),const(D,stateid(nebraska))),A))
+        Example tmp_n06b7h6.dlog:31: query => {[new jersey:stateid/2]} | answer(A,largest(B,(state(A),density(A,B))))
+        Example tmp_n06b7h6.dlog:32: query => {[new york:stateid/2]} | answer(A,(state(A),loc(B,A),largest(C,(city(B),population(B,C)))))
+        Example tmp_n06b7h6.dlog:33: query => {[5count]} | answer(A,count(B,(state(B),const(C,riverid(colorado)),river(C),traverse(C,B)),A))
+        Example tmp_n06b7h6.dlog:34: query => {[anchorage_ak:cityid/3]} | answer(A,smallest(A,(city(A),loc(A,B),largest(B,state(B)))))
+        Example tmp_n06b7h6.dlog:35: query => {[louisiana:stateid/2]} | answer(A,smallest(B,(state(A),area(A,B),next_to(A,C),const(C,stateid(texas)))))
+        Example tmp_n06b7h6.dlog:36: query => {[magazine mountain:placeid/2],[cheaha mountain:placeid/2],[clingmans dome:placeid/2],[driskill mountain:placeid/2]} | answer(A,(high_point(B,A),loc(A,B),state(B),next_to(B,C),const(C,stateid(mississippi))))
+        Example tmp_n06b7h6.dlog:37: query => {[missouri:riverid/2]} | answer(A,longest(A,(river(A),loc(A,B),const(B,countryid(usa)))))
+        Example tmp_n06b7h6.dlog:38: query => {[tenleytown:placeid/2]} | answer(A,highest(A,(place(A),loc(A,B),smallest(B,state(B)))))
+        Example tmp_n06b7h6.dlog:39: query => {} | answer(A,(state(A),next_to(A,B),smallest(C,(state(B),population(B,C)))))
+        Example tmp_n06b7h6.dlog:40: query => {[31count]} | answer(A,count(B,(state(B),next_to(B,C),major(C),river(C)),A))
+        Example tmp_n06b7h6.dlog:41: query => {[3901length]} | answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,stateid(montana))))))
+        Example tmp_n06b7h6.dlog:42: query => {[death valley:placeid/2]} | answer(A,lowest(A,(place(A),loc(A,B),const(B,countryid(usa)))))
+        Example tmp_n06b7h6.dlog:43: query => {[casper_wy:cityid/3]} | answer(A,largest(B,(population(A,B),city(A),loc(A,C),const(C,stateid(wyoming)))))
+        Example tmp_n06b7h6.dlog:44: query => {} | answer(A,(population(B,A),const(B,cityid(springfield,sd))))
+        Example tmp_n06b7h6.dlog:45: query => {[iowa:stateid/2],[wisconsin:stateid/2],[kentucky:stateid/2],[mississippi:stateid/2],[minnesota:stateid/2],[louisiana:stateid/2],[missouri:stateid/2],[illinois:stateid/2],[tennessee:stateid/2],[arkansas:stateid/2]} | answer(A,(state(A),const(B,riverid(mississippi)),river(B),traverse(B,A)))
+        Example tmp_n06b7h6.dlog:46: query => {[401800count]} | answer(A,(population(B,A),largest(B,state(B))))
+        Example tmp_n06b7h6.dlog:47: query => {[2count]} | answer(A,count(B,(state(B),loc(C,B),const(C,cityid(rochester,_))),A))
+        Example tmp_n06b7h6.dlog:48: query => {[9.83e+12length^2]} | answer(A,(area(B,A),const(B,countryid(usa))))
+        Example tmp_n06b7h6.dlog:49: query => {[scotts valley_ca:cityid/3]} | answer(A,smallest(B,(city(A),population(A,B))))
+        Example tmp_n06b7h6.dlog:50: query => {[163length]} | answer(A,(elevation(B,A),highest(B,(place(B),loc(B,C),const(C,stateid(louisiana))))))
+        Example tmp_n06b7h6.dlog:51: query => {[pontchartrain:lakeid/2]} | answer(A,(lake(A),loc(A,B),state(B),next_to(B,C),const(C,stateid(texas))))
+        Example tmp_n06b7h6.dlog:52: query => {[mount mckinley:placeid/2]} | answer(A,highest(A,(place(A),loc(A,B),const(B,countryid(usa)))))
+        Example tmp_n06b7h6.dlog:53: query => {[missouri:riverid/2]} | answer(A,longest(A,(river(A),loc(A,B),const(B,countryid(usa)))))
+        Example tmp_n06b7h6.dlog:54: query => {[46count]} | answer(A,count(B,(river(B),loc(B,C),const(C,countryid(usa))),A))
+        Example tmp_n06b7h6.dlog:55: query => {[new jersey:stateid/2]} | answer(A,largest(B,(state(A),density(A,B))))
+        Example tmp_n06b7h6.dlog:56: query => {[425022count]} | answer(A,(population(B,A),const(B,cityid(atlanta,_))))
+        Example tmp_n06b7h6.dlog:57: query => {[mckinley:mountainid/2]} | answer(A,highest(A,(mountain(A),loc(A,B),const(B,stateid(alaska)))))
+        Example tmp_n06b7h6.dlog:58: query => {[new jersey:stateid/2]} | answer(A,largest(B,(state(A),density(A,B))))
+        Example tmp_n06b7h6.dlog:59: query => {[lawton_ok:cityid/3],[norman_ok:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),const(B,stateid(oklahoma))))
+        Example tmp_n06b7h6.dlog:60: query => {[2913000count]} | answer(A,(population(B,A),const(B,stateid(iowa))))
+        Example tmp_n06b7h6.dlog:61: query => {[435count]} | answer(A,count(B,(city(B),loc(B,C),const(C,countryid(usa))),A))
+        Example tmp_n06b7h6.dlog:62: query => {[independence_mo:cityid/3],[springfield_mo:cityid/3],[columbia_mo:cityid/3],[st. joseph_mo:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),const(B,stateid(missouri))))
+        Example tmp_n06b7h6.dlog:63: query => {[8.06e+10length^2]} | answer(A,(area(B,A),const(B,stateid('south carolina'))))
+        Example tmp_n06b7h6.dlog:64: query => {[947200count]} | answer(A,(population(B,A),const(B,stateid('rhode island'))))
+        Example tmp_n06b7h6.dlog:65: query => {[3count]} | answer(A,count(B,(river(B),loc(B,C),const(C,stateid('new york'))),A))
+        Example tmp_n06b7h6.dlog:66: query => {[lakewood_oh:cityid/3],[springfield_oh:cityid/3],[lorain_oh:cityid/3],[kettering_oh:cityid/3],[euclid_oh:cityid/3],[youngstown_oh:cityid/3],[elyria_oh:cityid/3],[parma_oh:cityid/3],[hamilton_oh:cityid/3],[canton_oh:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),const(B,stateid(ohio))))
+        Example tmp_n06b7h6.dlog:67: query => {[new jersey:stateid/2],[new york:stateid/2],[vermont:stateid/2],[delaware:stateid/2],[iowa:stateid/2],[wisconsin:stateid/2],[nevada:stateid/2],[kentucky:stateid/2],[utah:stateid/2],[massachusetts:stateid/2],[oregon:stateid/2],[virginia:stateid/2],[indiana:stateid/2],[new hampshire:stateid/2],[south dakota:stateid/2],[mississippi:stateid/2],[minnesota:stateid/2],[idaho:stateid/2],[colorado:stateid/2],[district of columbia:stateid/2],[louisiana:stateid/2],[alabama:stateid/2],[north dakota:stateid/2],[wyoming:stateid/2],[pennsylvania:stateid/2],[georgia:stateid/2],[michigan:stateid/2],[missouri:stateid/2],[texas:stateid/2],[illinois:stateid/2],[tennessee:stateid/2],[south carolina:stateid/2],[new mexico:stateid/2],[oklahoma:stateid/2],[arkansas:stateid/2],[washington:stateid/2],[connecticut:stateid/2],[kansas:stateid/2],[california:stateid/2],[nebraska:stateid/2],[ohio:stateid/2],[north carolina:stateid/2],[florida:stateid/2],[west virginia:stateid/2],[montana:stateid/2],[maryland:stateid/2],[arizona:stateid/2]} | answer(A,(state(A),loc(B,A),river(B),traverse(B,A)))
+        Example tmp_n06b7h6.dlog:68: query => {[pecos:riverid/2],[washita:riverid/2]} | answer(A,shortest(A,(river(A),loc(A,B),const(B,stateid(texas)))))
+        Example tmp_n06b7h6.dlog:69: query => {[granite peak:placeid/2]} | answer(A,highest(A,(place(A),loc(A,B),const(B,stateid(montana)))))
+        Example tmp_n06b7h6.dlog:70: query => {[guadalupe peak:placeid/2]} | answer(A,highest(A,(place(A),loc(A,B),const(B,stateid(texas)))))
+        Example tmp_n06b7h6.dlog:71: query => {[alaska:stateid/2]} | answer(A,smallest(B,(state(A),density(A,B))))
+        Example tmp_n06b7h6.dlog:72: query => {[435count]} | answer(A,count(B,(city(B),loc(B,C),const(C,countryid(usa))),A))
+        Example tmp_n06b7h6.dlog:73: query => {[new mexico:stateid/2]} | answer(A,largest(A,(state(A),next_to(A,B),const(B,stateid(texas)))))
+        Example tmp_n06b7h6.dlog:74: query => {[ohio:stateid/2],[indiana:stateid/2],[wisconsin:stateid/2]} | answer(A,(next_to(A,B),state(A),const(B,stateid(michigan))))
+        Example tmp_n06b7h6.dlog:75: query => {[death valley:placeid/2]} | answer(A,lowest(A,(place(A),loc(A,B),const(B,stateid(california)))))
+        Example tmp_n06b7h6.dlog:76: query => {[iowa:stateid/2],[wisconsin:stateid/2],[kentucky:stateid/2],[mississippi:stateid/2],[minnesota:stateid/2],[louisiana:stateid/2],[missouri:stateid/2],[illinois:stateid/2],[tennessee:stateid/2],[arkansas:stateid/2]} | answer(A,(state(A),const(B,riverid(mississippi)),traverse(B,A)))
+        Example tmp_n06b7h6.dlog:77: query => {[mississippi:riverid/2]} | answer(A,most(A,B,(river(A),traverse(A,B),state(B))))
+        Example tmp_n06b7h6.dlog:78: query => {[iowa:stateid/2]} | answer(A,(state(A),const(B,cityid('des moines',_)),loc(B,A)))
+        Example tmp_n06b7h6.dlog:79: query => {[san angelo_tx:cityid/3],[richardson_tx:cityid/3],[amarillo_tx:cityid/3],[grand prairie_tx:cityid/3],[waco_tx:cityid/3],[beaumont_tx:cityid/3],[longview_tx:cityid/3],[irving_tx:cityid/3],[brownsville_tx:cityid/3],[mesquite_tx:cityid/3],[pasadena_tx:cityid/3],[wichita falls_tx:cityid/3],[laredo_tx:cityid/3],[mcallen_tx:cityid/3],[abilene_tx:cityid/3],[garland_tx:cityid/3],[plano_tx:cityid/3],[odessa_tx:cityid/3],[midland_tx:cityid/3],[port arthur_tx:cityid/3],[tyler_tx:cityid/3]} | answer(A,(major(A),city(A),loc(A,B),const(B,stateid(texas))))
+        Example tmp_n06b7h6.dlog:80: query => {[275741count]} | answer(A,(population(B,A),const(B,cityid(sacramento,_))))
+        Example tmp_n06b7h6.dlog:81: query => {[alaska:stateid/2]} | answer(A,smallest(B,(state(A),population(A,B))))
+        Example tmp_n06b7h6.dlog:82: query => {[4count]} | answer(A,count(B,(river(B),loc(B,C),const(C,stateid(missouri))),A))
+        Example tmp_n06b7h6.dlog:83: query => {[alaska:stateid/2]} | answer(A,(loc(B,A),state(A),const(B,placeid('mount mckinley'))))
+        Example tmp_n06b7h6.dlog:84: query => {[new york:stateid/2]} | answer(A,largest(B,(state(A),loc(B,A),city(B))))
+        Example tmp_n06b7h6.dlog:85: query => {[10count]} | answer(A,count(B,(river(B),loc(B,C),const(C,stateid(colorado))),A))
+        Example tmp_n06b7h6.dlog:86: query => {} | answer(A,(major(A),river(A),loc(A,B),const(B,stateid(texas))))
+        Example tmp_n06b7h6.dlog:87: query => {[richmond_va:cityid/3],[norfolk_va:cityid/3],[alexandria_va:cityid/3],[portsmouth_va:cityid/3],[newport news_va:cityid/3],[lynchburg_va:cityid/3],[hampton_va:cityid/3],[virginia beach_va:cityid/3],[chesapeake_va:cityid/3],[roanoke_va:cityid/3],[arlington_va:cityid/3]} | answer(A,(city(A),loc(A,B),const(B,stateid(virginia))))
+        Example tmp_n06b7h6.dlog:88: query => {[279count]} | answer(A,count(B,(major(B),city(B)),A))
+        Example tmp_n06b7h6.dlog:89: query => {[786700count]} | answer(A,(population(B,A),const(B,stateid(montana))))
+        Example tmp_n06b7h6.dlog:90: query => {[louisiana:stateid/2],[texas:stateid/2],[new mexico:stateid/2],[oklahoma:stateid/2],[arkansas:stateid/2]} | answer(A,(state(A),loc(B,A),const(B,riverid(red)),river(B)))
+        Example tmp_n06b7h6.dlog:91: query => {[gila:riverid/2],[pecos:riverid/2],[cimarron:riverid/2],[rio grande:riverid/2],[canadian:riverid/2],[red:riverid/2],[san juan:riverid/2]} | answer(A,(river(A),loc(A,B),const(B,stateid('new mexico'))))
+        Example tmp_n06b7h6.dlog:92: query => {[oxnard_ca:cityid/3],[santa barbara_ca:cityid/3],[buena park_ca:cityid/3],[downey_ca:cityid/3],[concord_ca:cityid/3],[orange_ca:cityid/3],[pomona_ca:cityid/3],[san jose_ca:cityid/3],[vallejo_ca:cityid/3],[san bernardino_ca:cityid/3],[san leandro_ca:cityid/3],[long beach_ca:cityid/3],[modesto_ca:cityid/3],[richmond_ca:cityid/3],[westminster_ca:cityid/3],[mountain view_ca:cityid/3],[santa clara_ca:cityid/3],[citrus heights_ca:cityid/3],[oakland_ca:cityid/3],[carson_ca:cityid/3],[glendale_ca:cityid/3],[san diego_ca:cityid/3],[los angeles_ca:cityid/3],[oceanside_ca:cityid/3],[south gate_ca:cityid/3],[san francisco_ca:cityid/3],[riverside_ca:cityid/3],[fresno_ca:cityid/3],[stockton_ca:cityid/3],[scotts valley_ca:cityid/3],[garden grove_ca:cityid/3],[east los angeles_ca:cityid/3],[ontario_ca:cityid/3],[alhambra_ca:cityid/3],[costa mesa_ca:cityid/3],[irvine_ca:cityid/3],[hayward_ca:cityid/3],[santa monica_ca:cityid/3],[santa rosa_ca:cityid/3],[el cajon_ca:cityid/3],[west covina_ca:cityid/3],[chula vista_ca:cityid/3],[redondo beach_ca:cityid/3],[burbank_ca:cityid/3],[berkeley_ca:cityid/3],[inglewood_ca:cityid/3],[alameda_ca:cityid/3],[san mateo_ca:cityid/3],[el monte_ca:cityid/3],[sunnyvale_ca:cityid/3],[fairfield_ca:cityid/3],[newport beach_ca:cityid/3],[sacramento_ca:cityid/3],[ventura_ca:cityid/3],[bakersfield_ca:cityid/3],[thousand oaks_ca:cityid/3],[fremont_ca:cityid/3],[anaheim_ca:cityid/3],[torrance_ca:cityid/3],[lakewood_ca:cityid/3],[simi valley_ca:cityid/3],[santa ana_ca:cityid/3],[compton_ca:cityid/3],[whittier_ca:cityid/3],[fullerton_ca:cityid/3],[daly city_ca:cityid/3],[salinas_ca:cityid/3],[norwalk_ca:cityid/3],[pasadena_ca:cityid/3],[escondido_ca:cityid/3],[huntington beach_ca:cityid/3]} | answer(A,(city(A),loc(A,B),const(B,stateid(california))))
+        Example tmp_n06b7h6.dlog:93: query => {[964000count]} | answer(A,(population(B,A),const(B,stateid(hawaii))))
+        Example tmp_n06b7h6.dlog:94: query => {[honolulu_hi:cityid/3]} | answer(A,(capital(A),loc(A,B),const(B,stateid(hawaii))))
+        Example tmp_n06b7h6.dlog:95: query => {[23670000count]} | answer(A,(population(B,A),const(B,stateid(california))))
+        Example tmp_n06b7h6.dlog:96: query => {[salt lake city_ut:cityid/3]} | answer(A,(capital(A),loc(A,B),const(B,stateid(utah))))
+        Example tmp_n06b7h6.dlog:97: query => {[austin_tx:cityid/3]} | answer(A,(capital(A),loc(A,B),const(B,stateid(texas))))
+        Example tmp_n06b7h6.dlog:98: query => {[atlanta_ga:cityid/3]} | answer(A,(capital(A),loc(A,B),const(B,stateid(georgia))))
+        Example tmp_n06b7h6.dlog:99: query => {[new jersey:stateid/2],[new york:stateid/2],[vermont:stateid/2],[delaware:stateid/2],[iowa:stateid/2],[wisconsin:stateid/2],[nevada:stateid/2],[kentucky:stateid/2],[utah:stateid/2],[massachusetts:stateid/2],[oregon:stateid/2],[virginia:stateid/2],[indiana:stateid/2],[new hampshire:stateid/2],[south dakota:stateid/2],[mississippi:stateid/2],[minnesota:stateid/2],[rhode island:stateid/2],[maine:stateid/2],[idaho:stateid/2],[colorado:stateid/2],[district of columbia:stateid/2],[alabama:stateid/2],[north dakota:stateid/2],[wyoming:stateid/2],[pennsylvania:stateid/2],[georgia:stateid/2],[michigan:stateid/2],[missouri:stateid/2],[texas:stateid/2],[illinois:stateid/2],[tennessee:stateid/2],[south carolina:stateid/2],[alaska:stateid/2],[washington:stateid/2],[connecticut:stateid/2],[kansas:stateid/2],[california:stateid/2],[nebraska:stateid/2],[ohio:stateid/2],[north carolina:stateid/2],[florida:stateid/2],[west virginia:stateid/2],[hawaii:stateid/2],[montana:stateid/2],[maryland:stateid/2],[arizona:stateid/2]} | answer(A,(state(A),\+(next_to(A,B),const(B,stateid(texas)))))
+        Example tmp_n06b7h6.dlog:100: query => {[1461000count]} | answer(A,(population(B,A),const(B,stateid(utah))))
+        Example tmp_n06b7h6.dlog:101: query => {[369200000length^2]} | answer(A,(area(B,A),const(B,cityid(seattle,_))))
+        Example tmp_n06b7h6.dlog:102: query => {[alaska:stateid/2],[hawaii:stateid/2]} | answer(A,fewest(A,B,(state(A),next_to(A,B),state(B))))
+        Example tmp_n06b7h6.dlog:103: query => {[3033000length]} | answer(A,(len(B,A),const(B,riverid('rio grande'))))
+        Example tmp_n06b7h6.dlog:104: query => {[delaware:stateid/2]} | answer(A,(state(A),capital(A,B),const(B,cityid(dover,_))))
+        Example tmp_n06b7h6.dlog:105: query => {[new jersey:stateid/2],[vermont:stateid/2],[massachusetts:stateid/2],[pennsylvania:stateid/2],[connecticut:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid('new york'))))
+        Example tmp_n06b7h6.dlog:106: query => {[missouri:riverid/2]} | answer(A,longest(A,river(A)))
+        Example tmp_n06b7h6.dlog:107: query => {[alaska:stateid/2]} | answer(A,largest(A,state(A)))
+        Example tmp_n06b7h6.dlog:108: query => {} | answer(A,(state(A),next_to(A,B),const(B,stateid(hawaii))))
+        Example tmp_n06b7h6.dlog:109: query => {[georgia:stateid/2],[alabama:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(florida))))
+        Example tmp_n06b7h6.dlog:110: query => {[new york_ny:cityid/3]} | answer(A,largest(A,city(A)))
+        Example tmp_n06b7h6.dlog:111: query => {[arkansas:stateid/2],[louisiana:stateid/2],[new mexico:stateid/2],[oklahoma:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(texas))))
+        Example tmp_n06b7h6.dlog:112: query => {[pennsylvania:stateid/2],[new jersey:stateid/2],[maryland:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(delaware))))
+        Example tmp_n06b7h6.dlog:113: query => {[virginia:stateid/2],[indiana:stateid/2],[missouri:stateid/2],[illinois:stateid/2],[tennessee:stateid/2],[ohio:stateid/2],[west virginia:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(kentucky))))
+        Example tmp_n06b7h6.dlog:114: query => {[wisconsin:stateid/2],[south dakota:stateid/2],[minnesota:stateid/2],[missouri:stateid/2],[illinois:stateid/2],[nebraska:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(iowa))))
+        Example tmp_n06b7h6.dlog:115: query => {[louisiana:stateid/2],[usa:countryid/2]} | answer(A,(loc(B,A),const(B,cityid('new orleans',_))))
+        Example tmp_n06b7h6.dlog:116: query => {[usa:countryid/2]} | answer(A,(loc(B,A),const(B,stateid(massachusetts))))
+        Example tmp_n06b7h6.dlog:117: query => {[wisconsin:stateid/2],[south dakota:stateid/2],[minnesota:stateid/2],[missouri:stateid/2],[illinois:stateid/2],[nebraska:stateid/2]} | answer(A,(state(A),next_to(A,B),const(B,stateid(iowa))))
+        Example tmp_n06b7h6.dlog:118: query => {[indiana:stateid/2],[usa:countryid/2]} | answer(A,(loc(B,A),const(B,cityid(indianapolis,_))))
+        Example tmp_n06b7h6.dlog:119: query => {[usa:countryid/2],[texas:stateid/2]} | answer(A,(loc(B,A),const(B,cityid(austin,_))))
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO EXECUTE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+        Example FAILED TO PARSE
+      } [1.3s, cum. 3.7s]
+    } [3.7s, cum. 3.7s]
+    Randomly splitting 120 general examples
+    84 training examples, 36 test examples
+  } [3.7s, cum. 3.8s]
+  Execution directory: /Users/keivaunwaugh/Documents/nlp/nlp-project-2/state/execs/6.exec
+} [3.8s]
