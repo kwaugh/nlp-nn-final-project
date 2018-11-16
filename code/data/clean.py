@@ -1,6 +1,6 @@
 import string
 import re
-from pickle import dump, load
+from pickle import dump
 from unicodedata import normalize
 from collections import Counter
 
@@ -34,12 +34,12 @@ def clean_lines(lines):
 print("Starting cleaning")
 
 doc = load_doc('europarl-v7.fr-en.en')
-en_sentences = doc.strip().split('\n')
-en_sentences = clean_lines(en_sentences)
+en_lines = doc.strip().split('\n')
+en_lines = clean_lines(en_lines)
 
 doc = load_doc('europarl-v7.fr-en.fr')
-fr_sentences = doc.strip().split('\n')
-fr_sentences = clean_lines(fr_sentences)
+fr_lines = doc.strip().split('\n')
+fr_lines = clean_lines(fr_lines)
 
 """ 2. Vocab reduction """
 # create a frequency table for all words
@@ -73,13 +73,15 @@ def update_dataset(lines, vocab):
 print("Starting reduction")
 
 en_filename = 'en.pkl'
-en_vocab = to_vocab(en_sentences)
+en_vocab = to_vocab(en_lines)
 en_vocab = trim_vocab(en_vocab, 5)
-en_sentences = update_dataset(en_sentences, en_vocab)
-dump(en_sentences, open(en_filename, 'wb'))
+en_lines = update_dataset(en_lines, en_vocab)
+with open(en_filename, 'wb') as f:
+    dump(en_lines, f)
 
 fr_filename = 'fr.pkl'
-fr_vocab = to_vocab(fr_sentences)
+fr_vocab = to_vocab(fr_lines)
 fr_vocab = trim_vocab(fr_vocab, 5)
-fr_sentences = update_dataset(fr_sentences, fr_vocab)
-dump(fr_sentences, open(fr_filename, 'wb'))
+fr_lines = update_dataset(fr_lines, fr_vocab)
+with open(fr_filename, 'wb') as f:
+    dump(fr_lines, f)
