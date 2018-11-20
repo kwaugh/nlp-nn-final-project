@@ -98,6 +98,11 @@ with open(en_filename, 'w') as en_f:
 
             if not en_line or not fr_line:
                 continue
+        
+            en_dot_idx = en_line.find('.')
+            fr_dot_idx = fr_line.find('.')
+            if (en_dot_idx >= 0 and en_dot_idx != len(en_line) - 1)  or (fr_dot_idx >= 0 and fr_dot_idx != len(fr_line) - 1):
+                continue
             
             if en_line[-1] not in string.punctuation:
                 en_line = en_line + "."
