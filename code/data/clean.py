@@ -4,7 +4,10 @@ from unicodedata import normalize
 from collections import Counter
 
 # Acknowledgments:
-# this code was adapted from https://machinelearningmastery.com/prepare-french-english-dataset-machine-translation/
+# this code was adapted from
+# https://machinelearningmastery.com/prepare-french-english-dataset-machine-translation/
+
+valid_punctuation = '.?!'
 
 """ 1. Cleaning """
 # load doc into memory
@@ -99,15 +102,17 @@ with open(en_filename, 'w') as en_f:
             if not en_line or not fr_line:
                 continue
         
+            # ignore all training pairs that have more than one period in them
             en_dot_idx = en_line.find('.')
             fr_dot_idx = fr_line.find('.')
-            if (en_dot_idx >= 0 and en_dot_idx != len(en_line) - 1)  or (fr_dot_idx >= 0 and fr_dot_idx != len(fr_line) - 1):
+            if (en_dot_idx >= 0 and en_dot_idx != len(en_line) - 1)  or \
+                    (fr_dot_idx >= 0 and fr_dot_idx != len(fr_line) - 1):
                 continue
             
-            if en_line[-1] not in string.punctuation:
-                en_line = en_line + "."
-            if fr_line[-1] not in string.punctuation:
-                fr_line = fr_line + "."
+            # the line has gotta end in some type of punctuation
+            if en_line[-1] not in valid_punctuation or \
+                    fr_line[-1] not in valid_punctuation:
+                        continue
 
             en_f.write("%s\n" % en_line)
             fr_f.write("%s\n" % fr_line)
