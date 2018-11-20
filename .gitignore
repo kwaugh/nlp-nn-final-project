@@ -4,3 +4,5 @@ proposal.blg
 proposal.log
 proposal.pdf
 .DS_Store
+code/data/europarl-v7.fr-en.en
+code/data/europarl-v7.fr-en.fr
