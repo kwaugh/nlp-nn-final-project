@@ -99,7 +99,7 @@ with open(en_filename, 'w') as en_f:
             en_line = en_lines[idx]
             fr_line = fr_lines[idx]
 
-            if not en_line or not fr_line:
+            if not en_line or not fr_line or len(en_line) < 2 or len(fr_len) < 2:
                 continue
         
             # ignore all training pairs that have more than one period in them
