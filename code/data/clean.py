@@ -17,6 +17,11 @@ def load_doc(filename):
         text = f.read()
     return text
 
+# True if char is in line and isn't at the end of the line
+def char_in_middle_of_line(line, char):
+    char_idx = line.find(char)
+    return char_idx >= 0 and char_idx != len(line) - 1
+
 # clean a list of lines
 def clean_lines(lines):
     cleaned = list()
@@ -99,20 +104,28 @@ with open(en_filename, 'w') as en_f:
             en_line = en_lines[idx]
             fr_line = fr_lines[idx]
 
-            if not en_line or not fr_line or len(en_line) < 2 or len(fr_len) < 2:
+            if not en_line or not fr_line or len(en_line) < 2 or len(fr_line) < 2:
                 continue
         
             # ignore all training pairs that have more than one period in them
-            en_dot_idx = en_line.find('.')
-            fr_dot_idx = fr_line.find('.')
-            if (en_dot_idx >= 0 and en_dot_idx != len(en_line) - 1)  or \
-                    (fr_dot_idx >= 0 and fr_dot_idx != len(fr_line) - 1):
+            should_continue = False
+            for char in valid_punctuation:
+                if char_in_middle_of_line(en_line, char) or \
+                    char_in_middle_of_line(fr_line, char):
+                        should_continue = True
+                        break
+            if should_continue:
                 continue
             
             # the line has gotta end in some type of punctuation
             if en_line[-1] not in valid_punctuation or \
                     fr_line[-1] not in valid_punctuation:
                         continue
+
+            # the parser is dumb and doesn't handle sentences that end with a
+            # single alphabet character
+            if en_line[-2].isalpha() and en_line[-3] == ' ':
+                continue
 
             en_f.write("%s\n" % en_line)
             fr_f.write("%s\n" % fr_line)
