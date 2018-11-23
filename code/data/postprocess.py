@@ -18,8 +18,9 @@ def make_input_output_match(input_file_name, output_file_name):
             # places like apostrophes, so let's compare that version of the
             # sentences
             num_diff = 0
-            sanitized_input = []
-            sanitized_output = []
+            good_indices = []
+            #print('len(input_lines): {}'.format(len(input_lines)))
+            #print('len(output_lines): {}'.format(len(output_lines)))
             while input_idx < len(input_lines) and output_idx < len(output_lines):
                 in_line = input_lines[input_idx].strip().replace(' ', '')
                 out_line = parse_to_sentence(
@@ -29,6 +30,7 @@ def make_input_output_match(input_file_name, output_file_name):
                 # close parenthesis. This is good enough.
                 if in_line != out_line and abs(len(in_line) - len(out_line)) > 2:
                     ''' useful for debugging
+                    print('input_idx: {}'.format(input_idx))
                     print('in_line:  {}'.format(in_line))
                     print('out_line: {}'.format(out_line))
                     foo = list(parse_to_sentence(output_lines[output_idx]))
@@ -42,7 +44,7 @@ def make_input_output_match(input_file_name, output_file_name):
                         print('output_idx: {}'.format(output_idx))
                         print('EXITING')
                         exit()
-                    '''
+                    # '''
                     num_diff += 1
                     if len(in_line) > len(out_line):
                         input_idx += 1
@@ -51,29 +53,58 @@ def make_input_output_match(input_file_name, output_file_name):
                         input_idx += 2
                         output_idx += 1
                 else:
-                    sanitized_input.append(input_lines[input_idx])
-                    sanitized_output.append(output_lines[output_idx])
+                    good_indices.append(input_idx)
                     input_idx += 1
                     output_idx += 1
             print('num_diff: {}'.format(num_diff))
             # write the good input/output pairs to a file
-    return sanitized_input, sanitized_output
+    return set(good_indices)
 
 if __name__ == '__main__':
-    for i in range(0, 11):
+    for i in range(0, 12):
+        english_input_file = 'en_splits/{}.txt'.format(i)
+        english_output_file = 'en_out/{}.txt'.format(i)
+        french_input_file = 'fr_splits/{}.txt'.format(i)
+        french_output_file = 'fr_out/{}.txt'.format(i)
+
+        good_english_indices = make_input_output_match(
+                english_input_file, english_output_file)
+        good_french_indices = make_input_output_match(
+                french_input_file, french_output_file)
+
+        good_indices = good_english_indices.intersection(good_french_indices)
+        old_english_input = []
+        old_english_output = []
+        old_french_input = []
+        old_french_output = []
+
+        # get the old data
+        with open(english_input_file) as f:
+            old_english_input = f.readlines()
+        with open(english_output_file) as f:
+            old_english_output = f.readlines()
+        with open(french_input_file) as f:
+            old_french_input = f.readlines()
+        with open(french_output_file) as f:
+            old_french_output = f.readlines()
+
+        print('num_thrown_away: {}'.format(
+            len(old_english_input) - len(good_indices)))
+
+        # save the new data on top
+        #'''
+        with open('postprocess/' + english_input_file, 'w') as f:
+            for idx in good_indices:
+                f.write('%s' % old_english_input[idx])
+        with open('postprocess/' + french_input_file, 'w') as f:
+            for idx in good_indices:
+                f.write('%s' % old_french_input[idx])
+        #'''
         '''
-        input_file_name = 'en_splits/{}.txt'.format(i)
-        output_file_name = 'en_out/{}.txt'.format(i)
-        '''
-        input_file_name = 'fr_splits/{}.txt'.format(i)
-        output_file_name = 'fr_out/{}.txt'.format(i)
-        sanitized_input, sanitized_output = make_input_output_match(
-                input_file_name, output_file_name)
-        '''
-        with open(input_file_name, 'w') as input:
-            for input_line in sanitized_input:
-                input.write('%s\n' % input_line)
-        with open(output_file_name, 'w') as output:
-            for output_line in sanitized_output:
-                output.write('%s\n' % output_line)
+        with open('postprocess/' + english_output_file, 'w') as f:
+            for idx in good_indices:
+                f.write('%s' % old_english_output[idx])
+        with open('postprocess/' + french_output_file, 'w') as f:
+            for idx in good_indices:
+                f.write('%s' % old_french_output[idx])
         '''
