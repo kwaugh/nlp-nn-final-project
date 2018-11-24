@@ -92,7 +92,7 @@ if __name__ == '__main__':
             len(old_english_input) - len(good_indices)))
 
         # save the new data on top
-        #'''
+        '''
         with open('postprocess/' + english_input_file, 'w') as f:
             for idx in good_indices:
                 f.write('%s' % old_english_input[idx])
@@ -100,11 +100,3 @@ if __name__ == '__main__':
             for idx in good_indices:
                 f.write('%s' % old_french_input[idx])
         #'''
-        '''
-        with open('postprocess/' + english_output_file, 'w') as f:
-            for idx in good_indices:
-                f.write('%s' % old_english_output[idx])
-        with open('postprocess/' + french_output_file, 'w') as f:
-            for idx in good_indices:
-                f.write('%s' % old_french_output[idx])
-        '''
