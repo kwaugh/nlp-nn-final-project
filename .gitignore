@@ -10,3 +10,8 @@ code/data/clean-fr.txt
 code/data/clean-en.txt
 code/data/en_splits
 code/data/fr_splits
+code/data/en_out
+code/data/*_backup
+code/data/fr_out
+code/data/postprocess
+code/data/__pycache__
