@@ -230,7 +230,7 @@ class Seq2SeqSemanticParser(object):
 # Takes the given Examples and their input indexer and turns them into a numpy
 # array by padding them out to max_len.  Optionally reverses them.
 def make_padded_input_tensor(exs, input_indexer, max_len, reverse_input):
-    print("exs: {}".format(exs))
+    #print("exs: {}".format(exs))
     if reverse_input:
         return np.array(
             [[ex.x_indexed[len(ex.x_indexed) - 1 - i] if i < len(ex.x_indexed) \
@@ -309,11 +309,12 @@ def train_model_encdec(
     print("Train length {}".format(input_max_len))
     print("Train output length: {}".format(
         np.max(np.asarray([len(ex.y_indexed) for ex in train_data]))))
+    '''
     print("Train matrix: {}; shape = {}".format(
         all_train_input_data, all_train_input_data.shape))
     print("Output matrix: {}; shape = {}".format(
         all_train_output_data, all_train_output_data.shape))
-
+    '''
     # Create model
     model_input_emb = EmbeddingLayer(
             args.input_dim, len(input_indexer), args.emb_dropout).to(device)
