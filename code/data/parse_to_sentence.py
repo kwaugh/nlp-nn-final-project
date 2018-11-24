@@ -34,9 +34,5 @@ if __name__ == '__main__':
             for i in range(len(output_lines)):
                 output_converted = parse_to_sentence(output_lines[i])
                 if input_lines[i].strip() != output_converted:
-                    #print(input_lines[i].strip())
-                    #print(output_converted)
-                    #print(output_lines[i].strip().split(' '))
-                    #print()
                     diff_count += 1
             print(diff_count)

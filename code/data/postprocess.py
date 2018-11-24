@@ -62,43 +62,40 @@ def make_input_output_match(input_file_name, output_file_name):
     return set(good_indices)
 
 def main(i):
-    english_input_file = 'en_splits/{}.txt'.format(i)
-    english_output_file = 'en_out/{}.txt'.format(i)
-    french_input_file = 'fr_splits/{}.txt'.format(i)
-    french_output_file = 'fr_out/{}.txt'.format(i)
-
+    files = {
+            'input': {
+                'english': 'en_splits/{}.txt'.format(i),
+                'french': 'fr_splits/{}.txt'.format(i),
+                },
+            'output': {
+                'english': 'en_out/{}.txt'.format(i),
+                'french': 'fr_out/{}.txt'.format(i),
+                }}
     good_english_indices = make_input_output_match(
-            english_input_file, english_output_file)
+            files['input']['english'], files['output']['english'])
     good_french_indices = make_input_output_match(
-            french_input_file, french_output_file)
+            files['input']['french'], files['output']['french'])
 
     good_indices = good_english_indices.intersection(good_french_indices)
-    old_english_input = []
-    old_english_output = []
-    old_french_input = []
-    old_french_output = []
+    old_data = {
+            'input': {'english': [], 'french': []},
+            'output': {'english': [], 'french': []},
+    }
 
-    # get the old data
-    with open(english_input_file) as f:
-        old_english_input = f.readlines()
-    with open(english_output_file) as f:
-        old_english_output = f.readlines()
-    with open(french_input_file) as f:
-        old_french_input = f.readlines()
-    with open(french_output_file) as f:
-        old_french_output = f.readlines()
+    for in_out in files:
+        for lang in files[in_out]:
+            with open(files[in_out][lang]) as f:
+                old_data[in_out][lang] = f.readlines()
 
     print('num_thrown_away for {}.txt: {}'.format(
-        i, len(old_english_input) - len(good_indices)))
+        i, len(old_data['input']['english']) - len(good_indices)))
 
     # save the new data on top
     '''
-    with open('postprocess/' + english_input_file, 'w') as f:
-        for idx in good_indices:
-            f.write('%s' % old_english_input[idx])
-    with open('postprocess/' + french_input_file, 'w') as f:
-        for idx in good_indices:
-            f.write('%s' % old_french_input[idx])
+    for lang in files['input']:
+        with open('postprocess/' + files['input'][lang], 'w') as f:
+            for idx in good_indices:
+                f.write('%s' % old_data['input'][lang])
     #'''
 
 if __name__ == '__main__':
