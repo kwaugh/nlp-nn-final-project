@@ -1,5 +1,6 @@
 # postprocess the input/output pairs to make sure that they all line up
 from parse_to_sentence import *
+from multiprocessing import Pool
 
 def make_input_output_match(input_file_name, output_file_name):
     with open(input_file_name) as input:
@@ -56,47 +57,54 @@ def make_input_output_match(input_file_name, output_file_name):
                     good_indices.append(input_idx)
                     input_idx += 1
                     output_idx += 1
-            print('num_diff: {}'.format(num_diff))
+            #print('num_diff: {}'.format(num_diff))
             # write the good input/output pairs to a file
     return set(good_indices)
 
+def main(i):
+    english_input_file = 'en_splits/{}.txt'.format(i)
+    english_output_file = 'en_out/{}.txt'.format(i)
+    french_input_file = 'fr_splits/{}.txt'.format(i)
+    french_output_file = 'fr_out/{}.txt'.format(i)
+
+    good_english_indices = make_input_output_match(
+            english_input_file, english_output_file)
+    good_french_indices = make_input_output_match(
+            french_input_file, french_output_file)
+
+    good_indices = good_english_indices.intersection(good_french_indices)
+    old_english_input = []
+    old_english_output = []
+    old_french_input = []
+    old_french_output = []
+
+    # get the old data
+    with open(english_input_file) as f:
+        old_english_input = f.readlines()
+    with open(english_output_file) as f:
+        old_english_output = f.readlines()
+    with open(french_input_file) as f:
+        old_french_input = f.readlines()
+    with open(french_output_file) as f:
+        old_french_output = f.readlines()
+
+    print('num_thrown_away for {}.txt: {}'.format(
+        i, len(old_english_input) - len(good_indices)))
+
+    # save the new data on top
+    '''
+    with open('postprocess/' + english_input_file, 'w') as f:
+        for idx in good_indices:
+            f.write('%s' % old_english_input[idx])
+    with open('postprocess/' + french_input_file, 'w') as f:
+        for idx in good_indices:
+            f.write('%s' % old_french_input[idx])
+    #'''
+
 if __name__ == '__main__':
-    for i in range(0, 12):
-        english_input_file = 'en_splits/{}.txt'.format(i)
-        english_output_file = 'en_out/{}.txt'.format(i)
-        french_input_file = 'fr_splits/{}.txt'.format(i)
-        french_output_file = 'fr_out/{}.txt'.format(i)
-
-        good_english_indices = make_input_output_match(
-                english_input_file, english_output_file)
-        good_french_indices = make_input_output_match(
-                french_input_file, french_output_file)
-
-        good_indices = good_english_indices.intersection(good_french_indices)
-        old_english_input = []
-        old_english_output = []
-        old_french_input = []
-        old_french_output = []
-
-        # get the old data
-        with open(english_input_file) as f:
-            old_english_input = f.readlines()
-        with open(english_output_file) as f:
-            old_english_output = f.readlines()
-        with open(french_input_file) as f:
-            old_french_input = f.readlines()
-        with open(french_output_file) as f:
-            old_french_output = f.readlines()
-
-        print('num_thrown_away: {}'.format(
-            len(old_english_input) - len(good_indices)))
-
-        # save the new data on top
-        '''
-        with open('postprocess/' + english_input_file, 'w') as f:
-            for idx in good_indices:
-                f.write('%s' % old_english_input[idx])
-        with open('postprocess/' + french_input_file, 'w') as f:
-            for idx in good_indices:
-                f.write('%s' % old_french_input[idx])
-        #'''
+    try:
+        pool = Pool(12)
+        pool.map(main, list(range(0, 12)))
+    finally:
+        pool.close()
+        pool.join()
