@@ -4,6 +4,7 @@ proposal.blg
 proposal.log
 proposal.pdf
 .DS_Store
+code/__pycache__
 code/data/europarl-v7.fr-en.en
 code/data/europarl-v7.fr-en.fr
 code/data/*.txt

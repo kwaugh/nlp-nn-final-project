@@ -12,8 +12,6 @@ from utils import *
 
 def _parse_args():
     parser = argparse.ArgumentParser(description='main.py')
-
-    # General system running and configuration options
     parser.add_argument(
             '--do_nearest_neighbor',
             dest='do_nearest_neighbor',
@@ -22,20 +20,36 @@ def _parse_args():
             help='run the nearest neighbor model')
 
     parser.add_argument(
-            '--train_path',
+            '--train_path_input',
             type=str,
-            default='data/geo_train.tsv',
-            help='path to train data')
+            default='data/english_train.txt',
+            help='path to train data input')
     parser.add_argument(
-            '--dev_path',
+            '--train_path_output',
             type=str,
-            default='data/geo_dev.tsv',
-            help='path to dev data')
+            default='data/french_train.txt',
+            help='path to train data output')
     parser.add_argument(
-            '--test_path',
+            '--dev_path_input',
             type=str,
-            default='data/geo_test.tsv',
-            help='path to blind test data')
+            default='data/english_dev.txt',
+            help='path to dev data input')
+    parser.add_argument(
+            '--dev_path_output',
+            type=str,
+            default='data/french_dev.txt',
+            help='path to dev data output')
+    parser.add_argument(
+            '--test_path_input',
+            type=str,
+            default='data/english_test.txt',
+            help='path to blind test data input')
+    parser.add_argument(
+            '--test_path_output',
+            type=str,
+            default='data/french_test.txt',
+            help='path to blind test data output')
+
     parser.add_argument(
             '--test_output_path',
             type=str,
@@ -482,7 +496,10 @@ if __name__ == '__main__':
     # Load the training and test data
 
     train, dev, test = load_datasets(
-            args.train_path, args.dev_path, args.test_path, domain=args.domain)
+            args.train_path_input, args.train_path_output,
+            args.dev_path_input, args.dev_path_output,
+            args.test_path_input, args.test_path_output,
+            domain=args.domain)
     train_data_indexed, \
             dev_data_indexed, \
             test_data_indexed, \

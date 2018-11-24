@@ -49,25 +49,33 @@ EOS_SYMBOL = "<EOS>"
 
 
 # Reads the training, dev, and test data from the corresponding files.
-def load_datasets(train_path, dev_path, test_path, domain=None):
-    train_raw = load_dataset(train_path, domain=domain)
-    dev_raw = load_dataset(dev_path, domain=domain)
-    test_raw = load_dataset(test_path, domain=domain)
+def load_datasets(
+        train_path_input, train_path_output,
+        dev_path_input, dev_path_output,
+        test_path_input, test_path_output,
+        domain=None):
+    train_raw = load_dataset(train_path_input, train_path_output, domain=domain)
+    dev_raw = load_dataset(dev_path_input, dev_path_output, domain=domain)
+    test_raw = load_dataset(test_path_input, test_path_output, domain=domain)
     return train_raw, dev_raw, test_raw
 
 
 # Reads a dataset in from the given file
-def load_dataset(filename, domain="geo"):
+def load_dataset(input_filename, output_filename, domain="geo"):
     dataset = []
     num_pos = 0
-    with open(filename) as f:
-        for line in f:
-            x, y = line.rstrip('\n').split('\t')
-            # Geoquery features some additional preprocessing of the logical
-            # form
-            if domain == "geo":
-                y = geoquery_preprocess_lf(y)
-            dataset.append((x, y))
+    with open(input_filename) as input:
+        with open(output_filename) as output:
+            input_lines = input.readlines()
+            output_lines = output.readlines()
+            for i in range(len(input_lines)):
+                x = input_lines[i].strip()
+                y = output_lines[i].strip()
+                # Geoquery features some additional preprocessing of the logical
+                # form
+                if domain == "geo":
+                    y = geoquery_preprocess_lf(y)
+                dataset.append((x, y))
     print("%i / %i pos exs" % (num_pos, len(dataset)))
     return dataset
 
