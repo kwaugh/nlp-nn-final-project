@@ -98,35 +98,36 @@ for idx, item in enumerate(fr_lines):
         print("fr: ", fr_lines[idx])
 """
 
-with open(en_filename, 'w') as en_f:
-    with open(fr_filename, 'w') as fr_f:
-        for idx in range(min(len(fr_lines), len(en_lines))):
-            en_line = en_lines[idx]
-            fr_line = fr_lines[idx]
+if __name__ == '__main__':
+    with open(en_filename, 'w') as en_f:
+        with open(fr_filename, 'w') as fr_f:
+            for idx in range(min(len(fr_lines), len(en_lines))):
+                en_line = en_lines[idx]
+                fr_line = fr_lines[idx]
 
-            if not en_line or not fr_line or len(en_line) < 3 or len(fr_line) < 3:
-                continue
-        
-            # ignore all training pairs that have more than one period in them
-            should_continue = False
-            for char in valid_punctuation:
-                if char_in_middle_of_line(en_line, char) or \
-                    char_in_middle_of_line(fr_line, char):
-                        should_continue = True
-                        break
-            if should_continue:
-                continue
+                if not en_line or not fr_line or len(en_line) < 3 or len(fr_line) < 3:
+                    continue
             
-            # the line has gotta end in some type of punctuation
-            if en_line[-1] not in valid_punctuation or \
-                    fr_line[-1] not in valid_punctuation:
-                        continue
+                # ignore all training pairs that have more than one period in them
+                should_continue = False
+                for char in valid_punctuation:
+                    if char_in_middle_of_line(en_line, char) or \
+                        char_in_middle_of_line(fr_line, char):
+                            should_continue = True
+                            break
+                if should_continue:
+                    continue
+                
+                # the line has gotta end in some type of punctuation
+                if en_line[-1] not in valid_punctuation or \
+                        fr_line[-1] not in valid_punctuation:
+                            continue
 
-            # the parser is dumb and doesn't handle sentences that end with a
-            # single alphabet character
-            if en_line[-2].isalpha() and en_line[-3] == ' ' \
-                    or fr_line[-2].isalpha() and fr_line[-3] == ' ':
-                continue
+                # the parser is dumb and doesn't handle sentences that end with a
+                # single alphabet character
+                if en_line[-2].isalpha() and en_line[-3] == ' ' \
+                        or fr_line[-2].isalpha() and fr_line[-3] == ' ':
+                    continue
 
-            en_f.write("%s\n" % en_line)
-            fr_f.write("%s\n" % fr_line)
+                en_f.write("%s\n" % en_line)
+                fr_f.write("%s\n" % fr_line)

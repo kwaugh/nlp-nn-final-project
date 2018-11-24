@@ -20,7 +20,8 @@ def train_dev_test_split(file_prefix, file_extension):
                 for j in range(line_pos[0], line_pos[1]):
                     g.write(lines[j])
 
-train_dev_test_split('english', '.txt')
-train_dev_test_split('french', '.txt')
-train_dev_test_split('english_parse', '.txt')
-train_dev_test_split('french_parse', '.txt')
+if __name__ == '__main__':
+    train_dev_test_split('english', '.txt')
+    train_dev_test_split('french', '.txt')
+    train_dev_test_split('english_parse', '.txt')
+    train_dev_test_split('french_parse', '.txt')

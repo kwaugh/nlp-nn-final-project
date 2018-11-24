@@ -15,5 +15,6 @@ def split(input_file, output_prefix):
                 for j in range(s, e):
                     g.write(lines[j])
 
-split("clean-fr.txt", "fr_splits")
-split("clean-en.txt", "en_splits")
+if __name__ == '__main__':
+    split("clean-fr.txt", "fr:_splits")
+    split("clean-en.txt", "en_splits")
