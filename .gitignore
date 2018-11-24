@@ -6,8 +6,7 @@ proposal.pdf
 .DS_Store
 code/data/europarl-v7.fr-en.en
 code/data/europarl-v7.fr-en.fr
-code/data/clean-fr.txt
-code/data/clean-en.txt
+code/data/*.txt
 code/data/en_splits
 code/data/fr_splits
 code/data/en_out
