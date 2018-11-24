@@ -1,6 +1,6 @@
 x Merge all the splits into input/output files
 x Make train/dev/test data splits
-- Modify data loading in data.py to work on the english->french data
+x Modify data loading in data.py to work on the english->french data
 - Train parser for english_parse->french_parse
 - Train parser for english->english_parse
 - End-to-end train english->english_parse->french_parse->strip_away_parsing
