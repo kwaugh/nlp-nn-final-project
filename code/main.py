@@ -421,7 +421,9 @@ def train_model_encdec(
             total_epoch_loss += loss
             enc_optimizer.step()
             dec_optimizer.step()
-        print("epoch loss: {}".format(int(total_epoch_loss)))
+        #print("epoch loss: {}".format(int(total_epoch_loss)))
+        print("average sample loss: {}".format(
+            total_epoch_loss / num_training_examples))
 
     parser = Seq2SeqSemanticParser(
             model_enc,
