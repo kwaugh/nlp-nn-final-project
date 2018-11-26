@@ -332,15 +332,21 @@ def train_model_encdec(
         all_train_output_data, all_train_output_data.shape))
     '''
     # Create model
+    epoch = 0
     if args.load_model:
         with open(args.load_model, 'rb') as f:
             print("Loaded model: ", args.load_model)
-            parser = pickle.load(f)
+            state = pickle.load(f)
 
-            model_enc = parser.encoder
-            model_dec = parser.decoder
-            model_input_emb = parser.input_emb
-            model_output_emb = parser.output_emb
+            model_enc = state["model_enc"]
+            model_dec = state["model_dec"]
+            model_input_emb = state["model_input_emb"]
+            model_output_emb = state["model_output_emb"]
+
+            enc_optimizer = state["enc_optimizer"]
+            dec_optimizer = state["dec_optimizer"]
+
+            epoch = state["epoch"]
 
             parser = Seq2SeqSemanticParser(
                     model_enc,
@@ -372,6 +378,13 @@ def train_model_encdec(
                 device,
                 args.attention).to(device)
 
+        enc_optimizer = optim.Adam(
+                list(model_input_emb.parameters()) + list(model_enc.parameters()),
+                lr=args.lr)
+        dec_optimizer = optim.Adam(
+                list(model_output_emb.parameters()) + list(model_dec.parameters()),
+                lr=args.lr)
+
     model_input_emb.train()
     model_output_emb.train()
     model_enc.train()
@@ -381,12 +394,6 @@ def train_model_encdec(
     # update parameters
 
     # Setup
-    enc_optimizer = optim.Adam(
-            list(model_input_emb.parameters()) + list(model_enc.parameters()),
-            lr=args.lr)
-    dec_optimizer = optim.Adam(
-            list(model_output_emb.parameters()) + list(model_dec.parameters()),
-            lr=args.lr)
     loss_func = nn.NLLLoss()
 
     SOS_INX = output_indexer.get_index(SOS_SYMBOL)
@@ -395,25 +402,25 @@ def train_model_encdec(
     num_training_examples = len(all_train_input_data)
     # num_training_examples = 4
 
-    for epoch in range(args.epochs):
+    while epoch < args.epochs:
         # TODO: input shuffling between epochs
         print("epoch: {}".format(epoch))
         total_epoch_loss = 0
         # for i in range(0, len(all_train_input_data), args.batch_size):
         if epoch % args.save_epochs == 0 and epoch != 0:
-            parser = Seq2SeqSemanticParser(
-                    model_enc,
-                    model_dec,
-                    model_input_emb,
-                    model_output_emb,
-                    output_max_len,
-                    input_indexer,
-                    output_indexer,
-                    device)
+            state = {
+                "model_enc": model_enc,
+                "model_dec": model_dec,
+                "model_input_emb": model_input_emb,
+                "model_output_emb": model_output_emb,
+                "epoch": epoch,
+                "enc_optimizer": enc_optimizer,
+                "dec_optimizer": dec_optimizer
+            }
 
             save_file = args.save_dir + str(epoch) + '.pkl'
             with open(save_file, 'wb') as f:
-                pickle.dump(parser, f)
+                pickle.dump(state, f)
             print("Saved model checkpoint to " + save_file)
 
         if epoch % 10 == 0 and epoch != 0:
@@ -477,6 +484,8 @@ def train_model_encdec(
         #print("epoch loss: {}".format(int(total_epoch_loss)))
         print("average sample loss: {}".format(
             total_epoch_loss / num_training_examples))
+        
+        epoch += 1
 
     parser = Seq2SeqSemanticParser(
             model_enc,
