@@ -4,6 +4,7 @@ import numpy as np
 import time
 import torch
 import functools
+import pickle
 from torch import optim
 from lf_evaluator import *
 from models import *
@@ -60,6 +61,21 @@ def _parse_args():
             type=str,
             default='geo',
             help='domain (geo for geoquery)')
+    parser.add_argument(
+            '--save_dir',
+            type=str,
+            default='model_save/',
+            help='directory to save models')
+    parser.add_argument(
+            '--save_epochs',
+            type=int,
+            default=10,
+            help='how often to save a model')
+    parser.add_argument(
+            '--load_model',
+            type=str,
+            default=None,
+            help='model to load from')
 
     # Some common arguments for your convenience
     parser.add_argument(
@@ -316,24 +332,45 @@ def train_model_encdec(
         all_train_output_data, all_train_output_data.shape))
     '''
     # Create model
-    model_input_emb = EmbeddingLayer(
-            args.input_dim, len(input_indexer), args.emb_dropout).to(device)
-    model_enc = RNNEncoder(
-            args.input_dim,
-            args.hidden_size,
-            args.rnn_dropout,
-            args.bidirectional).to(device)
-    model_output_emb = EmbeddingLayer(
-            args.output_dim,
-            len(output_indexer),
-            args.emb_dropout).to(device)
-    model_dec = RNNDecoder(
-            args.output_dim,
-            args.hidden_size,
-            args.rnn_dropout,
-            len(output_indexer),
-            device,
-            args.attention).to(device)
+    if args.load_model:
+        with open(args.load_model, 'rb') as f:
+            print("Loaded model: ", args.load_model)
+            parser = pickle.load(f)
+
+            model_enc = parser.encoder
+            model_dec = parser.decoder
+            model_input_emb = parser.input_emb
+            model_output_emb = parser.output_emb
+
+            parser = Seq2SeqSemanticParser(
+                    model_enc,
+                    model_dec,
+                    model_input_emb,
+                    model_output_emb,
+                    output_max_len,
+                    input_indexer,
+                    output_indexer,
+                    device)
+            evaluate(test_data, parser)
+    else:
+        model_input_emb = EmbeddingLayer(
+                args.input_dim, len(input_indexer), args.emb_dropout).to(device)
+        model_enc = RNNEncoder(
+                args.input_dim,
+                args.hidden_size,
+                args.rnn_dropout,
+                args.bidirectional).to(device)
+        model_output_emb = EmbeddingLayer(
+                args.output_dim,
+                len(output_indexer),
+                args.emb_dropout).to(device)
+        model_dec = RNNDecoder(
+                args.output_dim,
+                args.hidden_size,
+                args.rnn_dropout,
+                len(output_indexer),
+                device,
+                args.attention).to(device)
 
     model_input_emb.train()
     model_output_emb.train()
@@ -363,6 +400,22 @@ def train_model_encdec(
         print("epoch: {}".format(epoch))
         total_epoch_loss = 0
         # for i in range(0, len(all_train_input_data), args.batch_size):
+        if epoch % args.save_epochs == 0 and epoch != 0:
+            parser = Seq2SeqSemanticParser(
+                    model_enc,
+                    model_dec,
+                    model_input_emb,
+                    model_output_emb,
+                    output_max_len,
+                    input_indexer,
+                    output_indexer,
+                    device)
+
+            save_file = args.save_dir + str(epoch) + '.pkl'
+            with open(save_file, 'wb') as f:
+                pickle.dump(parser, f)
+            print("Saved model checkpoint to " + save_file)
+
         if epoch % 10 == 0 and epoch != 0:
             parser = Seq2SeqSemanticParser(
                     model_enc,
