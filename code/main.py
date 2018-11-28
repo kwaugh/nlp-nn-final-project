@@ -69,6 +69,11 @@ def _parse_args():
             type=str,
             default=None,
             help='model to load from')
+    parser.add_argument(
+            '--evaluate_epochs',
+            type=int,
+            default=10,
+            help='how many epochs to evaluate the model performance')
 
     # Some common arguments for your convenience
     parser.add_argument(
@@ -383,7 +388,7 @@ def train_model_encdec(
                 pickle.dump(state, f)
             print("Saved model checkpoint to " + save_file)
 
-        if epoch % 10 == 0 and epoch != 0:
+        if epoch % args.evaluate_epochs == 0 and epoch != 0:
             parser = Seq2SeqSemanticParser(
                     model_enc,
                     model_dec,
