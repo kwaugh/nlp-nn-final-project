@@ -5,7 +5,7 @@ import time
 import torch
 import functools
 import pickle
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from torch import optim
 from lf_evaluator import *
 from models import *
@@ -520,7 +520,11 @@ def evaluate(
 
         hypotheses = [pred_derivations[i][0].y_toks]
         reference = pred_derivations[i][0].example.y_tok
-        bleu = sentence_bleu(hypotheses, reference)
+        smoothing_func = SmoothingFunction()
+        bleu = sentence_bleu(
+                hypotheses,
+                reference,
+                smoothing_function=smoothing_func.method1)
         print("hypothesis: {}".format(hypotheses[0]))
         print("reference: {}".format(reference))
         print("bleu: {}".format(bleu))
