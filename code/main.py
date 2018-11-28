@@ -7,20 +7,12 @@ import functools
 import pickle
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from torch import optim
-from lf_evaluator import *
 from models import *
 from data import *
 from utils import *
 
 def _parse_args():
     parser = argparse.ArgumentParser(description='main.py')
-    parser.add_argument(
-            '--do_nearest_neighbor',
-            dest='do_nearest_neighbor',
-            default=False,
-            action='store_true',
-            help='run the nearest neighbor model')
-
     parser.add_argument(
             '--train_path_input',
             type=str,
@@ -151,39 +143,6 @@ def _parse_args():
             help='Use attention in the decoder')
     args = parser.parse_args()
     return args
-
-
-# Semantic parser that uses Jaccard similarity to find the most similar input
-# example to a particular question and returns the associated logical form.
-class NearestNeighborSemanticParser(object):
-    # Take any arguments necessary for parsing
-    def __init__(self, training_data):
-        self.training_data = training_data
-
-    # decode should return a list of k-best lists of Derivations. A Derivation
-    # consists of the underlying Example, a probability, and a tokenized output
-    # string. If you're just doing one-best decoding of example ex and you
-    # produce output y_tok, you can just return the k-best list [Derivation(ex,
-    # 1.0, y_tok)]
-    def decode(self, test_data):
-        # Find the highest word overlap with the test data
-        test_derivs = []
-        for test_ex in test_data:
-            test_words = test_ex.x_tok
-            best_jaccard = -1
-            best_train_ex = None
-            for train_ex in self.training_data:
-                # Compute word overlap
-                train_words = train_ex.x_tok
-                overlap = len(frozenset(train_words) & frozenset(test_words))
-                jaccard = overlap/float(
-                        len(frozenset(train_words) | frozenset(test_words)))
-                if jaccard > best_jaccard:
-                    best_jaccard = jaccard
-                    best_train_ex = train_ex
-            # N.B. a list!
-            test_derivs.append([Derivation(test_ex, 1.0, best_train_ex.y_tok)])
-        return test_derivs
 
 
 class Seq2SeqSemanticParser(object):
@@ -581,16 +540,12 @@ if __name__ == '__main__':
     print("Here are some examples post tokenization and indexing:")
     for i in range(0, min(len(train_data_indexed), 10)):
         print(train_data_indexed[i])
-    if args.do_nearest_neighbor:
-        decoder = NearestNeighborSemanticParser(train_data_indexed)
-        evaluate(dev_data_indexed, decoder)
-    else:
-        decoder = train_model_encdec(
-                train_data_indexed,
-                dev_data_indexed,
-                input_indexer,
-                output_indexer,
-                args)
+    decoder = train_model_encdec(
+            train_data_indexed,
+            dev_data_indexed,
+            input_indexer,
+            output_indexer,
+            args)
     print("=======FINAL EVALUATION ON BLIND TEST=======")
     evaluate(
             test_data_indexed,
