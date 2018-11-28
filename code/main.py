@@ -524,7 +524,8 @@ def evaluate(
         bleu = sentence_bleu(
                 hypotheses,
                 reference,
-                smoothing_function=smoothing_func.method1)
+                smoothing_function=smoothing_func.method1,
+                auto_reweigh=True)
         print("hypothesis: {}".format(hypotheses[0]))
         print("reference: {}".format(reference))
         print("bleu: {}".format(bleu))
