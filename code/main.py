@@ -87,7 +87,7 @@ def _parse_args():
     parser.add_argument(
             '--epochs',
             type=int,
-            default=41,
+            default=100,
             help='num epochs to train for')
     parser.add_argument(
             '--lr',
@@ -96,7 +96,7 @@ def _parse_args():
     parser.add_argument(
             '--batch_size',
             type=int,
-            default=5,
+            default=40,
             help='batch size')
     # 65 is all you need for GeoQuery
     parser.add_argument(
