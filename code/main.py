@@ -564,6 +564,7 @@ if __name__ == '__main__':
             input_indexer, \
             output_indexer = data.index_datasets(
                     train, dev, test, args.decoder_len_limit)
+    '''
     print("{} train exs, {} dev exs, {} input types, {} output types".format(
         len(train_data_indexed),
         len(dev_data_indexed),
@@ -576,6 +577,7 @@ if __name__ == '__main__':
     print("Input indexer: {}".format(input_indexer))
     print("Input indexer: {}".format(input_indexer))
     print("Output indexer: {}".format(output_indexer))
+    '''
     print("Here are some examples post tokenization and indexing:")
     for i in range(0, min(len(train_data_indexed), 10)):
         print(train_data_indexed[i])
