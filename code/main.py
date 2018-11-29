@@ -308,20 +308,8 @@ def train_model_encdec(
 
     # Create indexed input
     input_max_len = np.max(np.asarray([len(ex.x_indexed) for ex in train_data]))
-    all_train_input_data = torch.from_numpy(make_padded_input_tensor(
-            train_data, input_indexer, input_max_len, args.reverse_input)).to(
-                    device)
-    all_test_input_data = torch.from_numpy(make_padded_input_tensor(
-            test_data, input_indexer, input_max_len, args.reverse_input)).to(
-                    device)
-
     output_max_len = np.max(
             np.asarray([len(ex.y_indexed) for ex in train_data]))
-
-    all_train_output_data = torch.from_numpy(make_padded_output_tensor(
-            train_data, output_indexer, output_max_len)).to(device)
-    all_test_output_data = torch.from_numpy(make_padded_output_tensor(
-            test_data, output_indexer, output_max_len)).to(device)
 
     print("Train length {}".format(input_max_len))
     print("Train output length: {}".format(
@@ -400,14 +388,13 @@ def train_model_encdec(
     SOS_INX = output_indexer.get_index(SOS_SYMBOL)
     EOS_INX = output_indexer.get_index(EOS_SYMBOL)
 
-    num_training_examples = len(all_train_input_data)
+    num_training_examples = len(train_data)
     # num_training_examples = 4
 
     while epoch < args.epochs:
         # TODO: input shuffling between epochs
         print("epoch: {}".format(epoch))
         total_epoch_loss = 0
-        # for i in range(0, len(all_train_input_data), args.batch_size):
         if epoch % args.save_epochs == 0 and epoch != 0:
             state = {
                 "model_enc": model_enc,
@@ -447,12 +434,32 @@ def train_model_encdec(
             batch_size = min(args.batch_size, num_training_examples-i-1)
             if batch_size == 0:
                 break
+
+            train_input_data = torch.from_numpy(make_padded_input_tensor(
+                  train_data[i:i+batch_size], input_indexer, input_max_len, args.reverse_input)).to(
+                  device)
+            test_input_data = torch.from_numpy(make_padded_input_tensor(
+                  test_data[i:i+batch_size], input_indexer, input_max_len, args.reverse_input)).to(
+                  device)
+
+            train_output_data = torch.from_numpy(make_padded_output_tensor(
+                  train_data[i:i+batch_size], output_indexer, output_max_len)).to(device)
+            test_output_data = torch.from_numpy(make_padded_output_tensor(
+                  test_data[i:i+batch_size], output_indexer, output_max_len)).to(device)
+
+            """
+            print("train_input_data size: {}".format(train_input_data.size()))
+            print("test_input_data size: {}".format(test_input_data.size()))
+            print("train_output_data size: {}".format(train_output_data.size()))
+            print("test_output_data size: {}".format(test_output_data.size()))
+            """
+
             # ENCODER
             input_lens = torch.as_tensor(list(map(
                 lambda x: len(x.x_indexed),
                 train_data[i:i+batch_size])), dtype=torch.long).to(device)
             e_output, e_context, e_final_state = encode_input_for_decoder(
-                    all_train_input_data[i:i+batch_size],
+                    train_input_data,
                     input_lens,
                     model_input_emb,
                     model_enc)
@@ -462,23 +469,23 @@ def train_model_encdec(
             d_hidden = e_final_state
 
             is_done = [False] * batch_size
-            for j in range(len(all_train_output_data[i])):
+            for j in range(len(train_output_data[0])):
                 if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
                     break
                 d_output, d_hidden = model_dec.forward(
                         d_input, d_hidden, e_output)
                 d_input = model_output_emb.forward(
-                        all_train_output_data[i:i+batch_size,j]).unsqueeze(0)
+                        train_output_data[:batch_size,j]).unsqueeze(0)
                 d_output = d_output.view(-1, len(output_indexer))
                 for k in range(batch_size):
                     if not is_done[k]:
                         loss = loss + loss_func(
                                 d_output[k].unsqueeze(0),
-                                all_train_output_data[i+k,j].unsqueeze(0))
+                                train_output_data[k,j].unsqueeze(0))
                         is_done[k] = bool(
-                                all_train_output_data[i+k,j] == EOS_INX)
+                                train_output_data[k,j] == EOS_INX)
 
-            loss.backward(retain_graph=True)
+            loss.backward()
             total_epoch_loss += loss
             enc_optimizer.step()
             dec_optimizer.step()
@@ -592,5 +599,3 @@ if __name__ == '__main__':
             decoder,
             print_output=False,
             outfile="geo_test_output.tsv")
-
-
