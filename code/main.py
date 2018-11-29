@@ -141,6 +141,17 @@ def _parse_args():
             default=True,
             action='store_false',
             help='Use attention in the decoder')
+    parser.add_argument(
+            '--shuffle',
+            dest='shuffle',
+            default=False,
+            action='store_true',
+            help='shuffle the dataset between epochs')
+    parser.add_argument(
+            '--num_workers',
+            type=int,
+            default=2,
+            help='number of data loading workers')
     args = parser.parse_args()
     return args
 
@@ -280,6 +291,22 @@ def train_model_encdec(
     print("Output matrix: {}; shape = {}".format(
         all_train_output_data, all_train_output_data.shape))
     '''
+
+    # Data Loader
+    data_loader_params = {
+            'batch_size': args.batch_size,
+            'shuffle': args.shuffle,
+            'num_workers': args.num_workers,}
+
+    # These are lazy generators
+    train = data.Dataset(train_data, input_indexer, output_indexer,
+            input_max_len, output_max_len, args.reverse_input, device)
+    dev = data.Dataset(test_data, input_indexer, output_indexer, input_max_len,
+            output_max_len, args.reverse_input, device)
+
+    train_gen = torch.utils.data.DataLoader(train, **data_loader_params)
+    dev_gen = torch.utils.data.DataLoader(dev, **data_loader_params)
+
     # Create model
     epoch = 0
     if args.load_model:
@@ -388,39 +415,43 @@ def train_model_encdec(
             model_enc.train()
             model_dec.train()
 
-        for i in range(0, num_training_examples, args.batch_size):
+        for train_input, train_output, input_lens in train_gen:
             loss = 0
             enc_optimizer.zero_grad()
             dec_optimizer.zero_grad()
-            batch_size = min(args.batch_size, num_training_examples-i-1)
-            if batch_size == 0:
-                break
 
+            train_input = train_input.squeeze().to(device)
+            train_output = train_output.squeeze().to(device)
+
+            i = 0
+            batch_size = len(train_input)
+            '''
             train_input_data = torch.from_numpy(make_padded_input_tensor(
-                  train_data[i:i+batch_size], input_indexer, input_max_len, args.reverse_input)).to(
-                  device)
+                train_data[i:i+batch_size], input_indexer, input_max_len,
+                args.reverse_input)).to(device)
             test_input_data = torch.from_numpy(make_padded_input_tensor(
-                  test_data[i:i+batch_size], input_indexer, input_max_len, args.reverse_input)).to(
-                  device)
+                test_data[i:i+batch_size], input_indexer, input_max_len,
+                args.reverse_input)).to(device)
 
             train_output_data = torch.from_numpy(make_padded_output_tensor(
-                  train_data[i:i+batch_size], output_indexer, output_max_len)).to(device)
+                train_data[i:i+batch_size], output_indexer,
+                output_max_len)).to(device)
             test_output_data = torch.from_numpy(make_padded_output_tensor(
-                  test_data[i:i+batch_size], output_indexer, output_max_len)).to(device)
+                test_data[i:i+batch_size], output_indexer,
+                output_max_len)).to(device)
 
-            """
+            print('train_input.shape: {}'.format(train_input.shape))
+            print('train_output.shape: {}'.format(train_output.shape))
+
             print("train_input_data size: {}".format(train_input_data.size()))
-            print("test_input_data size: {}".format(test_input_data.size()))
             print("train_output_data size: {}".format(train_output_data.size()))
-            print("test_output_data size: {}".format(test_output_data.size()))
-            """
-
+            '''
             # ENCODER
-            input_lens = torch.as_tensor(list(map(
-                lambda x: len(x.x_indexed),
-                train_data[i:i+batch_size])), dtype=torch.long).to(device)
+            # input_lens = torch.as_tensor(list(map(
+            #     lambda x: len(x.x_indexed), examples)),
+            #     dtype=torch.long).to(device)
             e_output, e_context, e_final_state = encode_input_for_decoder(
-                    train_input_data,
+                    train_input,
                     input_lens,
                     model_input_emb,
                     model_enc)
@@ -430,21 +461,21 @@ def train_model_encdec(
             d_hidden = e_final_state
 
             is_done = [False] * batch_size
-            for j in range(len(train_output_data[0])):
+            for j in range(len(train_output[0])):
                 if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
                     break
                 d_output, d_hidden = model_dec.forward(
                         d_input, d_hidden, e_output)
                 d_input = model_output_emb.forward(
-                        train_output_data[:batch_size,j]).unsqueeze(0)
+                        train_output[:batch_size,j]).unsqueeze(0)
                 d_output = d_output.view(-1, len(output_indexer))
                 for k in range(batch_size):
                     if not is_done[k]:
                         loss = loss + loss_func(
                                 d_output[k].unsqueeze(0),
-                                train_output_data[k,j].unsqueeze(0))
+                                train_output[k,j].unsqueeze(0))
                         is_done[k] = bool(
-                                train_output_data[k,j] == EOS_INX)
+                                train_output[k,j] == EOS_INX)
 
             loss.backward()
             total_epoch_loss += loss
@@ -522,7 +553,6 @@ if __name__ == '__main__':
     print(args)
     random.seed(args.seed)
     np.random.seed(args.seed)
-    # Load the training and test data
 
     train, dev, test = data.load_datasets(
             args.train_path_input, args.train_path_output,

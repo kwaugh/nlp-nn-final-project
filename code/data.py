@@ -1,6 +1,8 @@
 from utils import *
 import random
 import torch
+import numpy as np
+from torch.utils import data
 
 
 # Wrapper class for an example.
@@ -47,6 +49,52 @@ PAD_SYMBOL = "<PAD>"
 UNK_SYMBOL = "<UNK>"
 SOS_SYMBOL = "<SOS>"
 EOS_SYMBOL = "<EOS>"
+
+# Takes the given Examples and their input indexer and turns them into a numpy
+# array by padding them out to max_len.  Optionally reverses them.
+def make_padded_input_tensor(exs, input_indexer, max_len, reverse_input):
+    #print("exs: {}".format(exs))
+    if reverse_input:
+        return np.array(
+            [[ex.x_indexed[len(ex.x_indexed) - 1 - i] if i < len(ex.x_indexed) \
+                    else input_indexer.index_of(PAD_SYMBOL)
+              for i in range(0, max_len)]
+             for ex in exs])
+    else:
+        return np.array([[ex.x_indexed[i] if i < len(ex.x_indexed) \
+                else input_indexer.index_of(PAD_SYMBOL)
+                          for i in range(0, max_len)]
+                         for ex in exs])
+
+# Analogous to make_padded_input_tensor, but without the option to reverse input
+def make_padded_output_tensor(exs, output_indexer, max_len):
+    return np.array([[ex.y_indexed[i] if i < len(ex.y_indexed) \
+            else output_indexer.index_of(PAD_SYMBOL) \
+            for i in range(0, max_len)] for ex in exs])
+
+
+class Dataset(data.Dataset):
+    def __init__(self, data_indexed, in_indexer, out_indexer, in_max_len,
+            out_max_len, reverse_input, device):
+        self.data_indexed = data_indexed
+        self.in_indexer = in_indexer
+        self.out_indexer = out_indexer
+        self.in_max_len = in_max_len
+        self.out_max_len = out_max_len
+        self.reverse_input = reverse_input
+        self.device = device
+
+    def __len__(self):
+        return len(self.data_indexed)
+
+    def __getitem__(self, index):
+        example = self.data_indexed[index]
+        in_mat_line = torch.from_numpy(make_padded_input_tensor([example],
+            self.in_indexer, self.in_max_len,
+            self.reverse_input))
+        out_mat_line = torch.from_numpy(make_padded_output_tensor([example],
+            self.out_indexer, self.out_max_len))
+        return in_mat_line, out_mat_line, len(example.x_tok)
 
 
 # Reads the training, dev, and test data from the corresponding files.
