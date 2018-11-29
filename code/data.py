@@ -1,5 +1,6 @@
 from utils import *
 import random
+import torch
 
 
 # Wrapper class for an example.
@@ -52,16 +53,15 @@ EOS_SYMBOL = "<EOS>"
 def load_datasets(
         train_path_input, train_path_output,
         dev_path_input, dev_path_output,
-        test_path_input, test_path_output,
-        domain=None):
-    train_raw = load_dataset(train_path_input, train_path_output, domain=domain)
-    dev_raw = load_dataset(dev_path_input, dev_path_output, domain=domain)
-    test_raw = load_dataset(test_path_input, test_path_output, domain=domain)
+        test_path_input, test_path_output):
+    train_raw = load_dataset(train_path_input, train_path_output)
+    dev_raw = load_dataset(dev_path_input, dev_path_output)
+    test_raw = load_dataset(test_path_input, test_path_output)
     return train_raw, dev_raw, test_raw
 
 
 # Reads a dataset in from the given file
-def load_dataset(input_filename, output_filename, domain="geo"):
+def load_dataset(input_filename, output_filename):
     dataset = []
     num_pos = 0
     with open(input_filename) as input:
@@ -71,10 +71,6 @@ def load_dataset(input_filename, output_filename, domain="geo"):
             for i in range(len(input_lines)):
                 x = input_lines[i].strip()
                 y = output_lines[i].strip()
-                # Geoquery features some additional preprocessing of the logical
-                # form
-                if domain == "geo":
-                    y = geoquery_preprocess_lf(y)
                 dataset.append((x, y))
     print("%i / %i pos exs" % (num_pos, len(dataset)))
     return dataset
@@ -143,23 +139,3 @@ def index_datasets(
             test_data_indexed,
             input_indexer,
             output_indexer)
-
-
-# Geoquery preprocessing adapted from Jia and Liang. Standardizes variable
-# names with De Brujin indices -- just a smarter way of indexing variables in
-# statements to make parsing easier.
-def geoquery_preprocess_lf(lf):
-    cur_vars = []
-    toks = lf.split(' ')
-    new_toks = []
-    for w in toks:
-        if w.isalpha() and len(w) == 1:
-            if w in cur_vars:
-                ind_from_end = len(cur_vars) - cur_vars.index(w) - 1
-                new_toks.append('V%d' % ind_from_end)
-            else:
-                cur_vars.append(w)
-                new_toks.append('NV')
-        else:
-            new_toks.append(w)
-    return ' '.join(new_toks)

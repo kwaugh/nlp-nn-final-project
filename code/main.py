@@ -5,11 +5,11 @@ import time
 import torch
 import functools
 import pickle
+import data
+import models
+import utils
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from torch import optim
-from models import *
-from data import *
-from utils import *
 
 def _parse_args():
     parser = argparse.ArgumentParser(description='main.py')
@@ -49,11 +49,6 @@ def _parse_args():
             type=str,
             default='geo_test_output.tsv',
             help='path to write blind test results')
-    parser.add_argument(
-            '--domain',
-            type=str,
-            default='geo',
-            help='domain (geo for geoquery)')
     parser.add_argument(
             '--save_dir',
             type=str,
@@ -152,7 +147,7 @@ def _parse_args():
 
 class Seq2SeqSemanticParser(object):
     def __init__(self, encoder, decoder, input_emb, output_emb, max_output_len,
-            input_indexer, output_indexer, device):
+            input_indexer, output_indexer, len_limit, device):
         self.encoder = encoder
         self.decoder = decoder
         self.input_emb = input_emb
@@ -160,8 +155,9 @@ class Seq2SeqSemanticParser(object):
         self.max_output_len = max_output_len
         self.input_indexer = input_indexer
         self.output_indexer = output_indexer
-        self.SOS_INX = output_indexer.get_index(SOS_SYMBOL)
-        self.EOS_INX = output_indexer.get_index(EOS_SYMBOL)
+        self.SOS_INX = output_indexer.get_index(data.SOS_SYMBOL)
+        self.EOS_INX = output_indexer.get_index(data.EOS_SYMBOL)
+        self.len_limit = len_limit
         self.device = device
 
     def decode(self, test_data):
@@ -193,7 +189,7 @@ class Seq2SeqSemanticParser(object):
             d_hidden = e_final_state
 
             tokens = []
-            for j in range(65):
+            for j in range(self.len_limit):
                 d_output, d_hidden = self.decoder.forward(
                         d_input, d_hidden, e_output)
                 d_output = d_output.squeeze().argmax(dim=0)
@@ -203,7 +199,7 @@ class Seq2SeqSemanticParser(object):
                         d_output).unsqueeze(0).unsqueeze(0)
                 tokens.append(self.output_indexer.get_object(d_output.item()))
 
-            test_derivs.append([Derivation(test_data[i], 1.0, tokens)])
+            test_derivs.append([data.Derivation(test_data[i], 1.0, tokens)])
 
         return test_derivs
 
@@ -215,19 +211,19 @@ def make_padded_input_tensor(exs, input_indexer, max_len, reverse_input):
     if reverse_input:
         return np.array(
             [[ex.x_indexed[len(ex.x_indexed) - 1 - i] if i < len(ex.x_indexed) \
-                    else input_indexer.index_of(PAD_SYMBOL)
+                    else input_indexer.index_of(data.PAD_SYMBOL)
               for i in range(0, max_len)]
              for ex in exs])
     else:
         return np.array([[ex.x_indexed[i] if i < len(ex.x_indexed) \
-                else input_indexer.index_of(PAD_SYMBOL)
+                else input_indexer.index_of(data.PAD_SYMBOL)
                           for i in range(0, max_len)]
                          for ex in exs])
 
 # Analogous to make_padded_input_tensor, but without the option to reverse input
 def make_padded_output_tensor(exs, output_indexer, max_len):
     return np.array([[ex.y_indexed[i] if i < len(ex.y_indexed) \
-            else output_indexer.index_of(PAD_SYMBOL) \
+            else output_indexer.index_of(data.PAD_SYMBOL) \
             for i in range(0, max_len)] for ex in exs])
 
 
@@ -309,21 +305,22 @@ def train_model_encdec(
                     output_max_len,
                     input_indexer,
                     output_indexer,
+                    args.decoder_len_limit,
                     device)
             evaluate(test_data, parser)
     else:
-        model_input_emb = EmbeddingLayer(
+        model_input_emb = models.EmbeddingLayer(
                 args.input_dim, len(input_indexer), args.emb_dropout).to(device)
-        model_enc = RNNEncoder(
+        model_enc = models.RNNEncoder(
                 args.input_dim,
                 args.hidden_size,
                 args.rnn_dropout,
                 args.bidirectional).to(device)
-        model_output_emb = EmbeddingLayer(
+        model_output_emb = models.EmbeddingLayer(
                 args.output_dim,
                 len(output_indexer),
                 args.emb_dropout).to(device)
-        model_dec = RNNDecoder(
+        model_dec = models.RNNDecoder(
                 args.output_dim,
                 args.hidden_size,
                 args.rnn_dropout,
@@ -347,13 +344,12 @@ def train_model_encdec(
     # update parameters
 
     # Setup
-    loss_func = nn.NLLLoss()
+    loss_func = torch.nn.NLLLoss()
 
-    SOS_INX = output_indexer.get_index(SOS_SYMBOL)
-    EOS_INX = output_indexer.get_index(EOS_SYMBOL)
+    SOS_INX = output_indexer.get_index(data.SOS_SYMBOL)
+    EOS_INX = output_indexer.get_index(data.EOS_SYMBOL)
 
     num_training_examples = len(train_data)
-    # num_training_examples = 4
 
     while epoch < args.epochs:
         # TODO: input shuffling between epochs
@@ -384,6 +380,7 @@ def train_model_encdec(
                     output_max_len,
                     input_indexer,
                     output_indexer,
+                    args.decoder_len_limit,
                     device)
             evaluate(test_data, parser)
             model_input_emb.train()
@@ -467,6 +464,7 @@ def train_model_encdec(
             output_max_len,
             input_indexer,
             output_indexer,
+            args.decoder_len_limit,
             device)
     evaluate(test_data, parser)
     return parser
@@ -526,16 +524,15 @@ if __name__ == '__main__':
     np.random.seed(args.seed)
     # Load the training and test data
 
-    train, dev, test = load_datasets(
+    train, dev, test = data.load_datasets(
             args.train_path_input, args.train_path_output,
             args.dev_path_input, args.dev_path_output,
-            args.test_path_input, args.test_path_output,
-            domain=args.domain)
+            args.test_path_input, args.test_path_output)
     train_data_indexed, \
             dev_data_indexed, \
             test_data_indexed, \
             input_indexer, \
-            output_indexer = index_datasets(
+            output_indexer = data.index_datasets(
                     train, dev, test, args.decoder_len_limit)
     print("{} train exs, {} dev exs, {} input types, {} output types".format(
         len(train_data_indexed),
