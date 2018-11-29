@@ -5,22 +5,14 @@ import time
 import torch
 import functools
 import pickle
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from torch import optim
-from lf_evaluator import *
 from models import *
 from data import *
 from utils import *
 
 def _parse_args():
     parser = argparse.ArgumentParser(description='main.py')
-    parser.add_argument(
-            '--do_nearest_neighbor',
-            dest='do_nearest_neighbor',
-            default=False,
-            action='store_true',
-            help='run the nearest neighbor model')
-
     parser.add_argument(
             '--train_path_input',
             type=str,
@@ -77,6 +69,11 @@ def _parse_args():
             type=str,
             default=None,
             help='model to load from')
+    parser.add_argument(
+            '--evaluate_epochs',
+            type=int,
+            default=10,
+            help='how many epochs to evaluate the model performance')
 
     # Some common arguments for your convenience
     parser.add_argument(
@@ -87,7 +84,7 @@ def _parse_args():
     parser.add_argument(
             '--epochs',
             type=int,
-            default=41,
+            default=100,
             help='num epochs to train for')
     parser.add_argument(
             '--lr',
@@ -96,7 +93,7 @@ def _parse_args():
     parser.add_argument(
             '--batch_size',
             type=int,
-            default=5,
+            default=40,
             help='batch size')
     # 65 is all you need for GeoQuery
     parser.add_argument(
@@ -151,39 +148,6 @@ def _parse_args():
             help='Use attention in the decoder')
     args = parser.parse_args()
     return args
-
-
-# Semantic parser that uses Jaccard similarity to find the most similar input
-# example to a particular question and returns the associated logical form.
-class NearestNeighborSemanticParser(object):
-    # Take any arguments necessary for parsing
-    def __init__(self, training_data):
-        self.training_data = training_data
-
-    # decode should return a list of k-best lists of Derivations. A Derivation
-    # consists of the underlying Example, a probability, and a tokenized output
-    # string. If you're just doing one-best decoding of example ex and you
-    # produce output y_tok, you can just return the k-best list [Derivation(ex,
-    # 1.0, y_tok)]
-    def decode(self, test_data):
-        # Find the highest word overlap with the test data
-        test_derivs = []
-        for test_ex in test_data:
-            test_words = test_ex.x_tok
-            best_jaccard = -1
-            best_train_ex = None
-            for train_ex in self.training_data:
-                # Compute word overlap
-                train_words = train_ex.x_tok
-                overlap = len(frozenset(train_words) & frozenset(test_words))
-                jaccard = overlap/float(
-                        len(frozenset(train_words) | frozenset(test_words)))
-                if jaccard > best_jaccard:
-                    best_jaccard = jaccard
-                    best_train_ex = train_ex
-            # N.B. a list!
-            test_derivs.append([Derivation(test_ex, 1.0, best_train_ex.y_tok)])
-        return test_derivs
 
 
 class Seq2SeqSemanticParser(object):
@@ -411,7 +375,7 @@ def train_model_encdec(
                 pickle.dump(state, f)
             print("Saved model checkpoint to " + save_file)
 
-        if epoch % 10 == 0 and epoch != 0:
+        if epoch % args.evaluate_epochs == 0 and epoch != 0:
             parser = Seq2SeqSemanticParser(
                     model_enc,
                     model_dec,
@@ -527,7 +491,12 @@ def evaluate(
 
         hypotheses = [pred_derivations[i][0].y_toks]
         reference = pred_derivations[i][0].example.y_tok
-        bleu = sentence_bleu(hypotheses, reference)
+        smoothing_func = SmoothingFunction()
+        bleu = sentence_bleu(
+                hypotheses,
+                reference,
+                smoothing_function=smoothing_func.method1,
+                auto_reweigh=True)
         print("hypothesis: {}".format(hypotheses[0]))
         print("reference: {}".format(reference))
         print("bleu: {}".format(bleu))
@@ -583,16 +552,12 @@ if __name__ == '__main__':
     print("Here are some examples post tokenization and indexing:")
     for i in range(0, min(len(train_data_indexed), 10)):
         print(train_data_indexed[i])
-    if args.do_nearest_neighbor:
-        decoder = NearestNeighborSemanticParser(train_data_indexed)
-        evaluate(dev_data_indexed, decoder)
-    else:
-        decoder = train_model_encdec(
-                train_data_indexed,
-                dev_data_indexed,
-                input_indexer,
-                output_indexer,
-                args)
+    decoder = train_model_encdec(
+            train_data_indexed,
+            dev_data_indexed,
+            input_indexer,
+            output_indexer,
+            args)
     print("=======FINAL EVALUATION ON BLIND TEST=======")
     evaluate(
             test_data_indexed,
