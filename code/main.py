@@ -512,12 +512,6 @@ def evaluate(
 
     bleus = []
     for i, ex in enumerate(test_data):
-        if i % example_freq == 0:
-            print('Example %d' % i)
-            print('  x      = "%s"' % ex.x)
-            print('  y_tok  = "%s"' % ex.y_tok)
-            print('  y_pred = "%s"' % pred_derivations[i][0].y_toks)
-
         hypotheses = [pred_derivations[i][0].y_toks]
         reference = pred_derivations[i][0].example.y_tok
         smoothing_func = SmoothingFunction()
@@ -526,9 +520,15 @@ def evaluate(
                 reference,
                 smoothing_function=smoothing_func.method1,
                 auto_reweigh=True)
-        print("hypothesis: {}".format(hypotheses[0]))
-        print("reference: {}".format(reference))
-        print("bleu: {}".format(bleu))
+        if i % example_freq == 0:
+            print('Example %d' % i)
+            print('  x      = "%s"' % ex.x)
+            print('  y_tok  = "%s"' % ex.y_tok)
+            print('  y_pred = "%s"' % pred_derivations[i][0].y_toks)
+
+            print("hypothesis: {}".format(hypotheses[0]))
+            print("reference: {}".format(reference))
+            print("bleu: {}".format(bleu))
 
         bleus.append(bleu)
 
