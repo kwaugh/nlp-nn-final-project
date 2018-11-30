@@ -415,7 +415,10 @@ def train_model_encdec(
             model_enc.train()
             model_dec.train()
 
-        for train_input, train_output, input_lens in train_gen:
+        for idx, train_item in enumerate(train_gen):
+            if idx % 100 == 0:
+                print('item: {}/{}'.format(idx, len(train_gen)))
+            train_input, train_output, input_lens = train_item
             loss = 0
             enc_optimizer.zero_grad()
             dec_optimizer.zero_grad()
