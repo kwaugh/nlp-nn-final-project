@@ -90,7 +90,8 @@ def _parse_args():
             type=int,
             default=40,
             help='batch size')
-    # 65 is all you need for GeoQuery
+    # 65 is all you need for English->French
+    # 206 is required for EnglishParse->FrenchParse
     parser.add_argument(
             '--decoder_len_limit',
             type=int,
@@ -416,8 +417,8 @@ def train_model_encdec(
             model_dec.train()
 
         for idx, train_item in enumerate(train_gen):
-            if idx % 100 == 0:
-                print('item: {}/{}'.format(idx, len(train_gen)))
+            # if idx % 100 == 0:
+            #     print('item: {}/{}'.format(idx, len(train_gen)))
             train_input, train_output, input_lens = train_item
             loss = 0
             enc_optimizer.zero_grad()
@@ -484,6 +485,14 @@ def train_model_encdec(
             total_epoch_loss += loss
             enc_optimizer.step()
             dec_optimizer.step()
+            torch.cuda.empty_cache()
+            del d_output
+            del d_hidden
+            del d_input
+            del e_output
+            del e_context
+            del e_final_state
+            del train_item
         #print("epoch loss: {}".format(int(total_epoch_loss)))
         print("average sample loss: {}".format(
             total_epoch_loss / num_training_examples))
@@ -503,6 +512,7 @@ def train_model_encdec(
     evaluate(test_data, parser)
     return parser
 
+running_bleus = []
 
 # Evaluates decoder against the data in test_data (could be dev data or test
 # data). Prints some output every example_freq examples. Writes predictions to
@@ -536,7 +546,8 @@ def evaluate(
         bleus.append(bleu)
 
     if print_output:
-        print("average bleu: {}".format(sum(bleus)/len(bleus)))
+        running_bleus.append(sum(bleus)/len(bleus))
+        print("average bleus: {}".format(running_bleus))
     # Writes to the output file if needed
     """
     if outfile is not None:
