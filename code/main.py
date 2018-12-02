@@ -482,7 +482,7 @@ def train_model_encdec(
                                 train_output[k,j] == EOS_INX)
 
             loss.backward()
-            total_epoch_loss += loss
+            total_epoch_loss += float(loss)
             enc_optimizer.step()
             dec_optimizer.step()
             torch.cuda.empty_cache()
@@ -493,6 +493,7 @@ def train_model_encdec(
             del e_context
             del e_final_state
             del train_item
+            del loss
         #print("epoch loss: {}".format(int(total_epoch_loss)))
         print("average sample loss: {}".format(
             total_epoch_loss / num_training_examples))
