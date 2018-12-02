@@ -182,8 +182,9 @@ class Seq2SeqSemanticParser(object):
         test_derivs = []
         input_max_len = np.max(
                 np.asarray([len(ex.x_indexed) for ex in test_data]))
+        # reverse_input = Treu
         inputs = torch.from_numpy(make_padded_input_tensor(
-            test_data, self.input_indexer, input_max_len, args.reverse_input))\
+            test_data, self.input_indexer, input_max_len, True))\
                     .to(device)
         for i in range(len(inputs)):
             test_ex = inputs[i].unsqueeze(0)
@@ -315,26 +316,16 @@ def train_model_encdec(
             print("Loaded model: ", args.load_model)
             state = pickle.load(f)
 
-            model_enc = state["model_enc"]
-            model_dec = state["model_dec"]
-            model_input_emb = state["model_input_emb"]
-            model_output_emb = state["model_output_emb"]
-
+            epoch = state["epoch"]
+            parser = state["model"]
             enc_optimizer = state["enc_optimizer"]
             dec_optimizer = state["dec_optimizer"]
 
-            epoch = state["epoch"]
+            model_enc = parser.encoder
+            model_dec = parser.decoder
+            model_input_emb = parser.input_emb
+            model_output_emb = parser.output_emb
 
-            parser = Seq2SeqSemanticParser(
-                    model_enc,
-                    model_dec,
-                    model_input_emb,
-                    model_output_emb,
-                    output_max_len,
-                    input_indexer,
-                    output_indexer,
-                    args.decoder_len_limit,
-                    device)
             evaluate(test_data, parser)
     else:
         model_input_emb = models.EmbeddingLayer(
@@ -385,11 +376,17 @@ def train_model_encdec(
         total_epoch_loss = 0
         if epoch % args.save_epochs == 0 and epoch != 0:
             state = {
-                "model_enc": model_enc,
-                "model_dec": model_dec,
-                "model_input_emb": model_input_emb,
-                "model_output_emb": model_output_emb,
                 "epoch": epoch,
+                "model": Seq2SeqSemanticParser(
+                    model_enc,
+                    model_dec,
+                    model_input_emb,
+                    model_output_emb,
+                    output_max_len,
+                    input_indexer,
+                    output_indexer,
+                    args.decoder_len_limit,
+                    device),
                 "enc_optimizer": enc_optimizer,
                 "dec_optimizer": dec_optimizer
             }
