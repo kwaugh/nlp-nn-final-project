@@ -205,7 +205,8 @@ if __name__ == '__main__':
                     input_indexer,
                     output_indexer,
                     args.decoder_len_limit,
-                    device)
+                    device,
+                    args.reverse_input)
 
             new_state = {
                 "model": parser,

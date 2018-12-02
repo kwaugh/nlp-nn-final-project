@@ -159,7 +159,7 @@ def _parse_args():
 
 class Seq2SeqSemanticParser(object):
     def __init__(self, encoder, decoder, input_emb, output_emb, max_output_len,
-            input_indexer, output_indexer, len_limit, device):
+            input_indexer, output_indexer, len_limit, device, reverse_input):
         self.encoder = encoder
         self.decoder = decoder
         self.input_emb = input_emb
@@ -171,6 +171,7 @@ class Seq2SeqSemanticParser(object):
         self.EOS_INX = output_indexer.get_index(data.EOS_SYMBOL)
         self.len_limit = len_limit
         self.device = device
+        self.reverse_input = reverse_input
 
     def decode(self, test_data):
         self.encoder.eval()
@@ -182,9 +183,8 @@ class Seq2SeqSemanticParser(object):
         test_derivs = []
         input_max_len = np.max(
                 np.asarray([len(ex.x_indexed) for ex in test_data]))
-        # reverse_input = Treu
         inputs = torch.from_numpy(make_padded_input_tensor(
-            test_data, self.input_indexer, input_max_len, True))\
+            test_data, self.input_indexer, input_max_len, self.reverse_input))\
                     .to(device)
         for i in range(len(inputs)):
             test_ex = inputs[i].unsqueeze(0)
@@ -386,7 +386,8 @@ def train_model_encdec(
                     input_indexer,
                     output_indexer,
                     args.decoder_len_limit,
-                    device),
+                    device,
+                    args.reverse_input),
                 "enc_optimizer": enc_optimizer,
                 "dec_optimizer": dec_optimizer
             }
@@ -406,7 +407,8 @@ def train_model_encdec(
                     input_indexer,
                     output_indexer,
                     args.decoder_len_limit,
-                    device)
+                    device,
+                    args.reverse_input)
             evaluate(test_data, parser)
             model_input_emb.train()
             model_output_emb.train()
@@ -506,7 +508,8 @@ def train_model_encdec(
             input_indexer,
             output_indexer,
             args.decoder_len_limit,
-            device)
+            device,
+            args.reverse_input)
     evaluate(test_data, parser)
     return parser
 
