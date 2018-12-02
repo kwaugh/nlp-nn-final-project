@@ -53,6 +53,10 @@ def make_input_output_match(input_file_name, output_file_name):
                     else:
                         input_idx += 2
                         output_idx += 1
+                elif len(in_line.split(' ')) > 65 \
+                        or len(out_line.split(' ')) > 65:
+                    input_idx += 1
+                    output_idx += 1
                 else:
                     good_indices.append(input_idx)
                     input_idx += 1

@@ -77,33 +77,36 @@ def update_dataset(lines, vocab):
 
     return new_lines
 
-print("Starting reduction")
-
-en_filename = 'clean-en.txt'
-en_vocab = to_vocab(en_lines)
-en_vocab = trim_vocab(en_vocab, 5)
-en_lines = update_dataset(en_lines, en_vocab)
-
-fr_filename = 'clean-fr.txt'
-fr_vocab = to_vocab(fr_lines)
-fr_vocab = trim_vocab(fr_vocab, 5)
-fr_lines = update_dataset(fr_lines, fr_vocab)
-
-"""
-ctr = 0
-for idx, item in enumerate(fr_lines):
-    if not item and en_lines[idx]:
-        print("idx: ", idx)
-        print("en: ", en_lines[idx])
-        print("fr: ", fr_lines[idx])
-"""
-
 if __name__ == '__main__':
+    print("Starting reduction")
+
+    en_filename = 'clean-en.txt'
+    en_vocab = to_vocab(en_lines)
+    en_vocab = trim_vocab(en_vocab, 5)
+    en_lines = update_dataset(en_lines, en_vocab)
+
+    fr_filename = 'clean-fr.txt'
+    fr_vocab = to_vocab(fr_lines)
+    fr_vocab = trim_vocab(fr_vocab, 5)
+    fr_lines = update_dataset(fr_lines, fr_vocab)
+
+    """
+    ctr = 0
+    for idx, item in enumerate(fr_lines):
+        if not item and en_lines[idx]:
+            print("idx: ", idx)
+            print("en: ", en_lines[idx])
+            print("fr: ", fr_lines[idx])
+    """
+
     with open(en_filename, 'w') as en_f:
         with open(fr_filename, 'w') as fr_f:
             for idx in range(min(len(fr_lines), len(en_lines))):
                 en_line = en_lines[idx]
                 fr_line = fr_lines[idx]
+
+                if len(en_line.split(' ')) > 65 or len(fr_line.split(' ')) > 65:
+                    continue
 
                 if not en_line or not fr_line or len(en_line) < 3 or len(fr_line) < 3:
                     continue
