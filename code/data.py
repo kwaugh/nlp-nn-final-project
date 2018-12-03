@@ -94,7 +94,7 @@ class Dataset(data.Dataset):
             self.reverse_input))
         out_mat_line = torch.from_numpy(make_padded_output_tensor([example],
             self.out_indexer, self.out_max_len))
-        return in_mat_line, out_mat_line, len(example.x_tok)
+        return in_mat_line, out_mat_line, len(example.x_tok), index
 
 
 # Reads the training, dev, and test data from the corresponding files.

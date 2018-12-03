@@ -182,7 +182,7 @@ class Seq2SeqSemanticParser(object):
         device = self.device
         test_derivs = []
         for idx, test_item in enumerate(data_gen):
-            test_input, _, test_lens = test_item
+            test_input, _, test_lens, indices = test_item
             test_input = test_input.squeeze().to(self.device)
             batch_size = len(test_input)
             # ENCODER
@@ -215,7 +215,7 @@ class Seq2SeqSemanticParser(object):
 
             for k in range(batch_size):
                 test_derivs.append([
-                    data.Derivation(test_data[idx*batch_size+k],
+                    data.Derivation(test_data[indices[k]],
                         1.0,
                         tokens[k][1:])])
 
@@ -422,7 +422,7 @@ def train_model_encdec(
             model_dec.train()
 
         for idx, train_item in enumerate(train_gen):
-            train_input, train_output, input_lens = train_item
+            train_input, train_output, input_lens, indices = train_item
             loss = 0
             enc_optimizer.zero_grad()
             dec_optimizer.zero_grad()
