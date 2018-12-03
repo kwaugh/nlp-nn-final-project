@@ -6,8 +6,8 @@ def train_dev_test_split(file_prefix, file_extension, percentage):
     with open(file_prefix + file_extension, 'r') as f:
         lines = f.readlines()
         num_lines = int(len(lines) * percentage)
-        train_lines = math.ceil(num_lines * 0.8)
-        dev_lines = math.ceil(num_lines * 0.1)
+        train_lines = int(math.ceil(num_lines * 0.8))
+        dev_lines = int(math.ceil(num_lines * 0.1))
 
         suffix_to_lines = {
                 'train': (0, train_lines),
