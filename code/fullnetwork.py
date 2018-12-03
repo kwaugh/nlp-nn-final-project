@@ -40,6 +40,11 @@ def _parse_args():
             type=str,
             default=None,
             help='seq2seq model to load from')
+    parser.add_argument(
+            '--batch_size',
+            type=int,
+            default=40,
+            help='batch size')
     # 65 is all you need for English->French
     # 206 is required for EnglishParse->FrenchParse
     parser.add_argument(
@@ -47,6 +52,23 @@ def _parse_args():
             type=int,
             default=65,
             help='output length limit of the decoder')
+    parser.add_argument(
+            '--num_workers',
+            type=int,
+            default=2,
+            help='number of data loading workers')
+    parser.add_argument(
+            '--shuffle',
+            dest='shuffle',
+            default=False,
+            action='store_true',
+            help='shuffle the dataset between epochs')
+    parser.add_argument(
+            '--no_reverse_input',
+            dest='reverse_input',
+            default=True,
+            action='store_false',
+            help='disable_input_reversal')
     args = parser.parse_args()
     return args
 
@@ -74,7 +96,7 @@ class FullNetwork(object):
             for a in A:
                 f.write(a.x)
                 f.write("\n")
-            
+
         parser_command = ("java -cp .:stanford-parser.jar:stanford-postagger-3.5.0.jar:stanford-english-corenlp-2018-10-05-models.jar "
                 "ShiftReduceDemo -model edu/stanford/nlp/models/srparser/englishSR.ser.gz -tagger english-bidirectional-distsim.tagger "
                 "-file {} > {}").format(in_name, out_name)
@@ -99,11 +121,11 @@ class FullNetwork(object):
 
         return sentences
 
-    def decode(self, A):                                  # [Example]
+    def decode(self, A, data_gen):
         # print("A: ", A[:5])
         A_parse = self.parse(A)                           # [Example]
         # print("A_parse: ", A_parse[:5])
-        B_parse = self.parse_seq2seq.decode(A_parse)      # [Derivation]
+        B_parse = self.parse_seq2seq.decode(A_parse, data_gen) # [Derivation]
         # print("B_parse: ", B_parse[:5])
         B = self.unparse(B_parse)                         # [string]
 
@@ -112,7 +134,7 @@ class FullNetwork(object):
         derivs = []
         for a, b in zip(A, B):
             derivs.append([data.Derivation(a, 1.0, b.split())])
-            
+
         return derivs
 
 running_bleus = []
@@ -122,8 +144,8 @@ running_bleus = []
 # outfile if defined. Evaluation requires executing the model's predictions
 # against the knowledge base. We pick the highest-scoring derivation for each
 # example with a valid denotation (if you've provided more than one).
-def evaluate(test_data, decoder, example_freq=50, print_output=True, outfile=None):
-    pred_derivations = decoder.decode(test_data)
+def evaluate(test_data, decoder, test_gen, example_freq=50, print_output=True, outfile=None):
+    pred_derivations = decoder.decode(test_data, test_gen)
 
     bleus = []
     for i, ex in enumerate(test_data):
@@ -138,9 +160,6 @@ def evaluate(test_data, decoder, example_freq=50, print_output=True, outfile=Non
         if i % example_freq == 0:
             print('Example %d' % i)
             print('  x      = "%s"' % ex.x)
-            print('  y_tok  = "%s"' % ex.y_tok)
-            print('  y_pred = "%s"' % pred_derivations[i][0].y_toks)
-
             print("hypothesis: {}".format(hypotheses[0]))
             print("reference: {}".format(reference))
             print("bleu: {}".format(bleu))
@@ -168,10 +187,29 @@ if __name__ == '__main__':
     args = _parse_args()
     print(args)
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
     test_data = data.load_dataset(args.test_path_input, args.test_path_output)
 
-    # index doesn't matter here (?)
-    test_data_indexed = data.index_data(test_data, data.Indexer(), data.Indexer(), args.decoder_len_limit)
+    # Data Loader for lazy generator
+    data_loader_params = {
+            'batch_size': args.batch_size,
+            'shuffle': args.shuffle,
+            'num_workers': args.num_workers,}
+    input_indexer = utils.Indexer()
+    output_indexer = utils.Indexer()
+
+    test_data_indexed = data.index_data(
+            test_data, input_indexer, output_indexer, args.decoder_len_limit)
+    input_max_len = np.max(np.asarray([len(ex.x_indexed) for ex in
+        test_data_indexed]))
+    output_max_len = np.max(
+            np.asarray([len(ex.y_indexed) for ex in test_data_indexed]))
+
+    test_data_indexed.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
+    test = data.Dataset(test_data_indexed, input_indexer, output_indexer,
+            input_max_len, output_max_len, args.reverse_input, device)
+    test_gen = torch.utils.data.DataLoader(test, **data_loader_params)
 
     with open(args.load_model, 'rb') as f:
         state = pickle.load(f)
@@ -183,6 +221,7 @@ if __name__ == '__main__':
         evaluate(
                 test_data_indexed,
                 network,
+                test_gen,
                 print_output=False,
                 example_freq=1,
                 outfile="geo_test_output.tsv")

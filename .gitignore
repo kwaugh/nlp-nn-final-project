@@ -16,3 +16,4 @@ code/data/fr_out
 code/data/postprocess
 code/data/__pycache__
 code/model_save
+stanford-corenlp
