@@ -182,7 +182,6 @@ class Seq2SeqSemanticParser(object):
         device = self.device
         test_derivs = []
         for idx, test_item in enumerate(data_gen):
-            print('evaluate idx: {}/{}'.format(idx, len(data_gen)))
             test_input, _, test_lens = test_item
             test_input = test_input.squeeze().to(self.device)
             batch_size = len(test_input)
@@ -198,7 +197,7 @@ class Seq2SeqSemanticParser(object):
                         device).unsqueeze(0))
             d_hidden = e_final_state
 
-            tokens = [[None]] * batch_size
+            tokens = [[i] for i in range(batch_size)]
             is_done = [False] * batch_size
             for j in range(self.len_limit):
                 if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
@@ -214,9 +213,11 @@ class Seq2SeqSemanticParser(object):
                         tokens[k].append(self.output_indexer.get_object(
                             d_output[0,k].item()))
 
-            for j in range(batch_size):
-                test_derivs.append(
-                        [data.Derivation(test_data[idx+j], 1.0, tokens[j][1:])])
+            for k in range(batch_size):
+                test_derivs.append([
+                    data.Derivation(test_data[idx*batch_size+k],
+                        1.0,
+                        tokens[k][1:])])
 
         return test_derivs
 
@@ -414,14 +415,13 @@ def train_model_encdec(
                     args.decoder_len_limit,
                     device,
                     args.reverse_input)
-            evaluate(dev_test, parser, dev_gen)
+            evaluate(dev_data, parser, dev_gen)
             model_input_emb.train()
             model_output_emb.train()
             model_enc.train()
             model_dec.train()
 
         for idx, train_item in enumerate(train_gen):
-            print('item: {}/{}'.format(idx, len(train_gen)))
             train_input, train_output, input_lens = train_item
             loss = 0
             enc_optimizer.zero_grad()
@@ -517,9 +517,6 @@ def evaluate(
         if i % example_freq == 0:
             print('Example %d' % i)
             print('  x      = "%s"' % ex.x)
-            print('  y_tok  = "%s"' % ex.y_tok)
-            print('  y_pred = "%s"' % pred_derivations[i][0].y_toks)
-
             print("hypothesis: {}".format(hypotheses[0]))
             print("reference: {}".format(reference))
             print("bleu: {}".format(bleu))
