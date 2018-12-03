@@ -173,7 +173,7 @@ class Seq2SeqSemanticParser(object):
         self.device = device
         self.reverse_input = reverse_input
 
-    def decode(self, test_data):
+    def decode(self, test_data, data_gen):
         self.encoder.eval()
         self.decoder.eval()
         self.input_emb.eval()
@@ -181,38 +181,42 @@ class Seq2SeqSemanticParser(object):
 
         device = self.device
         test_derivs = []
-        input_max_len = np.max(
-                np.asarray([len(ex.x_indexed) for ex in test_data]))
-        inputs = torch.from_numpy(make_padded_input_tensor(
-            test_data, self.input_indexer, input_max_len, self.reverse_input))\
-                    .to(device)
-        for i in range(len(inputs)):
-            test_ex = inputs[i].unsqueeze(0)
+        for idx, test_item in enumerate(data_gen):
+            print('evaluate idx: {}/{}'.format(idx, len(data_gen)))
+            test_input, _, test_lens = test_item
+            test_input = test_input.squeeze().to(self.device)
+            batch_size = len(test_input)
             # ENCODER
-            zeros = np.where(test_ex.squeeze() == 0)[0]
-            inp_len = len(test_ex) if len(zeros) == 0 else zeros[0]
             e_output, e_context, e_final_state = encode_input_for_decoder(
-                    test_ex,
-                    torch.as_tensor(inp_len, dtype=torch.long).unsqueeze(0),
+                    test_input,
+                    test_lens,
                     self.input_emb,
                     self.encoder)
             # DECODER
             d_input = self.output_emb.forward(
-                    torch.as_tensor([self.SOS_INX]).to(device).unsqueeze(0))
+                    torch.as_tensor([self.SOS_INX] * batch_size).to(
+                        device).unsqueeze(0))
             d_hidden = e_final_state
 
-            tokens = []
+            tokens = [[None]] * batch_size
+            is_done = [False] * batch_size
             for j in range(self.len_limit):
+                if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
+                    break
                 d_output, d_hidden = self.decoder.forward(
                         d_input, d_hidden, e_output)
-                d_output = d_output.squeeze().argmax(dim=0)
-                if d_output == self.EOS_INX:
-                    break
-                d_input = self.output_emb.forward(
-                        d_output).unsqueeze(0).unsqueeze(0)
-                tokens.append(self.output_indexer.get_object(d_output.item()))
+                d_output = d_output.argmax(dim=2)
+                d_input = self.output_emb.forward(d_output)
+                for k in range(batch_size):
+                    if not is_done[k]:
+                        is_done[k] = bool(d_output[0,k].item() == self.EOS_INX)
+                    if not is_done[k]:
+                        tokens[k].append(self.output_indexer.get_object(
+                            d_output[0,k].item()))
 
-            test_derivs.append([data.Derivation(test_data[i], 1.0, tokens)])
+            for j in range(batch_size):
+                test_derivs.append(
+                        [data.Derivation(test_data[idx+j], 1.0, tokens[j][1:])])
 
         return test_derivs
 
@@ -272,10 +276,10 @@ def encode_input_for_decoder(
 
 
 def train_model_encdec(
-        train_data, test_data, input_indexer, output_indexer, args):
+        train_data, dev_data, input_indexer, output_indexer, args):
     # Sort in descending order by x_indexed, essential for pack_padded_sequence
     train_data.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
-    test_data.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
+    dev_data.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -303,7 +307,7 @@ def train_model_encdec(
     # These are lazy generators
     train = data.Dataset(train_data, input_indexer, output_indexer,
             input_max_len, output_max_len, args.reverse_input, device)
-    dev = data.Dataset(test_data, input_indexer, output_indexer, input_max_len,
+    dev = data.Dataset(dev_data, input_indexer, output_indexer, input_max_len,
             output_max_len, args.reverse_input, device)
 
     train_gen = torch.utils.data.DataLoader(train, **data_loader_params)
@@ -313,7 +317,7 @@ def train_model_encdec(
     epoch = 0
     if args.load_model:
         with open(args.load_model, 'rb') as f:
-            print("Loaded model: ", args.load_model)
+            print("Loading model: ", args.load_model)
             state = pickle.load(f)
 
             epoch = state["epoch"]
@@ -326,7 +330,8 @@ def train_model_encdec(
             model_input_emb = parser.input_emb
             model_output_emb = parser.output_emb
 
-            evaluate(test_data, parser)
+            print("Loaded model: ", args.load_model)
+            evaluate(dev_data, parser, dev_gen)
     else:
         model_input_emb = models.EmbeddingLayer(
                 args.input_dim, len(input_indexer), args.emb_dropout).to(device)
@@ -409,15 +414,14 @@ def train_model_encdec(
                     args.decoder_len_limit,
                     device,
                     args.reverse_input)
-            evaluate(test_data, parser)
+            evaluate(dev_test, parser, dev_gen)
             model_input_emb.train()
             model_output_emb.train()
             model_enc.train()
             model_dec.train()
 
         for idx, train_item in enumerate(train_gen):
-            # if idx % 100 == 0:
-            #     print('item: {}/{}'.format(idx, len(train_gen)))
+            print('item: {}/{}'.format(idx, len(train_gen)))
             train_input, train_output, input_lens = train_item
             loss = 0
             enc_optimizer.zero_grad()
@@ -428,31 +432,7 @@ def train_model_encdec(
 
             i = 0
             batch_size = len(train_input)
-            '''
-            train_input_data = torch.from_numpy(make_padded_input_tensor(
-                train_data[i:i+batch_size], input_indexer, input_max_len,
-                args.reverse_input)).to(device)
-            test_input_data = torch.from_numpy(make_padded_input_tensor(
-                test_data[i:i+batch_size], input_indexer, input_max_len,
-                args.reverse_input)).to(device)
-
-            train_output_data = torch.from_numpy(make_padded_output_tensor(
-                train_data[i:i+batch_size], output_indexer,
-                output_max_len)).to(device)
-            test_output_data = torch.from_numpy(make_padded_output_tensor(
-                test_data[i:i+batch_size], output_indexer,
-                output_max_len)).to(device)
-
-            print('train_input.shape: {}'.format(train_input.shape))
-            print('train_output.shape: {}'.format(train_output.shape))
-
-            print("train_input_data size: {}".format(train_input_data.size()))
-            print("train_output_data size: {}".format(train_output_data.size()))
-            '''
             # ENCODER
-            # input_lens = torch.as_tensor(list(map(
-            #     lambda x: len(x.x_indexed), examples)),
-            #     dtype=torch.long).to(device)
             e_output, e_context, e_final_state = encode_input_for_decoder(
                     train_input,
                     input_lens,
@@ -510,7 +490,7 @@ def train_model_encdec(
             args.decoder_len_limit,
             device,
             args.reverse_input)
-    evaluate(test_data, parser)
+    evaluate(dev_data, parser, dev_gen)
     return parser
 
 running_bleus = []
@@ -521,8 +501,8 @@ running_bleus = []
 # against the knowledge base. We pick the highest-scoring derivation for each
 # example with a valid denotation (if you've provided more than one).
 def evaluate(
-        test_data, decoder, example_freq=50, print_output=True, outfile=None):
-    pred_derivations = decoder.decode(test_data)
+        test_data, decoder, test_gen, example_freq=50, print_output=True, outfile=None):
+    pred_derivations = decoder.decode(test_data, test_gen)
 
     bleus = []
     for i, ex in enumerate(test_data):
@@ -602,9 +582,11 @@ if __name__ == '__main__':
             input_indexer,
             output_indexer,
             args)
+    '''
     print("=======FINAL EVALUATION ON BLIND TEST=======")
     evaluate(
             test_data_indexed,
             decoder,
             print_output=False,
             outfile="geo_test_output.tsv")
+    '''
