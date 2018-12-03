@@ -85,6 +85,7 @@ class RNNEncoder(nn.Module):
         # Runs the RNN over each sequence. Returns output at each position as
         # well as the last vectors of the RNN state for each sentence
         # (first/last vectors for bidirectional)
+        self.rnn.flatten_parameters()
         output, hn = self.rnn(packed_embedding)
         # Unpacks the Pytorch representation into normal tensors
         output, sent_lens = nn.utils.rnn.pad_packed_sequence(output)
@@ -136,6 +137,7 @@ class RNNDecoder(nn.Module):
         # TODO: should I initialize the feed_forward layer?
 
     def forward(self, input, hn, e_output):
+        self.rnn.flatten_parameters()
         output, hidden = self.rnn(input, hn)
         if self.use_attention:
             batch_size = e_output.shape[1]
