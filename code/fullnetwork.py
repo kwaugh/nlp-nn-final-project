@@ -215,6 +215,6 @@ if __name__ == '__main__':
         evaluate(
                 test_data_indexed,
                 network,
-                print_output=False,
+                print_output=True,
                 example_freq=1,
                 outfile="geo_test_output.tsv")
