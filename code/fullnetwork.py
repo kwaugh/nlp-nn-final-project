@@ -50,7 +50,7 @@ def _parse_args():
     parser.add_argument(
             '--decoder_len_limit',
             type=int,
-            default=65,
+            default=206,
             help='output length limit of the decoder')
     parser.add_argument(
             '--num_workers',
