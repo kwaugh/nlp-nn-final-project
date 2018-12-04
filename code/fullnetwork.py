@@ -77,15 +77,6 @@ class FullNetwork(object):
     def __init__(self, parse_seq2seq):
         self.parse_seq2seq = parse_seq2seq
 
-        """
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.parse_seq2seq.device = device
-        self.parse_seq2seq.input_emb = self.parse_seq2seq.input_emb.to(device)
-        self.parse_seq2seq.output_emb = self.parse_seq2seq.output_emb.to(device)
-        self.parse_seq2seq.encoder = self.parse_seq2seq.encoder.to(device)
-        self.parse_seq2seq.decoder = self.parse_seq2seq.decoder.to(device)
-        """
-
     def parse(self, A):
         cwd = os.getcwd()
         os.chdir("../stanford-corenlp")
@@ -110,7 +101,10 @@ class FullNetwork(object):
         os.chdir(cwd)
 
         # TODO: output doesn't matter (?)
-        return data.index_data(zip(parses, parses), parse_seq2seq.input_indexer, parse_seq2seq.output_indexer, args.decoder_len_limit)
+        return data.index_data(zip(parses, parses),
+                self.parse_seq2seq.input_indexer,
+                self.parse_seq2seq.output_indexer,
+                args.decoder_len_limit)
 
     def unparse(self, test_derivs):
         sentences = []
@@ -121,11 +115,29 @@ class FullNetwork(object):
 
         return sentences
 
-    def decode(self, A, data_gen):
+    def decode(self, A):
         # print("A: ", A[:5])
         A_parse = self.parse(A)                           # [Example]
         # print("A_parse: ", A_parse[:5])
-        B_parse = self.parse_seq2seq.decode(A_parse, data_gen) # [Derivation]
+
+        # Data Loader
+        A_parse.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
+        data_loader_params = {
+                'batch_size': args.batch_size,
+                'shuffle': args.shuffle,
+                'num_workers': args.num_workers,}
+
+        input_max_len = np.max(
+                np.asarray([len(ex.x_indexed) for ex in A_parse]))
+        output_max_len = np.max(
+                np.asarray([len(ex.y_indexed) for ex in A_parse]))
+        A_dataset = data.Dataset(A_parse, self.parse_seq2seq.input_indexer,
+                self.parse_seq2seq.output_indexer, input_max_len,
+                output_max_len, args.reverse_input, device)
+
+        A_gen = torch.utils.data.DataLoader(A_dataset, **data_loader_params)
+
+        B_parse = self.parse_seq2seq.decode(A_parse, A_gen) # [Derivation]
         # print("B_parse: ", B_parse[:5])
         B = self.unparse(B_parse)                         # [string]
 
@@ -144,8 +156,8 @@ running_bleus = []
 # outfile if defined. Evaluation requires executing the model's predictions
 # against the knowledge base. We pick the highest-scoring derivation for each
 # example with a valid denotation (if you've provided more than one).
-def evaluate(test_data, decoder, test_gen, example_freq=50, print_output=True, outfile=None):
-    pred_derivations = decoder.decode(test_data, test_gen)
+def evaluate(test_data, decoder, example_freq=50, print_output=True, outfile=None):
+    pred_derivations = decoder.decode(test_data)
 
     bleus = []
     for i, ex in enumerate(test_data):
@@ -190,26 +202,8 @@ if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     test_data = data.load_dataset(args.test_path_input, args.test_path_output)
-
-    # Data Loader for lazy generator
-    data_loader_params = {
-            'batch_size': args.batch_size,
-            'shuffle': args.shuffle,
-            'num_workers': args.num_workers,}
-    input_indexer = utils.Indexer()
-    output_indexer = utils.Indexer()
-
-    test_data_indexed = data.index_data(
-            test_data, input_indexer, output_indexer, args.decoder_len_limit)
-    input_max_len = np.max(np.asarray([len(ex.x_indexed) for ex in
-        test_data_indexed]))
-    output_max_len = np.max(
-            np.asarray([len(ex.y_indexed) for ex in test_data_indexed]))
-
-    test_data_indexed.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
-    test = data.Dataset(test_data_indexed, input_indexer, output_indexer,
-            input_max_len, output_max_len, args.reverse_input, device)
-    test_gen = torch.utils.data.DataLoader(test, **data_loader_params)
+    test_data_indexed = data.index_data(test_data, data.Indexer(),
+            data.Indexer(), args.decoder_len_limit)
 
     with open(args.load_model, 'rb') as f:
         state = pickle.load(f)
@@ -221,7 +215,6 @@ if __name__ == '__main__':
         evaluate(
                 test_data_indexed,
                 network,
-                test_gen,
                 print_output=False,
                 example_freq=1,
                 outfile="geo_test_output.tsv")

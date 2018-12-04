@@ -136,11 +136,6 @@ def index(x_tok, indexer):
 
 def index_data(data, input_indexer, output_indexer, example_len_limit):
     data_indexed = []
-    input_indexer.get_index(PAD_SYMBOL)
-    input_indexer.get_index(UNK_SYMBOL)
-    output_indexer.get_index(PAD_SYMBOL)
-    output_indexer.get_index(SOS_SYMBOL)
-    output_indexer.get_index(EOS_SYMBOL)
     for (x, y) in data:
         x_tok = tokenize(x)
         y_tok = tokenize(y)[0:example_len_limit]
