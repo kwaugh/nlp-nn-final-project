@@ -21,14 +21,14 @@ from parse_to_sentence import parse_to_sentence
 def _parse_args():
     parser = argparse.ArgumentParser(description='main.py')
     parser.add_argument(
-            '--test_path_input',
+            '--dev_path_input',
             type=str,
-            default='data/english_test.txt',
+            default='data/english_dev.txt',
             help='path to blind test data input')
     parser.add_argument(
-            '--test_path_output',
+            '--dev_path_output',
             type=str,
-            default='data/french_test.txt',
+            default='data/french_dev.txt',
             help='path to blind test data output')
     parser.add_argument(
             '--test_output_path',
@@ -207,8 +207,8 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    test_data = data.load_dataset(args.test_path_input, args.test_path_output)
-    test_data_indexed = data.index_data(test_data, data.Indexer(),
+    dev_data = data.load_dataset(args.dev_path_input, args.dev_path_output)
+    dev_data_indexed = data.index_data(dev_data, data.Indexer(),
             data.Indexer(), args.decoder_len_limit)
 
     with open(args.load_model, 'rb') as f:
@@ -219,7 +219,7 @@ if __name__ == '__main__':
 
         print("=======EVALUATION=======")
         evaluate(
-                test_data_indexed,
+                dev_data_indexed,
                 network,
                 print_output=True,
                 example_freq=1,
