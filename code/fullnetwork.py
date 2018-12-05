@@ -120,8 +120,12 @@ class FullNetwork(object):
         A_parse = self.parse(A)                           # [Example]
         # print("A_parse: ", A_parse[:5])
 
+        indices = [i for i in range(len(A_parse))]
+
         # Data Loader
+        indices.sort(key=lambda i: len(A_parse[i].x_indexed), reverse=True)
         A_parse.sort(key=lambda ex: len(ex.x_indexed), reverse=True)
+
         data_loader_params = {
                 'batch_size': args.batch_size,
                 'shuffle': args.shuffle,
@@ -142,6 +146,8 @@ class FullNetwork(object):
         B = self.unparse(B_parse)                         # [string]
 
         # print("B: ", B[:5])
+
+        A = [A[indices[i]] for i in range(len(A))]
 
         derivs = []
         for a, b in zip(A, B):
