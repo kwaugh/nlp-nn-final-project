@@ -92,6 +92,7 @@ def _parse_args():
             help='batch size')
     # 65 is all you need for English->French
     # 206 is required for EnglishParse->FrenchParse
+    # 646 is required for EnglishParse->FrenchParse with split parens
     parser.add_argument(
             '--decoder_len_limit',
             type=int,
@@ -158,12 +159,12 @@ def _parse_args():
 
 
 class Seq2SeqSemanticParser(object):
-    def __init__(self, encoder, decoder, input_emb, output_emb, max_output_len,
+    def __init__(self, model_enc, model_dec, model_input_emb, model_output_emb, max_output_len,
             input_indexer, output_indexer, len_limit, device, reverse_input):
-        self.encoder = encoder
-        self.decoder = decoder
-        self.input_emb = input_emb
-        self.output_emb = output_emb
+        self.model_enc = model_enc
+        self.model_dec = model_dec
+        self.model_input_emb = model_input_emb
+        self.model_output_emb = model_output_emb
         self.max_output_len = max_output_len
         self.input_indexer = input_indexer
         self.output_indexer = output_indexer
@@ -174,10 +175,10 @@ class Seq2SeqSemanticParser(object):
         self.reverse_input = reverse_input
 
     def decode(self, test_data, data_gen):
-        self.encoder.eval()
-        self.decoder.eval()
-        self.input_emb.eval()
-        self.output_emb.eval()
+        self.model_enc.eval()
+        self.model_dec.eval()
+        self.model_input_emb.eval()
+        self.model_output_emb.eval()
 
         device = self.device
         test_derivs = []
@@ -185,14 +186,14 @@ class Seq2SeqSemanticParser(object):
             test_input, _, test_lens, indices = test_item
             test_input = test_input.squeeze().to(self.device)
             batch_size = len(test_input)
-            # ENCODER
+            # model_enc
             e_output, e_context, e_final_state = encode_input_for_decoder(
                     test_input,
                     test_lens,
-                    self.input_emb,
-                    self.encoder)
-            # DECODER
-            d_input = self.output_emb.forward(
+                    self.model_input_emb,
+                    self.model_enc)
+            # model_dec
+            d_input = self.model_output_emb.forward(
                     torch.as_tensor([self.SOS_INX] * batch_size).to(
                         device).unsqueeze(0))
             d_hidden = e_final_state
@@ -202,10 +203,10 @@ class Seq2SeqSemanticParser(object):
             for j in range(self.len_limit):
                 if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
                     break
-                d_output, d_hidden = self.decoder.forward(
+                d_output, d_hidden = self.model_dec.forward(
                         d_input, d_hidden, e_output)
                 d_output = d_output.argmax(dim=2)
-                d_input = self.output_emb.forward(d_output)
+                d_input = self.model_output_emb.forward(d_output)
                 for k in range(batch_size):
                     if not is_done[k]:
                         is_done[k] = bool(d_output[0,k].item() == self.EOS_INX)
@@ -334,36 +335,46 @@ def train_model_encdec(
             print("Loaded model: ", args.load_model)
             evaluate(dev_data, parser, dev_gen)
     else:
-        model_input_emb = models.EmbeddingLayer(
-                args.input_dim, len(input_indexer), args.emb_dropout).to(device)
-        model_enc = models.RNNEncoder(
-                args.input_dim,
-                args.hidden_size,
-                args.rnn_dropout,
-                args.bidirectional).to(device)
-        model_output_emb = models.EmbeddingLayer(
-                args.output_dim,
-                len(output_indexer),
-                args.emb_dropout).to(device)
-        model_dec = models.RNNDecoder(
-                args.output_dim,
-                args.hidden_size,
-                args.rnn_dropout,
-                len(output_indexer),
+        parser = Seq2SeqSemanticParser(
+                models.RNNEncoder(
+                        args.input_dim,
+                        args.hidden_size,
+                        args.rnn_dropout,
+                        args.bidirectional).to(device),
+                models.RNNDecoder(
+                        args.output_dim,
+                        args.hidden_size,
+                        args.rnn_dropout,
+                        len(output_indexer),
+                        device,
+                        args.attention).to(device),
+                models.EmbeddingLayer(
+                        args.input_dim, len(input_indexer),
+                        args.emb_dropout).to(device),
+                models.EmbeddingLayer(
+                        args.output_dim,
+                        len(output_indexer),
+                        args.emb_dropout).to(device),
+                output_max_len,
+                input_indexer,
+                output_indexer,
+                args.decoder_len_limit,
                 device,
-                args.attention).to(device)
+                args.reverse_input)
 
         enc_optimizer = optim.Adam(
-                list(model_input_emb.parameters()) + list(model_enc.parameters()),
+                list(parser.model_input_emb.parameters()) +\
+                        list(parser.model_enc.parameters()),
                 lr=args.lr)
         dec_optimizer = optim.Adam(
-                list(model_output_emb.parameters()) + list(model_dec.parameters()),
+                list(parser.model_output_emb.parameters()) +\
+                        list(parser.model_dec.parameters()),
                 lr=args.lr)
 
-    model_input_emb.train()
-    model_output_emb.train()
-    model_enc.train()
-    model_dec.train()
+    parser.model_input_emb.train()
+    parser.model_output_emb.train()
+    parser.model_enc.train()
+    parser.model_dec.train()
     # Loop over epochs, loop over examples, given some indexed words, call
     # encode_input_for_decoder, then call your decoder, accumulate losses,
     # update parameters
@@ -383,17 +394,7 @@ def train_model_encdec(
         if epoch % args.save_epochs == 0 and epoch != 0:
             state = {
                 "epoch": epoch,
-                "model": Seq2SeqSemanticParser(
-                    model_enc,
-                    model_dec,
-                    model_input_emb,
-                    model_output_emb,
-                    output_max_len,
-                    input_indexer,
-                    output_indexer,
-                    args.decoder_len_limit,
-                    device,
-                    args.reverse_input),
+                "model": parser,
                 "enc_optimizer": enc_optimizer,
                 "dec_optimizer": dec_optimizer
             }
@@ -404,24 +405,14 @@ def train_model_encdec(
             print("Saved model checkpoint to " + save_file)
 
         if epoch % args.evaluate_epochs == 0 and epoch != 0:
-            parser = Seq2SeqSemanticParser(
-                    model_enc,
-                    model_dec,
-                    model_input_emb,
-                    model_output_emb,
-                    output_max_len,
-                    input_indexer,
-                    output_indexer,
-                    args.decoder_len_limit,
-                    device,
-                    args.reverse_input)
             evaluate(dev_data, parser, dev_gen)
-            model_input_emb.train()
-            model_output_emb.train()
-            model_enc.train()
-            model_dec.train()
+            parser.model_input_emb.train()
+            parser.model_output_emb.train()
+            parser.model_enc.train()
+            parser.model_dec.train()
 
         for idx, train_item in enumerate(train_gen):
+            print("idx: {}/{}".format(idx, len(train_gen)))
             train_input, train_output, input_lens, indices = train_item
             loss = 0
             enc_optimizer.zero_grad()
@@ -436,10 +427,10 @@ def train_model_encdec(
             e_output, e_context, e_final_state = encode_input_for_decoder(
                     train_input,
                     input_lens,
-                    model_input_emb,
-                    model_enc)
+                    parser.model_input_emb,
+                    parser.model_enc)
             # DECODER
-            d_input = model_output_emb.forward(torch.as_tensor(
+            d_input = parser.model_output_emb.forward(torch.as_tensor(
                 [SOS_INX] * batch_size).to(device).unsqueeze(0))
             d_hidden = e_final_state
 
@@ -447,9 +438,9 @@ def train_model_encdec(
             for j in range(len(train_output[0])):
                 if functools.reduce(lambda x, y: x+int(not y), is_done, 0) == 0:
                     break
-                d_output, d_hidden = model_dec.forward(
+                d_output, d_hidden = parser.model_dec.forward(
                         d_input, d_hidden, e_output)
-                d_input = model_output_emb.forward(
+                d_input = parser.model_output_emb.forward(
                         train_output[:batch_size,j]).unsqueeze(0)
                 d_output = d_output.view(-1, len(output_indexer))
                 for k in range(batch_size):
@@ -464,32 +455,15 @@ def train_model_encdec(
             total_epoch_loss += float(loss)
             enc_optimizer.step()
             dec_optimizer.step()
-            torch.cuda.empty_cache()
-            del d_output
-            del d_hidden
-            del d_input
-            del e_output
-            del e_context
-            del e_final_state
-            del train_item
-            del loss
+            # torch.cuda.empty_cache()
+            # del d_output, d_hidden, d_input, e_output, e_context, e_final_state
+            # del train_item, loss, train_input, train_output, input_lens, indices
         #print("epoch loss: {}".format(int(total_epoch_loss)))
         print("average sample loss: {}".format(
             total_epoch_loss / num_training_examples))
         
         epoch += 1
 
-    parser = Seq2SeqSemanticParser(
-            model_enc,
-            model_dec,
-            model_input_emb,
-            model_output_emb,
-            output_max_len,
-            input_indexer,
-            output_indexer,
-            args.decoder_len_limit,
-            device,
-            args.reverse_input)
     evaluate(dev_data, parser, dev_gen)
     return parser
 

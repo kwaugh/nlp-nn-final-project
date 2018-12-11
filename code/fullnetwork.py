@@ -46,11 +46,11 @@ def _parse_args():
             default=40,
             help='batch size')
     # 65 is all you need for English->French
-    # 206 is required for EnglishParse->FrenchParse
+    # 646 is required for EnglishParse->FrenchParse
     parser.add_argument(
             '--decoder_len_limit',
             type=int,
-            default=206,
+            default=646,
             help='output length limit of the decoder')
     parser.add_argument(
             '--num_workers',
